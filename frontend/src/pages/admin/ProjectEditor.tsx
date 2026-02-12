@@ -41,27 +41,27 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
     const newErrors: Record<string, string> = {}
 
     if (!formData.title.trim()) {
-      newErrors.title = 'Titel ist erforderlich'
+      newErrors.title = 'Title is required'
     }
 
     if (!formData.description.trim()) {
-      newErrors.description = 'Beschreibung ist erforderlich'
+      newErrors.description = 'Description is required'
     }
 
     if (!/^\d{4}-\d{2}$/.test(formData.date)) {
-      newErrors.date = 'Format muss YYYY-MM sein'
+      newErrors.date = 'Format must be YYYY-MM'
     }
 
     if (formData.links.live && !isValidUrl(formData.links.live)) {
-      newErrors.live = 'Ungültige URL'
+      newErrors.live = 'Invalid URL'
     }
 
     if (formData.links.github && !isValidUrl(formData.links.github)) {
-      newErrors.github = 'Ungültige URL'
+      newErrors.github = 'Invalid URL'
     }
 
     if (formData.links.docs && !isValidUrl(formData.links.docs)) {
-      newErrors.docs = 'Ungültige URL'
+      newErrors.docs = 'Invalid URL'
     }
 
     setErrors(newErrors)
@@ -97,7 +97,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
           marginBottom: 16,
           padding: 0,
         }}
-      >← Zurück</button>
+      >← Back</button>
 
       <h1 style={{
         fontSize: 24,
@@ -106,7 +106,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
         fontFamily: "'Libre Baskerville', serif",
         marginBottom: 28,
       }}>
-        {project ? 'Projekt bearbeiten' : 'Neues Projekt'}
+        {project ? 'Edit Project' : 'New Project'}
       </h1>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -120,7 +120,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
-          }}>Titel *</label>
+          }}>Title *</label>
           <input
             type="text"
             value={formData.title}
@@ -152,7 +152,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
-          }}>Beschreibung *</label>
+          }}>Description *</label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -190,7 +190,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             values={formData.tags}
             onChange={(tags) => setFormData({ ...formData, tags })}
             suggestions={allTags}
-            placeholder="Tag hinzufügen..."
+            placeholder="Add tag..."
           />
         </div>
 
@@ -237,7 +237,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 6,
-            }}>Datum</label>
+            }}>Date</label>
             <input
               type="text"
               value={formData.date}
@@ -271,7 +271,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             style={{ width: 16, height: 16, accentColor: 'var(--color-accent)' }}
           />
           <label htmlFor="featured" style={{ fontSize: 13, color: 'var(--color-heading)', fontWeight: 500 }}>
-            Featured Projekt
+            Featured Project
           </label>
         </div>
 
@@ -404,7 +404,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
-          }}>Bild URL (optional)</label>
+          }}>Image URL (optional)</label>
           <input
             type="text"
             value={formData.image || ''}
@@ -422,7 +422,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             }}
           />
           <p style={{ fontSize: 11, color: '#A0ADB8', marginTop: 4 }}>
-            Wenn leer, wird ein generierter Gradient verwendet.
+            If empty, a generated gradient will be used.
           </p>
         </div>
 
@@ -441,7 +441,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
               fontWeight: 600,
               cursor: 'pointer',
             }}
-          >Speichern</button>
+          >Save</button>
           <button
             onClick={onCancel}
             style={{
@@ -454,7 +454,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
               fontWeight: 600,
               cursor: 'pointer',
             }}
-          >Abbrechen</button>
+          >Cancel</button>
         </div>
       </div>
     </div>

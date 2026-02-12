@@ -11,10 +11,10 @@ interface AdminSidebarProps {
 }
 
 const sections = [
-  { id: 'projects' as const, label: 'Projekte', icon: '◫' },
-  { id: 'profile' as const, label: 'Profil', icon: '◉' },
+  { id: 'projects' as const, label: 'Projects', icon: '◫' },
+  { id: 'profile' as const, label: 'Profile', icon: '◉' },
   { id: 'themes' as const, label: 'Theme', icon: '◆' },
-  { id: 'settings' as const, label: 'Einstellungen', icon: '⚙' },
+  { id: 'settings' as const, label: 'Settings', icon: '⚙' },
 ]
 
 export default function AdminSidebar({
@@ -110,7 +110,7 @@ export default function AdminSidebar({
                 marginBottom: 8,
                 opacity: saving ? 0.5 : 1,
               }}
-            >Verwerfen</button>
+            >Discard</button>
           )}
 
           <button
@@ -144,10 +144,10 @@ export default function AdminSidebar({
                   display: 'inline-block',
                   opacity: 0.4,
                 }} />
-                Speichern...
+                Saving...
               </>
             ) : (
-              'Speichern'
+              'Save'
             )}
           </button>
         </div>
@@ -219,7 +219,7 @@ export default function AdminSidebar({
                 cursor: saving ? 'not-allowed' : 'pointer',
                 opacity: saving ? 0.5 : 1,
               }}
-            >Verwerfen</button>
+            >Discard</button>
 
             <button
               onClick={onSave}
@@ -236,7 +236,7 @@ export default function AdminSidebar({
                 cursor: saving ? 'not-allowed' : 'pointer',
               }}
             >
-              {saving ? 'Speichern...' : 'Speichern'}
+              {saving ? 'Saving...' : 'Save'}
             </button>
           </div>
         )}

@@ -12,6 +12,7 @@ export interface Profile {
   tagline: string;
   bio: string;
   avatar?: string | null;
+  githubUsername?: string; // Saved GitHub username for quick import
   links: {
     github?: string;
     linkedin?: string;
@@ -49,6 +50,7 @@ export interface Settings {
   maxVisibleTags: number;
   cardDescriptionMaxChars: number;
   cardTitleMaxLines: number;
+  githubUsername?: string; // Saved GitHub username for quick import
   healthCheck: {
     enabled: boolean;
     intervalMinutes: number;
@@ -63,6 +65,21 @@ export interface HealthCheckResult {
   online: boolean;
   statusCode?: number;
   error?: string;
+}
+
+export interface GitHubUserData {
+  login: string;
+  name: string | null;
+  bio: string | null;
+  avatar_url: string;
+  blog: string | null;
+  twitter_username: string | null;
+  email: string | null;
+  location: string | null;
+  html_url: string;
+  public_repos: number;
+  followers: number;
+  following: number;
 }
 
 // Theme Types

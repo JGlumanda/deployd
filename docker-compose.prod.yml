@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  app:
+    image: ghcr.io/jglumanda/deployd:latest
+    container_name: deployd
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - ALLOWED_ORIGIN=https://${DOMAIN}
+    volumes:
+      - ./config.json:/app/config.json
+    restart: unless-stopped
+    networks:
+      - deployd-network
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"  # HTTP/3 support
+    environment:
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    networks:
+      - deployd-network
+
+networks:
+  deployd-network:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

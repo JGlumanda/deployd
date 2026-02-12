@@ -45,19 +45,21 @@ export function CardWrapper({
       }}
     >
       {/* Image/Title area */}
-      {!project.image && (
-        <div
-          style={{
-            width: '100%',
-            height: '140px',
-            background: imageStyle.background,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '12px',
-            border: '1px solid #1A331A',
-          }}
-        >
+      <div
+        style={{
+          width: '100%',
+          height: '140px',
+          background: project.image ? `url(${project.image})` : imageStyle.background,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '12px',
+          border: '1px solid #1A331A',
+        }}
+      >
+        {!project.image && (
           <div
             style={{
               fontSize: '1.75rem',
@@ -74,8 +76,8 @@ export function CardWrapper({
           >
             {project.title}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Content area with padding */}
       <div

@@ -29,6 +29,15 @@ export default function ShowcasePage() {
   // Initialize projects hook
   const projectsHook = useProjects({ projects: config?.projects || [] })
 
+  // Update document title based on profile name
+  useEffect(() => {
+    if (config?.profile.name) {
+      document.title = config.profile.name
+    } else {
+      document.title = 'deployd'
+    }
+  }, [config?.profile.name])
+
   // Lock body scroll when modal is open
   useEffect(() => {
     if (selectedProject) {
@@ -363,6 +372,22 @@ export default function ShowcasePage() {
             }
           }
 
+          @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+
+          @keyframes modalSlideUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px) translateZ(0);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0) translateZ(0);
+            }
+          }
+
           @media (max-width: 768px) {
             [style*="gridTemplateColumns"] {
               grid-template-columns: 1fr !important;
@@ -383,7 +408,7 @@ export default function ShowcasePage() {
       {/* Modal */}
       {selectedProject && (
         <ModalWrapper project={selectedProject} onClose={() => setSelectedProject(null)}>
-          <ModalContent project={selectedProject} />
+          <ModalContent project={selectedProject} theme={theme} />
         </ModalWrapper>
       )}
 
