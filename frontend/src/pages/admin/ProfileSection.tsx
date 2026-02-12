@@ -29,6 +29,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
   const [githubError, setGithubError] = useState<string | null>(null)
   const [githubData, setGithubData] = useState<any>(null)
   const [selectedFields, setSelectedFields] = useState<Set<string>>(new Set())
+  const [overwriteMode, setOverwriteMode] = useState(false)
 
   // Extract custom links from profile (any links not in standard socials)
   const standardKeys = new Set(STANDARD_SOCIALS.map(s => s.key))
@@ -105,34 +106,52 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
     if (!githubData) return
 
     const updates: Partial<Profile> = {}
-    const linkUpdates: Record<string, string> = {}
+    const linkUpdates: Record<string, string | undefined> = {}
 
-    if (selectedFields.has('name') && githubData.name) {
-      updates.name = githubData.name
-    }
-    if (selectedFields.has('bio') && githubData.bio) {
-      updates.bio = githubData.bio
-    }
-    if (selectedFields.has('avatar') && githubData.avatar_url) {
-      updates.avatar = githubData.avatar_url
-    }
-    if (selectedFields.has('website') && githubData.blog) {
-      linkUpdates.website = githubData.blog
-    }
-    if (selectedFields.has('x') && githubData.twitter_username) {
-      linkUpdates.x = `https://x.com/${githubData.twitter_username}`
-    }
-    if (selectedFields.has('email') && githubData.email) {
-      linkUpdates.email = `mailto:${githubData.email}`
-    }
-    if (selectedFields.has('github') && githubData.html_url) {
-      linkUpdates.github = githubData.html_url
+    // In overwrite mode, we clear fields that aren't in GitHub data
+    if (overwriteMode) {
+      // Set all fields - either to GitHub value or empty
+      updates.name = selectedFields.has('name') && githubData.name ? githubData.name : ''
+      updates.bio = selectedFields.has('bio') && githubData.bio ? githubData.bio : ''
+      updates.avatar = selectedFields.has('avatar') && githubData.avatar_url ? githubData.avatar_url : null
+      updates.tagline = profile.tagline // Keep tagline (not from GitHub)
+
+      // Clear all links, then add selected ones
+      linkUpdates.github = selectedFields.has('github') && githubData.html_url ? githubData.html_url : undefined
+      linkUpdates.website = selectedFields.has('website') && githubData.blog ? githubData.blog : undefined
+      linkUpdates.x = selectedFields.has('x') && githubData.twitter_username ? `https://x.com/${githubData.twitter_username}` : undefined
+      linkUpdates.email = selectedFields.has('email') && githubData.email ? `mailto:${githubData.email}` : undefined
+      linkUpdates.linkedin = undefined
+      linkUpdates.mastodon = undefined
+    } else {
+      // Normal mode: only update selected fields if they have values
+      if (selectedFields.has('name') && githubData.name) {
+        updates.name = githubData.name
+      }
+      if (selectedFields.has('bio') && githubData.bio) {
+        updates.bio = githubData.bio
+      }
+      if (selectedFields.has('avatar') && githubData.avatar_url) {
+        updates.avatar = githubData.avatar_url
+      }
+      if (selectedFields.has('website') && githubData.blog) {
+        linkUpdates.website = githubData.blog
+      }
+      if (selectedFields.has('x') && githubData.twitter_username) {
+        linkUpdates.x = `https://x.com/${githubData.twitter_username}`
+      }
+      if (selectedFields.has('email') && githubData.email) {
+        linkUpdates.email = `mailto:${githubData.email}`
+      }
+      if (selectedFields.has('github') && githubData.html_url) {
+        linkUpdates.github = githubData.html_url
+      }
     }
 
     onUpdateProfile({
       ...profile,
       ...updates,
-      links: {
+      links: overwriteMode ? linkUpdates : {
         ...profile.links,
         ...linkUpdates,
       },
@@ -338,6 +357,36 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                 )
               })}
             </div>
+
+            {/* Overwrite mode checkbox */}
+            <label style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              marginTop: 14,
+              padding: 10,
+              background: overwriteMode ? '#FFF4E6' : '#F8F6F2',
+              border: overwriteMode ? '1px solid #FFD700' : '1px solid transparent',
+              borderRadius: 8,
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}>
+              <input
+                type="checkbox"
+                checked={overwriteMode}
+                onChange={(e) => setOverwriteMode(e.target.checked)}
+                style={{ width: 14, height: 14, accentColor: '#FFD700' }}
+              />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: '#2C3E50' }}>
+                  Vollständig überschreiben
+                </div>
+                <div style={{ fontSize: 11, color: '#7B8794', marginTop: 2, lineHeight: 1.3 }}>
+                  Felder, die nicht in GitHub vorhanden sind, werden geleert
+                  {overwriteMode && ' (z.B. Bio, Avatar, Links)'}
+                </div>
+              </div>
+            </label>
 
             <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
               <button
