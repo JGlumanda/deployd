@@ -3,6 +3,7 @@ version: '3.8'
 services:
   app:
     image: ghcr.io/jglumanda/deployd:latest
+    container_name: deployd
     expose:
       - "3000"
     environment:
