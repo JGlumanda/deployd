@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import type { Project, Settings, ProjectStatus } from '@core/types'
+import type { Project, Settings, ProjectStatus, Tag } from '@core/types'
 import { PROJECT_STATUSES } from '@core/types'
 import ChipInput from './ChipInput'
 
