@@ -41,7 +41,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
       ...settings,
       tags: {
         ...settings.tags,
-        custom: [...settings.tags.custom, { name: trimmed, color: '#6B8FA3' }],
+        custom: [...settings.tags.custom, { name: trimmed, color: 'var(--color-accent)' }],
       },
     })
   }
@@ -91,7 +91,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
       <h1 style={{
         fontSize: 24,
         fontWeight: 700,
-        color: '#2C3E50',
+        color: 'var(--color-heading)',
         fontFamily: "'Libre Baskerville', serif",
         marginBottom: 28,
       }}>Einstellungen</h1>
@@ -101,7 +101,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
         <p style={{
           fontSize: 11,
           fontWeight: 600,
-          color: '#A0ADB8',
+          color: 'var(--color-text-muted)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: 12,
@@ -118,7 +118,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               display: 'block',
               fontSize: 11,
               fontWeight: 600,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 6,
@@ -133,14 +133,14 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 width: '100%',
                 padding: '10px 14px',
                 borderRadius: 8,
-                border: '1px solid #E2DDD5',
-                background: '#FFF',
-                color: '#2C3E50',
+                border: '1px solid var(--color-border)',
+                background: 'var(--color-card)',
+                color: 'var(--color-heading)',
                 fontSize: 14,
                 outline: 'none',
               }}
             />
-            <p style={{ fontSize: 11, color: '#A0ADB8', marginTop: 6 }}>
+            <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
               Weitere Tags als "+X" Badge.
             </p>
           </div>
@@ -150,7 +150,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               display: 'block',
               fontSize: 11,
               fontWeight: 600,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 6,
@@ -162,9 +162,9 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 width: '100%',
                 padding: '10px 14px',
                 borderRadius: 8,
-                border: '1px solid #E2DDD5',
-                background: '#FFF',
-                color: '#2C3E50',
+                border: '1px solid var(--color-border)',
+                background: 'var(--color-card)',
+                color: 'var(--color-heading)',
                 fontSize: 14,
                 outline: 'none',
               }}
@@ -180,7 +180,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             display: 'block',
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
@@ -194,17 +194,17 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               onChange={(e) => setDescriptionMaxChars(parseInt(e.target.value))}
               onMouseUp={(e) => updateSetting('cardDescriptionMaxChars', parseInt((e.target as HTMLInputElement).value))}
               onTouchEnd={(e) => updateSetting('cardDescriptionMaxChars', parseInt((e.target as HTMLInputElement).value))}
-              style={{ flex: 1, accentColor: '#6B8FA3' }}
+              style={{ flex: 1, accentColor: 'var(--color-accent)' }}
             />
             <span style={{
               fontSize: 12,
-              color: '#2C3E50',
+              color: 'var(--color-heading)',
               fontFamily: "'IBM Plex Mono', monospace",
               width: 100,
               textAlign: 'right',
             }}>{descriptionMaxChars} Zeichen</span>
           </div>
-          <p style={{ fontSize: 11, color: '#A0ADB8', marginTop: 6 }}>
+          <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
             Auf der Card wird der Text nach dieser Zeichenanzahl mit "..." abgeschnitten. Im Modal wird immer der volle Text angezeigt.
           </p>
         </div>
@@ -215,15 +215,15 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
         <p style={{
           fontSize: 11,
           fontWeight: 600,
-          color: '#A0ADB8',
+          color: 'var(--color-text-muted)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: 12,
         }}>Health Check</p>
 
         <div style={{
-          background: '#FFF',
-          border: '1px solid #E2DDD5',
+          background: 'var(--color-card)',
+          border: '1px solid var(--color-border)',
           borderRadius: 10,
           padding: 18,
         }}>
@@ -234,10 +234,10 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             marginBottom: 14,
           }}>
             <div>
-              <span style={{ fontSize: 13, fontWeight: 600, color: '#2C3E50' }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-heading)' }}>
                 Erreichbarkeit prüfen
               </span>
-              <p style={{ fontSize: 11, color: '#A0ADB8', marginTop: 2 }}>
+              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 2 }}>
                 Prüft ob Live-Demo URLs erreichbar sind.
               </p>
             </div>
@@ -250,7 +250,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 height: 24,
                 borderRadius: 12,
                 border: 'none',
-                background: settings.healthCheck.enabled ? '#6B8FA3' : '#E2DDD5',
+                background: settings.healthCheck.enabled ? 'var(--color-accent)' : 'var(--color-border)',
                 position: 'relative',
                 cursor: 'pointer',
                 transition: 'background 0.3s',
@@ -263,7 +263,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 width: 18,
                 height: 18,
                 borderRadius: '50%',
-                background: '#FFF',
+                background: 'var(--color-card)',
                 transition: 'left 0.3s',
               }} />
             </button>
@@ -275,7 +275,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 display: 'block',
                 fontSize: 11,
                 fontWeight: 600,
-                color: '#A0ADB8',
+                color: 'var(--color-text-muted)',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 marginBottom: 6,
@@ -292,19 +292,19 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                       fontSize: 12,
                       fontWeight: 600,
                       border: settings.healthCheck.intervalMinutes === minutes
-                        ? '1px solid #6B8FA366'
-                        : '1px solid #E2DDD5',
+                        ? '1px solid var(--color-accent-soft)'
+                        : '1px solid var(--color-border)',
                       background: settings.healthCheck.intervalMinutes === minutes
-                        ? '#6B8FA30E'
-                        : '#FFF',
+                        ? 'var(--color-accent-soft)'
+                        : 'var(--color-card)',
                       color: settings.healthCheck.intervalMinutes === minutes
-                        ? '#6B8FA3'
-                        : '#A0ADB8',
+                        ? 'var(--color-accent)'
+                        : 'var(--color-text-muted)',
                     }}
                   >{minutes === 60 ? '1h' : `${minutes}m`}</button>
                 ))}
               </div>
-              <p style={{ fontSize: 11, color: '#A0ADB8', marginTop: 6 }}>
+              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
                 Wie oft geprüft wird. Kürzere Intervalle = mehr Requests an deine Projekt-URLs.
               </p>
             </div>
@@ -323,7 +323,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           <p style={{
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
           }}>Tag-Verwaltung</p>
@@ -333,8 +333,8 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               padding: '4px 12px',
               borderRadius: 8,
               background: 'transparent',
-              color: '#6B8FA3',
-              border: '1px solid #6B8FA344',
+              color: 'var(--color-accent)',
+              border: '1px solid var(--color-accent-soft)',
               fontSize: 11,
               fontWeight: 600,
               cursor: 'pointer',
@@ -342,13 +342,13 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           >+ Neuer Tag</button>
         </div>
 
-        <p style={{ fontSize: 12, color: '#A0ADB8', marginBottom: 14 }}>
+        <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 14 }}>
           Standard-Tags und eigene Tags verwalten. Farbe pro Tag optional.
         </p>
 
         <div style={{
-          background: '#FFF',
-          border: '1px solid #E2DDD5',
+          background: 'var(--color-card)',
+          border: '1px solid var(--color-border)',
           borderRadius: 10,
           overflow: 'hidden',
         }}>
@@ -358,24 +358,24 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             gridTemplateColumns: '20px 1fr 100px 30px',
             gap: 8,
             padding: '8px 14px',
-            borderBottom: '1px solid #E2DDD5',
-            background: '#FAFAF7',
+            borderBottom: '1px solid var(--color-border)',
+            background: 'var(--color-bg-alt)',
           }}>
             <span style={{
               fontSize: 9,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               fontWeight: 600,
             }}></span>
             <span style={{
               fontSize: 9,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               fontWeight: 600,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
             }}>Name</span>
             <span style={{
               fontSize: 9,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               fontWeight: 600,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -397,8 +397,8 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                   gap: 8,
                   padding: '10px 14px',
                   alignItems: 'center',
-                  borderBottom: i < allTags.length - 1 ? '1px solid #F0EDE6' : 'none',
-                  background: i % 2 === 0 ? '#FFF' : '#FEFDFB',
+                  borderBottom: i < allTags.length - 1 ? '1px solid var(--color-bg-alt)' : 'none',
+                  background: i % 2 === 0 ? 'var(--color-card)' : 'var(--color-bg-alt)',
                 }}
               >
                 {/* Color dot */}
@@ -406,8 +406,8 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                   width: 12,
                   height: 12,
                   borderRadius: 3,
-                  background: tag.color || '#E2DDD5',
-                  border: '1px solid #D4D0C8',
+                  background: tag.color || 'var(--color-border)',
+                  border: '1px solid var(--color-border)',
                 }} />
 
                 {/* Name + info */}
@@ -421,7 +421,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                       background: 'transparent',
                       fontSize: 13,
                       fontWeight: 500,
-                      color: '#2C3E50',
+                      color: 'var(--color-heading)',
                       outline: 'none',
                       padding: 0,
                       width: '100%',
@@ -431,15 +431,15 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                     <span style={{
                       fontSize: 8,
                       fontWeight: 700,
-                      color: '#A0ADB8',
-                      background: '#F0EDE6',
+                      color: 'var(--color-text-muted)',
+                      background: 'var(--color-bg-alt)',
                       padding: '1px 6px',
                       borderRadius: 3,
                       textTransform: 'uppercase',
                       flexShrink: 0,
                     }}>Standard</span>
                   )}
-                  <span style={{ fontSize: 10, color: '#A0ADB8', flexShrink: 0 }}>
+                  <span style={{ fontSize: 10, color: 'var(--color-text-muted)', flexShrink: 0 }}>
                     ({usage}×)
                   </span>
                 </div>
@@ -448,12 +448,12 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                   <input
                     type="color"
-                    value={tag.color || '#6B8FA3'}
+                    value={tag.color || getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim()}
                     onChange={(e) => updateTag(tag.isPredefined, tag.index, { color: e.target.value })}
                     style={{
                       width: 24,
                       height: 24,
-                      border: '1px solid #E2DDD5',
+                      border: '1px solid var(--color-border)',
                       borderRadius: 4,
                       cursor: 'pointer',
                       padding: 0,
@@ -461,7 +461,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                   />
                   <span style={{
                     fontSize: 10,
-                    color: '#A0ADB8',
+                    color: 'var(--color-text-muted)',
                     fontFamily: "'IBM Plex Mono', monospace",
                   }}>{tag.color || 'auto'}</span>
                 </div>
@@ -473,7 +473,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                   style={{
                     background: 'none',
                     border: 'none',
-                    color: canDelete ? '#D4A0A0' : '#E2DDD5',
+                    color: canDelete ? 'var(--color-error)' : 'var(--color-border)',
                     cursor: canDelete ? 'pointer' : 'not-allowed',
                     fontSize: 16,
                     padding: 0,
@@ -484,7 +484,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           })}
         </div>
 
-        <p style={{ fontSize: 11, color: '#A0ADB8', marginTop: 8 }}>
+        <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 8 }}>
           Tags die in keinem Projekt verwendet werden können gelöscht werden. Standard-Tags können umbenannt aber nicht gelöscht werden.
         </p>
       </div>
@@ -494,7 +494,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
         <p style={{
           fontSize: 11,
           fontWeight: 600,
-          color: '#A0ADB8',
+          color: 'var(--color-text-muted)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: 12,
@@ -504,7 +504,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           display: 'block',
           fontSize: 11,
           fontWeight: 600,
-          color: '#A0ADB8',
+          color: 'var(--color-text-muted)',
           letterSpacing: '0.06em',
           textTransform: 'uppercase',
           marginBottom: 6,
@@ -519,17 +519,17 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             width: '100%',
             padding: '10px 14px',
             borderRadius: 8,
-            border: '1px solid #E2DDD5',
-            background: '#FFF',
-            color: '#2C3E50',
+            border: '1px solid var(--color-border)',
+            background: 'var(--color-card)',
+            color: 'var(--color-heading)',
             fontSize: 14,
             outline: 'none',
           }}
         />
 
-        <p style={{ fontSize: 11, color: '#A0ADB8', marginTop: 6 }}>
+        <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
           Erhöht das Rate-Limit von 60 auf 5.000 Requests/Stunde. Token muss als <code style={{
-            background: '#F5F1EB',
+            background: 'var(--color-bg-alt)',
             padding: '2px 6px',
             borderRadius: 4,
             fontFamily: "'IBM Plex Mono', monospace",
@@ -541,20 +541,20 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
       <div style={{
         marginTop: 32,
         padding: 20,
-        background: '#FFF',
+        background: 'var(--color-card)',
         borderRadius: 8,
-        border: '2px solid #D4A0A0',
+        border: '2px solid var(--color-error)',
       }}>
         <h3 style={{
           fontSize: 16,
           fontWeight: 700,
-          color: '#B85C5C',
+          color: 'var(--color-error)',
           marginBottom: 8,
         }}>⚠️ Danger Zone</h3>
 
         <p style={{
           fontSize: 13,
-          color: '#7B8794',
+          color: 'var(--color-text)',
           marginBottom: 16,
           lineHeight: 1.5,
         }}>
@@ -567,8 +567,8 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           style={{
             padding: '10px 20px',
             borderRadius: 8,
-            background: '#D4A0A0',
-            color: '#FFF',
+            background: 'var(--color-error)',
+            color: 'var(--color-card)',
             border: 'none',
             fontSize: 13,
             fontWeight: 600,
@@ -576,10 +576,10 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             transition: 'all 0.2s',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#B85C5C'
+            e.currentTarget.style.background = 'color-mix(in srgb, var(--color-error) 80%, black)'
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#D4A0A0'
+            e.currentTarget.style.background = 'var(--color-error)'
           }}
         >
           🗑️ Konfiguration zurücksetzen

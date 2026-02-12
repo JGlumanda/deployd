@@ -1,12 +1,18 @@
 import { useState, type FormEvent } from 'react'
+import { useConfig } from '@core/hooks/useConfig'
+import { useTheme } from '@core/hooks/useTheme'
 
 interface AdminAuthProps {
   onAuthenticated: (password: string) => void
 }
 
 export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
+  const { config } = useConfig()
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+
+  // Apply theme even on auth page
+  useTheme(config?.theme.active || 'nordic')
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -24,34 +30,30 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#F5F1EB',
-      fontFamily: "'Karla', sans-serif",
+      background: 'var(--color-bg)',
+      fontFamily: 'var(--font-body)',
     }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-      `}</style>
-
       <div style={{
         width: '100%',
         maxWidth: 380,
         padding: 40,
-        background: '#FFFFFF',
-        border: '1px solid #E2DDD5',
-        borderRadius: 12,
-        boxShadow: '0 4px 16px rgba(44,62,80,0.08)',
+        background: 'var(--color-card)',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-lg)',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
       }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <h1 style={{
             fontSize: 24,
             fontWeight: 700,
-            color: '#2C3E50',
-            fontFamily: "'Libre Baskerville', serif",
+            color: 'var(--color-heading)',
+            fontFamily: 'var(--font-heading)',
             marginBottom: 4,
           }}>Admin</h1>
           <p style={{
             fontSize: 11,
-            color: '#A0ADB8',
-            fontFamily: "'IBM Plex Mono', monospace",
+            color: 'var(--color-text-muted)',
+            fontFamily: 'var(--font-mono)',
           }}>Project Showcase</p>
         </div>
 
@@ -61,7 +63,7 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
               display: 'block',
               fontSize: 11,
               fontWeight: 600,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 8,
@@ -78,19 +80,19 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
               style={{
                 width: '100%',
                 padding: '12px 14px',
-                borderRadius: 8,
-                border: error ? '1px solid #D4A0A0' : '1px solid #E2DDD5',
-                background: '#FFF',
-                color: '#2C3E50',
+                borderRadius: 'var(--radius-md)',
+                border: error ? '1px solid var(--color-error)' : '1px solid var(--color-input-border)',
+                background: 'var(--color-input-bg)',
+                color: 'var(--color-input-text)',
                 fontSize: 14,
                 outline: 'none',
-                fontFamily: "'Karla', sans-serif",
+                fontFamily: 'var(--font-body)',
               }}
             />
             {error && (
               <p style={{
                 fontSize: 12,
-                color: '#D4A0A0',
+                color: 'var(--color-error)',
                 marginTop: 8,
               }}>{error}</p>
             )}
@@ -101,30 +103,31 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
             style={{
               width: '100%',
               padding: '12px 16px',
-              borderRadius: 8,
-              background: '#6B8FA3',
-              color: '#FFF',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--color-accent)',
+              color: 'var(--color-card)',
               border: 'none',
               fontSize: 14,
               fontWeight: 600,
               cursor: 'pointer',
-              fontFamily: "'Karla', sans-serif",
+              fontFamily: 'var(--font-body)',
             }}
           >Anmelden</button>
         </form>
 
         <p style={{
           fontSize: 11,
-          color: '#A0ADB8',
+          color: 'var(--color-text-muted)',
           textAlign: 'center',
           marginTop: 24,
           lineHeight: 1.5,
         }}>
           Das Passwort ist die <code style={{
-            background: '#F5F1EB',
+            background: 'var(--color-bg)',
             padding: '2px 6px',
-            borderRadius: 4,
-            fontFamily: "'IBM Plex Mono', monospace",
+            borderRadius: 'var(--radius-sm)',
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--color-text)',
           }}>ADMIN_PASSWORD</code> Environment Variable.
         </p>
       </div>

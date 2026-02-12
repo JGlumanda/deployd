@@ -11,7 +11,7 @@ export function HeroLayout({ profile, children }: HeroLayoutProps) {
     >
       <div
         style={{
-          fontSize: 11,
+          fontSize: 13,
           color: '#1A331A',
           marginBottom: 8,
         }}
@@ -20,7 +20,7 @@ export function HeroLayout({ profile, children }: HeroLayoutProps) {
       </div>
       <div
         style={{
-          fontSize: 24,
+          fontSize: 28,
           fontWeight: 700,
           marginBottom: 4,
           color: '#39FF14',
@@ -31,7 +31,7 @@ export function HeroLayout({ profile, children }: HeroLayoutProps) {
       </div>
       <div
         style={{
-          fontSize: 12,
+          fontSize: 14,
           color: '#2D7A2D',
           lineHeight: 1.6,
           maxWidth: 560,

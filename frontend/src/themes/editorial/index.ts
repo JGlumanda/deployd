@@ -18,9 +18,17 @@ export const editorial: Theme = {
       heading: '#1A1A1A',
       accent: '#1A1A1A',
       accentSoft: '#1A1A1A14',
+      error: '#C44536',
+      errorBg: '#FFEAE8',
       statusActive: '#2D6A4F',
       statusWip: '#B8860B',
       statusArchived: '#999',
+      // Input field colors
+      inputBg: '#FFFDF8',
+      inputText: '#1A1A1A',
+      inputBorder: '#D4C9B8',
+      inputBorderFocus: '#1A1A1A',
+      inputPlaceholder: '#AAA',
     },
     fonts: {
       heading: "'Playfair Display', Georgia, serif",
@@ -39,6 +47,7 @@ export const editorial: Theme = {
       cardPadding: '20px 0',
       gridGap: '0px',
       sectionGap: '48px',
+      section: '32px',
     },
   },
   overrides: {

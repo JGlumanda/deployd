@@ -169,32 +169,32 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
       <h1 style={{
         fontSize: 24,
         fontWeight: 700,
-        color: '#2C3E50',
+        color: 'var(--color-heading)',
         fontFamily: "'Libre Baskerville', serif",
         marginBottom: 8,
       }}>Profil</h1>
 
       <p style={{
         fontSize: 13,
-        color: '#A0ADB8',
+        color: 'var(--color-text-muted)',
         marginBottom: 24,
       }}>Deine Informationen und Social Links.</p>
 
       {/* GitHub Import */}
       <div style={{
-        background: '#FFF',
-        border: '1px solid #E2DDD5',
+        background: 'var(--color-card)',
+        border: '1px solid var(--color-border)',
         borderRadius: 12,
         padding: 20,
         marginBottom: 28,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
           <img src="https://cdn.simpleicons.org/github/2C3E50" width="16" height="16" alt="" />
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#2C3E50' }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-heading)' }}>
             Von GitHub importieren
           </span>
         </div>
-        <p style={{ fontSize: 12, color: '#A0ADB8', marginBottom: 14 }}>
+        <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 14 }}>
           Name, Bio, Avatar und Links automatisch übernehmen.
         </p>
 
@@ -218,9 +218,9 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                   width: '100%',
                   padding: '10px 14px 10px 34px',
                   borderRadius: 8,
-                  border: '1px solid #E2DDD5',
-                  background: '#FFF',
-                  color: '#2C3E50',
+                  border: '1px solid var(--color-border)',
+                  background: 'var(--color-card)',
+                  color: 'var(--color-heading)',
                   fontSize: 14,
                   outline: 'none',
                 }}
@@ -232,7 +232,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               style={{
                 padding: '8px 20px',
                 borderRadius: 8,
-                background: '#6B8FA3',
+                background: 'var(--color-accent)',
                 color: '#FFF',
                 border: 'none',
                 fontSize: 13,
@@ -257,7 +257,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               display: 'flex',
               gap: 16,
               padding: 16,
-              background: '#F8F6F2',
+              background: 'var(--color-bg-alt)',
               borderRadius: 10,
               marginBottom: 14,
             }}>
@@ -274,10 +274,10 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                 />
               )}
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#2C3E50' }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--color-heading)' }}>
                   {githubData.name || githubData.login}
                 </div>
-                <div style={{ fontSize: 12, color: '#A0ADB8' }}>
+                <div style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>
                   @{githubData.login}
                   {githubData.location && ` · ${githubData.location}`}
                 </div>
@@ -296,7 +296,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
             <div style={{
               fontSize: 11,
               fontWeight: 600,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 8,
@@ -322,7 +322,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                       gap: 8,
                       alignItems: 'center',
                       padding: '8px 10px',
-                      background: i % 2 === 0 ? '#FAFAF7' : 'transparent',
+                      background: i % 2 === 0 ? 'var(--color-bg-alt)' : 'transparent',
                       borderRadius: 6,
                       fontSize: 12,
                     }}
@@ -342,7 +342,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                       disabled={isMatch}
                       style={{ width: 14, height: 14, accentColor: '#6B8FA3' }}
                     />
-                    <span style={{ fontWeight: 600, color: '#2C3E50', fontSize: 11 }}>
+                    <span style={{ fontWeight: 600, color: 'var(--color-heading)', fontSize: 11 }}>
                       {field.label}
                     </span>
                     <span style={{
@@ -367,7 +367,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               gap: 8,
               marginTop: 14,
               padding: 10,
-              background: overwriteMode ? '#FFF4E6' : '#F8F6F2',
+              background: overwriteMode ? 'var(--color-accent-soft)' : 'var(--color-bg-alt)',
               border: overwriteMode ? '1px solid #FFD700' : '1px solid transparent',
               borderRadius: 8,
               cursor: 'pointer',
@@ -380,7 +380,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                 style={{ width: 14, height: 14, accentColor: '#FFD700' }}
               />
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: '#2C3E50' }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-heading)' }}>
                   Vollständig überschreiben
                 </div>
                 <div style={{ fontSize: 11, color: '#7B8794', marginTop: 2, lineHeight: 1.3 }}>
@@ -398,7 +398,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                   flex: 1,
                   padding: '8px 20px',
                   borderRadius: 8,
-                  background: selectedFields.size > 0 ? '#6B8FA3' : '#E2DDD5',
+                  background: selectedFields.size > 0 ? 'var(--color-accent)' : 'var(--color-border)',
                   color: selectedFields.size > 0 ? '#FFF' : '#A0ADB8',
                   border: 'none',
                   fontSize: 13,
@@ -434,7 +434,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
             display: 'block',
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
@@ -447,9 +447,9 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               width: '100%',
               padding: '10px 14px',
               borderRadius: 8,
-              border: '1px solid #E2DDD5',
-              background: '#FFF',
-              color: '#2C3E50',
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-heading)',
               fontSize: 14,
               outline: 'none',
             }}
@@ -461,7 +461,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
             display: 'block',
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
@@ -474,9 +474,9 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               width: '100%',
               padding: '10px 14px',
               borderRadius: 8,
-              border: '1px solid #E2DDD5',
-              background: '#FFF',
-              color: '#2C3E50',
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-heading)',
               fontSize: 14,
               outline: 'none',
             }}
@@ -488,7 +488,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
             display: 'block',
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
@@ -501,9 +501,9 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               width: '100%',
               padding: '10px 14px',
               borderRadius: 8,
-              border: '1px solid #E2DDD5',
-              background: '#FFF',
-              color: '#2C3E50',
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-heading)',
               fontSize: 14,
               outline: 'none',
               resize: 'vertical',
@@ -516,7 +516,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
             display: 'block',
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
@@ -530,9 +530,9 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               width: '100%',
               padding: '10px 14px',
               borderRadius: 8,
-              border: '1px solid #E2DDD5',
-              background: '#FFF',
-              color: '#2C3E50',
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-heading)',
               fontSize: 14,
               outline: 'none',
             }}
@@ -544,12 +544,12 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
           <p style={{
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             marginBottom: 4,
           }}>Social Links</p>
-          <p style={{ fontSize: 12, color: '#A0ADB8', marginBottom: 16 }}>
+          <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 16 }}>
             Standard-Plattformen und eigene Links.
           </p>
 
@@ -560,8 +560,8 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                   width: 32,
                   height: 32,
                   borderRadius: 8,
-                  background: '#F8F6F2',
-                  border: '1px solid #E2DDD5',
+                  background: 'var(--color-bg-alt)',
+                  border: '1px solid var(--color-border)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -570,7 +570,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                   {social.icon ? (
                     <img src={social.icon} width="16" height="16" alt={social.label} />
                   ) : (
-                    <span style={{ fontSize: 14, color: '#A0ADB8' }}>
+                    <span style={{ fontSize: 14, color: 'var(--color-text-muted)' }}>
                       {social.key === 'email' ? '✉' : '🌐'}
                     </span>
                   )}
@@ -578,7 +578,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                 <span style={{
                   fontSize: 12,
                   fontWeight: 600,
-                  color: '#2C3E50',
+                  color: 'var(--color-heading)',
                   width: 80,
                   flexShrink: 0,
                 }}>{social.label}</span>
@@ -591,9 +591,9 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                     flex: 1,
                     padding: '8px 12px',
                     borderRadius: 8,
-                    border: '1px solid #E2DDD5',
-                    background: '#FFF',
-                    color: '#2C3E50',
+                    border: '1px solid var(--color-border)',
+                    background: 'var(--color-card)',
+                    color: 'var(--color-heading)',
                     fontSize: 13,
                     outline: 'none',
                   }}
@@ -604,8 +604,8 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
 
           {/* Custom links */}
           <div style={{
-            background: '#FAFAF7',
-            border: '1px solid #E2DDD5',
+            background: 'var(--color-bg-alt)',
+            border: '1px solid var(--color-border)',
             borderRadius: 10,
             padding: 18,
           }}>
@@ -639,7 +639,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
             </div>
 
             {customLinks.length === 0 && (
-              <p style={{ fontSize: 12, color: '#A0ADB8', fontStyle: 'italic' }}>
+              <p style={{ fontSize: 12, color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
                 Noch keine eigenen Links hinzugefügt.
               </p>
             )}
@@ -670,9 +670,9 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                   style={{
                     padding: '6px 10px',
                     borderRadius: 8,
-                    border: '1px solid #E2DDD5',
-                    background: '#FFF',
-                    color: '#2C3E50',
+                    border: '1px solid var(--color-border)',
+                    background: 'var(--color-card)',
+                    color: 'var(--color-heading)',
                     fontSize: 12,
                     outline: 'none',
                   }}
@@ -685,9 +685,9 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                   style={{
                     padding: '6px 10px',
                     borderRadius: 8,
-                    border: '1px solid #E2DDD5',
-                    background: '#FFF',
-                    color: '#2C3E50',
+                    border: '1px solid var(--color-border)',
+                    background: 'var(--color-card)',
+                    color: 'var(--color-heading)',
                     fontSize: 12,
                     outline: 'none',
                   }}

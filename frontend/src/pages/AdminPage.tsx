@@ -20,8 +20,8 @@ export default function AdminPage() {
   const [saveError, setSaveError] = useState<string | null>(null)
   const [hasChanges, setHasChanges] = useState(false)
 
-  // Apply theme to admin panel
-  useTheme(draftConfig?.theme.active || 'nordic')
+  // Apply theme to admin panel (use saved config, not draft)
+  useTheme(config?.theme.active || 'nordic')
 
   // Initialize draft config when config loads
   useEffect(() => {
@@ -117,10 +117,10 @@ export default function AdminPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#F5F1EB',
-        fontFamily: "'Karla', sans-serif",
+        background: 'var(--color-bg)',
+        fontFamily: 'var(--font-body)',
       }}>
-        <p style={{ color: '#A0ADB8' }}>Laden...</p>
+        <p style={{ color: 'var(--color-text-muted)' }}>Laden...</p>
       </div>
     )
   }
@@ -133,18 +133,18 @@ export default function AdminPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#F5F1EB',
-        fontFamily: "'Karla', sans-serif",
+        background: 'var(--color-bg)',
+        fontFamily: 'var(--font-body)',
       }}>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ color: '#D4A0A0', marginBottom: 16 }}>{error}</p>
+          <p style={{ color: 'var(--color-error)', marginBottom: 16 }}>{error}</p>
           <button
             onClick={reload}
             style={{
               padding: '8px 20px',
-              borderRadius: 8,
-              background: '#6B8FA3',
-              color: '#FFF',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--color-accent)',
+              color: 'var(--color-card)',
               border: 'none',
               fontSize: 13,
               fontWeight: 600,
@@ -165,7 +165,151 @@ export default function AdminPage() {
     }}>
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* Default input styling using theme variables */
         input, textarea, select, button { font-family: var(--font-body); }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="url"],
+        input[type="number"],
+        textarea,
+        select {
+          background: var(--color-input-bg) !important;
+          color: var(--color-input-text) !important;
+          border: 1px solid var(--color-input-border) !important;
+          border-radius: var(--radius-md) !important;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder,
+        input[type="email"]::placeholder,
+        input[type="url"]::placeholder,
+        input[type="number"]::placeholder,
+        textarea::placeholder {
+          color: var(--color-input-placeholder) !important;
+          opacity: 1 !important;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        input[type="url"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+          outline: none !important;
+          border-color: var(--color-input-border-focus) !important;
+          box-shadow: 0 0 0 2px var(--color-accent-soft) !important;
+        }
+
+        /* Action buttons only - exclude theme cards and special buttons */
+        button:not([style*="padding: 16px"]):not([style*="padding: 20px"]):not([style*="width: 100%"]) {
+          font-family: var(--font-body);
+        }
+
+        /* Small action buttons (like Save, Load, Add, etc.) */
+        button[style*="padding: 8px"],
+        button[style*="padding: 12px"],
+        .admin-sidebar button {
+          background: var(--color-accent) !important;
+          color: var(--color-card) !important;
+        }
+
+        /* Universal theming for ALL admin containers and elements */
+        /* White backgrounds - catch all variations */
+        main *[style*="background: #FFF"],
+        main *[style*="background:#FFF"],
+        main *[style*="background: rgb(255, 255, 255)"],
+        main *[style*="background:rgb(255, 255, 255)"],
+        main *[style*="background: white"],
+        main *[style*="background:white"] {
+          background: var(--color-card) !important;
+        }
+
+        /* Light beige/cream backgrounds */
+        main *[style*="background: #F8F6F2"],
+        main *[style*="background: #FAFAF7"],
+        main *[style*="background: #F5F1EB"],
+        main *[style*="background: rgb(248, 246, 242)"],
+        main *[style*="background: rgb(250, 250, 247)"],
+        main *[style*="background: rgb(245, 241, 235)"] {
+          background: var(--color-bg-alt) !important;
+        }
+
+        /* Transparent backgrounds (for alternating rows) */
+        main *[style*="background: transparent"] {
+          background: transparent !important;
+        }
+
+        /* Text colors - dark headings */
+        main *[style*="color: #2C3E50"],
+        main *[style*="color: #1A1A1A"],
+        main *[style*="color: #000"],
+        main *[style*="color: rgb(44, 62, 80)"],
+        main *[style*="color: rgb(26, 26, 26)"],
+        main *[style*="color: rgb(0, 0, 0)"] {
+          color: var(--color-heading) !important;
+        }
+
+        /* Text colors - muted/secondary text */
+        main *[style*="color: #A0ADB8"],
+        main *[style*="color: #999"],
+        main *[style*="color: #888"],
+        main *[style*="color: #777"],
+        main *[style*="color: rgb(160, 173, 184)"],
+        main *[style*="color: rgb(153, 153, 153)"],
+        main *[style*="color: rgb(136, 136, 136)"] {
+          color: var(--color-text-muted) !important;
+        }
+
+        /* Regular body text */
+        main *[style*="color: #555"],
+        main *[style*="color: #666"],
+        main *[style*="color: rgb(85, 85, 85)"],
+        main *[style*="color: rgb(102, 102, 102)"] {
+          color: var(--color-text) !important;
+        }
+
+        /* Borders - catch all border colors */
+        main *[style*="border"][style*="#E2DDD5"],
+        main *[style*="border"][style*="#D4C9B8"],
+        main *[style*="border"][style*="#DDD"],
+        main *[style*="border"][style*="rgb(226, 221, 213)"],
+        main *[style*="border"][style*="rgb(212, 201, 184)"] {
+          border-color: var(--color-border) !important;
+        }
+
+        /* Ensure readable contrast for labels and small text */
+        main label,
+        main span[style*="fontSize: 11"],
+        main span[style*="fontSize: 12"],
+        main span[style*="fontSize: 13"] {
+          color: var(--color-text) !important;
+        }
+
+        /* Strong emphasis text uses heading color */
+        main strong,
+        main b,
+        main h1,
+        main h2,
+        main h3,
+        main h4 {
+          color: var(--color-heading) !important;
+        }
+
+        /* Ensure all paragraphs use body text color */
+        main p {
+          color: var(--color-text) !important;
+        }
+
+        /* Code blocks and inline code */
+        main code {
+          background: var(--color-bg-alt) !important;
+          color: var(--color-text) !important;
+        }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
 

@@ -71,8 +71,8 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
           gap: 6,
           padding: '8px 12px',
           borderRadius: 8,
-          border: '1px solid #E2DDD5',
-          background: '#FFF',
+          border: '1px solid var(--color-border)',
+          background: 'var(--color-card)',
           minHeight: 42,
           cursor: 'text',
         }}
@@ -86,9 +86,9 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
               gap: 6,
               padding: '4px 10px',
               borderRadius: 6,
-              background: '#6B8FA314',
-              border: '1px solid #6B8FA333',
-              color: '#2C3E50',
+              background: 'var(--color-accent-soft)',
+              border: '1px solid var(--color-accent-soft)',
+              color: 'var(--color-heading)',
               fontSize: 13,
               fontWeight: 500,
             }}
@@ -102,7 +102,7 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#A0ADB8',
+                color: 'var(--color-text-muted)',
                 cursor: 'pointer',
                 fontSize: 14,
                 padding: 0,
@@ -150,8 +150,8 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
           marginTop: 4,
           maxHeight: 200,
           overflowY: 'auto',
-          background: '#FFF',
-          border: '1px solid #E2DDD5',
+          background: 'var(--color-card)',
+          border: '1px solid var(--color-border)',
           borderRadius: 8,
           boxShadow: '0 4px 12px rgba(44,62,80,0.1)',
           zIndex: 10,
@@ -165,8 +165,8 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
                 width: '100%',
                 padding: '8px 12px',
                 border: 'none',
-                background: index === selectedSuggestionIndex ? '#F5F1EB' : 'transparent',
-                color: '#2C3E50',
+                background: index === selectedSuggestionIndex ? 'var(--color-bg-alt)' : 'transparent',
+                color: 'var(--color-heading)',
                 fontSize: 13,
                 textAlign: 'left',
                 cursor: 'pointer',
@@ -179,7 +179,7 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
 
       <p style={{
         fontSize: 10,
-        color: '#A0ADB8',
+        color: 'var(--color-text-muted)',
         marginTop: 6,
       }}>Enter oder Komma zum Hinzufügen, Backspace zum Löschen</p>
     </div>

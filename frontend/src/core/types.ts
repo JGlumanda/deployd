@@ -79,9 +79,17 @@ export interface ThemeTokens {
     heading: string;
     accent: string;
     accentSoft: string;
+    error: string;
+    errorBg: string;
     statusActive: string;
     statusWip: string;
     statusArchived: string;
+    // Input field colors
+    inputBg: string;
+    inputText: string;
+    inputBorder: string;
+    inputBorderFocus: string;
+    inputPlaceholder: string;
   };
   fonts: {
     heading: string;
@@ -98,6 +106,7 @@ export interface ThemeTokens {
     cardPadding: string;
     gridGap: string;
     sectionGap: string;
+    section: string;
   };
 }
 

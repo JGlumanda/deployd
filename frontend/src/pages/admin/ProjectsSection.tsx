@@ -12,9 +12,9 @@ interface ProjectsSectionProps {
 type View = 'list' | 'editor' | 'import'
 
 const STATUS_COLORS: Record<ProjectStatus, string> = {
-  active: '#7BAE7F',
-  wip: '#C4A35A',
-  archived: '#A0ADB8',
+  active: 'var(--color-status-active)',
+  wip: 'var(--color-status-wip)',
+  archived: 'var(--color-status-archived)',
 }
 
 export default function ProjectsSection({ projects, settings, onUpdateProjects }: ProjectsSectionProps) {
@@ -135,8 +135,8 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
         <div style={{
           padding: 48,
           textAlign: 'center',
-          background: '#FFF',
-          border: '1px solid #E2DDD5',
+          background: 'var(--color-card)',
+          border: '1px solid var(--color-border)',
           borderRadius: 12,
         }}>
           <p style={{
@@ -169,8 +169,8 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
                 alignItems: 'center',
                 gap: 16,
                 padding: '16px 20px',
-                background: '#FFF',
-                border: '1px solid #E2DDD5',
+                background: 'var(--color-card)',
+                border: '1px solid var(--color-border)',
                 borderRadius: 10,
                 cursor: 'pointer',
                 transition: 'box-shadow 0.2s',

@@ -1,17 +1,33 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { getTheme } from '@themes/registry'
 import type { Theme } from '@core/types'
 
+// Track the currently active theme globally
+let currentGlobalTheme: string | null = null
+let currentFontLinks: HTMLLinkElement[] = []
+
 export function useTheme(themeName: string): Theme | null {
   const theme = getTheme(themeName)
+  const isFirstRender = useRef(true)
 
   useEffect(() => {
     if (!theme) return
 
+    // Only update if theme actually changed globally
+    if (currentGlobalTheme === themeName && !isFirstRender.current) {
+      return
+    }
+
     const root = document.documentElement
     const { tokens } = theme
 
-    // Apply color CSS variables
+    // Remove old font links if theme changed
+    if (currentGlobalTheme !== themeName) {
+      currentFontLinks.forEach((link) => link.remove())
+      currentFontLinks = []
+    }
+
+    // Apply color CSS variables (including input colors)
     Object.entries(tokens.colors).forEach(([key, value]) => {
       root.style.setProperty(`--color-${kebabCase(key)}`, value as string)
     })
@@ -31,35 +47,26 @@ export function useTheme(themeName: string): Theme | null {
       root.style.setProperty(`--spacing-${kebabCase(key)}`, value as string)
     })
 
-    // Load Google Fonts
-    const fontLinks: HTMLLinkElement[] = []
+    // Load Google Fonts (only if not already loaded)
     if (tokens.fonts.googleFontsUrls) {
       tokens.fonts.googleFontsUrls.forEach((url: string) => {
-        const link = document.createElement('link')
-        link.rel = 'stylesheet'
-        link.href = url
-        link.setAttribute('data-theme-font', themeName)
-        document.head.appendChild(link)
-        fontLinks.push(link)
+        // Check if this font URL is already loaded
+        const existing = Array.from(document.head.querySelectorAll('link[rel="stylesheet"]'))
+          .find((link) => (link as HTMLLinkElement).href === url)
+
+        if (!existing) {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = url
+          link.setAttribute('data-theme-font', themeName)
+          document.head.appendChild(link)
+          currentFontLinks.push(link)
+        }
       })
     }
 
-    // Cleanup function
-    return () => {
-      // Remove CSS variables
-      const allVars = [
-        ...Object.keys(tokens.colors).map((k) => `--color-${kebabCase(k)}`),
-        '--font-heading',
-        '--font-body',
-        '--font-mono',
-        ...Object.keys(tokens.radius).map((k) => `--radius-${k}`),
-        ...Object.keys(tokens.spacing).map((k) => `--spacing-${kebabCase(k)}`),
-      ]
-      allVars.forEach((varName) => root.style.removeProperty(varName))
-
-      // Remove font links
-      fontLinks.forEach((link) => link.remove())
-    }
+    currentGlobalTheme = themeName
+    isFirstRender.current = false
   }, [theme, themeName])
 
   return theme || null

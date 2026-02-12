@@ -32,9 +32,9 @@ export default function AdminSidebar({
       {/* Desktop Sidebar */}
       <aside className="admin-sidebar desktop-sidebar" style={{
         width: 220,
-        background: '#FFFFFF',
-        borderRight: '1px solid #E2DDD5',
-        padding: '32px 0',
+        background: 'var(--color-card)',
+        borderRight: '1px solid var(--color-border)',
+        padding: 'var(--spacing-section) 0',
         display: 'flex',
         flexDirection: 'column',
       }}>
@@ -42,14 +42,14 @@ export default function AdminSidebar({
           <h2 style={{
             fontSize: 18,
             fontWeight: 700,
-            color: '#2C3E50',
-            fontFamily: "'Libre Baskerville', serif",
+            color: 'var(--color-text)',
+            fontFamily: 'var(--font-heading)',
             marginBottom: 2,
           }}>Admin</h2>
           <p style={{
             fontSize: 11,
-            color: '#A0ADB8',
-            fontFamily: "'IBM Plex Mono', monospace",
+            color: 'var(--color-text-muted)',
+            fontFamily: 'var(--font-mono)',
           }}>Project Showcase</p>
         </div>
 
@@ -66,9 +66,9 @@ export default function AdminSidebar({
                 padding: '10px 24px',
                 border: 'none',
                 cursor: 'pointer',
-                background: activeSection === s.id ? '#6B8FA30E' : 'transparent',
-                borderRight: activeSection === s.id ? '2px solid #6B8FA3' : '2px solid transparent',
-                color: activeSection === s.id ? '#2C3E50' : '#A0ADB8',
+                background: activeSection === s.id ? 'var(--color-accent-soft)' : 'transparent',
+                borderRight: activeSection === s.id ? '2px solid var(--color-accent)' : '2px solid transparent',
+                color: activeSection === s.id ? 'var(--color-text)' : 'var(--color-text-muted)',
                 fontSize: 13,
                 fontWeight: activeSection === s.id ? 600 : 500,
                 transition: 'all 0.2s',
@@ -87,7 +87,7 @@ export default function AdminSidebar({
           {saveError && (
             <p style={{
               fontSize: 11,
-              color: '#D4A0A0',
+              color: 'var(--color-error)',
               marginBottom: 12,
               lineHeight: 1.4,
             }}>{saveError}</p>
@@ -100,10 +100,10 @@ export default function AdminSidebar({
               style={{
                 width: '100%',
                 padding: '8px 16px',
-                borderRadius: 8,
+                borderRadius: 'var(--radius-md)',
                 background: 'transparent',
-                color: '#A0ADB8',
-                border: '1px solid #E2DDD5',
+                color: 'var(--color-text-muted)',
+                border: '1px solid var(--color-border)',
                 fontSize: 12,
                 fontWeight: 600,
                 cursor: saving ? 'not-allowed' : 'pointer',
@@ -119,9 +119,9 @@ export default function AdminSidebar({
             style={{
               width: '100%',
               padding: '10px 16px',
-              borderRadius: 8,
-              background: hasChanges ? '#6B8FA3' : '#E2DDD5',
-              color: hasChanges ? '#FFF' : '#A0ADB8',
+              borderRadius: 'var(--radius-md)',
+              background: hasChanges ? 'var(--color-accent)' : 'var(--color-border)',
+              color: hasChanges ? 'var(--color-card)' : 'var(--color-text-muted)',
               border: 'none',
               fontSize: 13,
               fontWeight: 600,
@@ -137,11 +137,12 @@ export default function AdminSidebar({
                 <span style={{
                   width: 12,
                   height: 12,
-                  border: '2px solid #FFF4',
-                  borderTopColor: '#FFF',
+                  border: '2px solid currentColor',
+                  borderTopColor: 'transparent',
                   borderRadius: '50%',
                   animation: 'spin 0.6s linear infinite',
                   display: 'inline-block',
+                  opacity: 0.4,
                 }} />
                 Speichern...
               </>
@@ -155,8 +156,8 @@ export default function AdminSidebar({
       {/* Mobile Tabs */}
       <div className="mobile-tabs" style={{
         display: 'none',
-        background: '#FFFFFF',
-        borderBottom: '1px solid #E2DDD5',
+        background: 'var(--color-card)',
+        borderBottom: '1px solid var(--color-border)',
         overflowX: 'auto',
       }}>
         <style>{`
@@ -177,10 +178,10 @@ export default function AdminSidebar({
               onClick={() => onSectionChange(s.id)}
               style={{
                 padding: '8px 16px',
-                borderRadius: 8,
-                border: activeSection === s.id ? '1px solid #6B8FA3' : '1px solid #E2DDD5',
-                background: activeSection === s.id ? '#6B8FA30E' : '#FFF',
-                color: activeSection === s.id ? '#6B8FA3' : '#A0ADB8',
+                borderRadius: 'var(--radius-md)',
+                border: activeSection === s.id ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
+                background: activeSection === s.id ? 'var(--color-accent-soft)' : 'var(--color-card)',
+                color: activeSection === s.id ? 'var(--color-accent)' : 'var(--color-text-muted)',
                 fontSize: 12,
                 fontWeight: 600,
                 cursor: 'pointer',
@@ -209,10 +210,10 @@ export default function AdminSidebar({
               style={{
                 flex: 1,
                 padding: '8px 16px',
-                borderRadius: 8,
+                borderRadius: 'var(--radius-md)',
                 background: 'transparent',
-                color: '#A0ADB8',
-                border: '1px solid #E2DDD5',
+                color: 'var(--color-text-muted)',
+                border: '1px solid var(--color-border)',
                 fontSize: 12,
                 fontWeight: 600,
                 cursor: saving ? 'not-allowed' : 'pointer',
@@ -226,9 +227,9 @@ export default function AdminSidebar({
               style={{
                 flex: 2,
                 padding: '8px 16px',
-                borderRadius: 8,
-                background: '#6B8FA3',
-                color: '#FFF',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--color-accent)',
+                color: 'var(--color-card)',
                 border: 'none',
                 fontSize: 12,
                 fontWeight: 600,
@@ -243,7 +244,7 @@ export default function AdminSidebar({
         {saveError && (
           <p style={{
             fontSize: 11,
-            color: '#D4A0A0',
+            color: 'var(--color-error)',
             padding: '0 16px 12px',
             lineHeight: 1.4,
           }}>{saveError}</p>

@@ -116,7 +116,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             display: 'block',
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
@@ -130,15 +130,15 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
               width: '100%',
               padding: '10px 14px',
               borderRadius: 8,
-              border: errors.title ? '1px solid #D4A0A0' : '1px solid #E2DDD5',
-              background: '#FFF',
-              color: '#2C3E50',
+              border: errors.title ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-heading)',
               fontSize: 14,
               outline: 'none',
             }}
           />
           {errors.title && (
-            <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 4 }}>{errors.title}</p>
+            <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.title}</p>
           )}
         </div>
 
@@ -148,7 +148,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             display: 'block',
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
@@ -162,16 +162,16 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
               width: '100%',
               padding: '10px 14px',
               borderRadius: 8,
-              border: errors.description ? '1px solid #D4A0A0' : '1px solid #E2DDD5',
-              background: '#FFF',
-              color: '#2C3E50',
+              border: errors.description ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-heading)',
               fontSize: 14,
               outline: 'none',
               resize: 'vertical',
             }}
           />
           {errors.description && (
-            <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 4 }}>{errors.description}</p>
+            <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.description}</p>
           )}
         </div>
 
@@ -181,7 +181,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             display: 'block',
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
@@ -201,7 +201,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
               display: 'block',
               fontSize: 11,
               fontWeight: 600,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 6,
@@ -213,9 +213,9 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                 width: '100%',
                 padding: '10px 14px',
                 borderRadius: 8,
-                border: '1px solid #E2DDD5',
-                background: '#FFF',
-                color: '#2C3E50',
+                border: '1px solid var(--color-border)',
+                background: 'var(--color-card)',
+                color: 'var(--color-heading)',
                 fontSize: 14,
                 outline: 'none',
               }}
@@ -233,7 +233,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
               display: 'block',
               fontSize: 11,
               fontWeight: 600,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 6,
@@ -248,15 +248,15 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                 width: '100%',
                 padding: '10px 14px',
                 borderRadius: 8,
-                border: errors.date ? '1px solid #D4A0A0' : '1px solid #E2DDD5',
-                background: '#FFF',
-                color: '#2C3E50',
+                border: errors.date ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
+                background: 'var(--color-card)',
+                color: 'var(--color-heading)',
                 fontSize: 14,
                 outline: 'none',
               }}
             />
             {errors.date && (
-              <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 4 }}>{errors.date}</p>
+              <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.date}</p>
             )}
           </div>
         </div>
@@ -268,19 +268,19 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             checked={formData.featured}
             onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
             id="featured"
-            style={{ width: 16, height: 16, accentColor: '#6B8FA3' }}
+            style={{ width: 16, height: 16, accentColor: 'var(--color-accent)' }}
           />
-          <label htmlFor="featured" style={{ fontSize: 13, color: '#2C3E50', fontWeight: 500 }}>
+          <label htmlFor="featured" style={{ fontSize: 13, color: 'var(--color-heading)', fontWeight: 500 }}>
             Featured Projekt
           </label>
         </div>
 
         {/* Links */}
-        <div style={{ borderTop: '1px solid #E2DDD5', paddingTop: 20 }}>
+        <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: 20 }}>
           <p style={{
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             marginBottom: 12,
@@ -292,7 +292,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                 display: 'block',
                 fontSize: 10,
                 fontWeight: 600,
-                color: '#A0ADB8',
+                color: 'var(--color-text-muted)',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 marginBottom: 4,
@@ -310,15 +310,15 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                   width: '100%',
                   padding: '8px 12px',
                   borderRadius: 8,
-                  border: errors.live ? '1px solid #D4A0A0' : '1px solid #E2DDD5',
-                  background: '#FFF',
-                  color: '#2C3E50',
+                  border: errors.live ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
+                  background: 'var(--color-card)',
+                  color: 'var(--color-heading)',
                   fontSize: 13,
                   outline: 'none',
                 }}
               />
               {errors.live && (
-                <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 4 }}>{errors.live}</p>
+                <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.live}</p>
               )}
             </div>
 
@@ -327,7 +327,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                 display: 'block',
                 fontSize: 10,
                 fontWeight: 600,
-                color: '#A0ADB8',
+                color: 'var(--color-text-muted)',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 marginBottom: 4,
@@ -345,15 +345,15 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                   width: '100%',
                   padding: '8px 12px',
                   borderRadius: 8,
-                  border: errors.github ? '1px solid #D4A0A0' : '1px solid #E2DDD5',
-                  background: '#FFF',
-                  color: '#2C3E50',
+                  border: errors.github ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
+                  background: 'var(--color-card)',
+                  color: 'var(--color-heading)',
                   fontSize: 13,
                   outline: 'none',
                 }}
               />
               {errors.github && (
-                <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 4 }}>{errors.github}</p>
+                <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.github}</p>
               )}
             </div>
 
@@ -362,7 +362,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                 display: 'block',
                 fontSize: 10,
                 fontWeight: 600,
-                color: '#A0ADB8',
+                color: 'var(--color-text-muted)',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 marginBottom: 4,
@@ -380,15 +380,15 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                   width: '100%',
                   padding: '8px 12px',
                   borderRadius: 8,
-                  border: errors.docs ? '1px solid #D4A0A0' : '1px solid #E2DDD5',
-                  background: '#FFF',
-                  color: '#2C3E50',
+                  border: errors.docs ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
+                  background: 'var(--color-card)',
+                  color: 'var(--color-heading)',
                   fontSize: 13,
                   outline: 'none',
                 }}
               />
               {errors.docs && (
-                <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 4 }}>{errors.docs}</p>
+                <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.docs}</p>
               )}
             </div>
           </div>
@@ -400,7 +400,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
             display: 'block',
             fontSize: 11,
             fontWeight: 600,
-            color: '#A0ADB8',
+            color: 'var(--color-text-muted)',
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
@@ -414,9 +414,9 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
               width: '100%',
               padding: '10px 14px',
               borderRadius: 8,
-              border: '1px solid #E2DDD5',
-              background: '#FFF',
-              color: '#2C3E50',
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-heading)',
               fontSize: 14,
               outline: 'none',
             }}

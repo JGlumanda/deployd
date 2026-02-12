@@ -16,9 +16,17 @@ export const nordic: Theme = {
       heading: '#2C3E50',
       accent: '#6B8FA3',
       accentSoft: '#6B8FA314',
+      error: '#D4A0A0',
+      errorBg: '#FFF0F0',
       statusActive: '#7BAE7F',
       statusWip: '#C4A35A',
       statusArchived: '#A0ADB8',
+      // Input field colors
+      inputBg: '#FFFFFF',
+      inputText: '#2C3E50',
+      inputBorder: '#E2DDD5',
+      inputBorderFocus: '#6B8FA3',
+      inputPlaceholder: '#C0C8D0',
     },
     fonts: {
       heading: "'Libre Baskerville', Georgia, serif",
@@ -37,6 +45,7 @@ export const nordic: Theme = {
       cardPadding: '24px',
       gridGap: '18px',
       sectionGap: '56px',
+      section: '32px',
     },
   },
   effects: {
