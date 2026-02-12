@@ -20,8 +20,8 @@ export default function AdminPage() {
   const [saveError, setSaveError] = useState<string | null>(null)
   const [hasChanges, setHasChanges] = useState(false)
 
-  // Apply theme to admin panel
-  useTheme(draftConfig?.theme.active || 'nordic')
+  // Apply theme to admin panel (use saved config, not draft)
+  useTheme(config?.theme.active || 'nordic')
 
   // Initialize draft config when config loads
   useEffect(() => {
@@ -117,10 +117,10 @@ export default function AdminPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#F5F1EB',
-        fontFamily: "'Karla', sans-serif",
+        background: 'var(--color-bg)',
+        fontFamily: 'var(--font-body)',
       }}>
-        <p style={{ color: '#A0ADB8' }}>Laden...</p>
+        <p style={{ color: 'var(--color-text-muted)' }}>Laden...</p>
       </div>
     )
   }
@@ -133,18 +133,18 @@ export default function AdminPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#F5F1EB',
-        fontFamily: "'Karla', sans-serif",
+        background: 'var(--color-bg)',
+        fontFamily: 'var(--font-body)',
       }}>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ color: '#D4A0A0', marginBottom: 16 }}>{error}</p>
+          <p style={{ color: 'var(--color-error)', marginBottom: 16 }}>{error}</p>
           <button
             onClick={reload}
             style={{
               padding: '8px 20px',
-              borderRadius: 8,
-              background: '#6B8FA3',
-              color: '#FFF',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--color-accent)',
+              color: 'var(--color-card)',
               border: 'none',
               fontSize: 13,
               fontWeight: 600,
@@ -165,7 +165,41 @@ export default function AdminPage() {
     }}>
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* Default input styling using theme variables */
         input, textarea, select, button { font-family: var(--font-body); }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="url"],
+        input[type="number"],
+        textarea,
+        select {
+          background: var(--color-card);
+          color: var(--color-text);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        input[type="url"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+          outline: 2px solid var(--color-accent-soft);
+          border-color: var(--color-accent);
+        }
+
+        button {
+          background: var(--color-accent);
+          color: var(--color-card);
+          border: none;
+          border-radius: var(--radius-md);
+        }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
 
