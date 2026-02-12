@@ -68,7 +68,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings }
 
     if (!confirm(`Tag "${tag.name}" wirklich löschen?`)) return
 
-    const newTags = settings.tags[key].filter((_, i) => i !== index)
+    const newTags = settings.tags[key].filter((_: Tag, i: number) => i !== index)
     onUpdateSettings({
       ...settings,
       tags: { ...settings.tags, [key]: newTags },
@@ -81,8 +81,8 @@ export default function SettingsSection({ settings, projects, onUpdateSettings }
   }
 
   const allTags = [
-    ...settings.tags.predefined.map((t, i) => ({ ...t, isPredefined: true, index: i })),
-    ...settings.tags.custom.map((t, i) => ({ ...t, isPredefined: false, index: i })),
+    ...settings.tags.predefined.map((t: Tag, i: number) => ({ ...t, isPredefined: true, index: i })),
+    ...settings.tags.custom.map((t: Tag, i: number) => ({ ...t, isPredefined: false, index: i })),
   ]
 
   return (
