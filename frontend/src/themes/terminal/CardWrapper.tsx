@@ -6,15 +6,18 @@ const statusMap: Record<ProjectStatus, { label: string; color: string }> = {
   archived: { label: 'STOPPED', color: '#666' },
 }
 
+const MAX_TAGS = 4
+
 export function CardWrapper({
   project,
   index,
   hovered,
   onHover,
   onClick,
-  children,
 }: CardWrapperProps) {
   const status = statusMap[project.status] || statusMap.active
+  const tags = project.tags.slice(0, MAX_TAGS)
+  const extra = Math.max(0, project.tags.length - MAX_TAGS)
 
   return (
     <div
@@ -43,8 +46,8 @@ export function CardWrapper({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: 8,
-          fontSize: 10,
+          marginBottom: 10,
+          fontSize: 11,
         }}
       >
         <span style={{ color: '#39FF14', opacity: 0.5 }}>
@@ -60,8 +63,8 @@ export function CardWrapper({
         >
           <span
             style={{
-              width: 5,
-              height: 5,
+              width: 6,
+              height: 6,
               borderRadius: '50%',
               background: status.color,
               animation:
@@ -76,9 +79,9 @@ export function CardWrapper({
       <div
         style={{
           color: '#39FF14',
-          fontSize: 14,
+          fontSize: 16,
           fontWeight: 700,
-          marginBottom: 6,
+          marginBottom: 8,
           whiteSpace: 'nowrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -87,7 +90,80 @@ export function CardWrapper({
         {'>'} {project.title}
       </div>
 
-      {children}
+      {/* Description with # prefix */}
+      <div
+        style={{
+          color: '#4A8C4A',
+          fontSize: 13,
+          lineHeight: 1.5,
+          marginBottom: 14,
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+        }}
+      >
+        # {project.description}
+      </div>
+
+      {/* Spacer */}
+      <div style={{ flex: 1 }} />
+
+      {/* Tags */}
+      {project.tags.length > 0 && (
+        <div
+          style={{
+            display: 'flex',
+            gap: 6,
+            flexWrap: 'nowrap',
+            overflow: 'hidden',
+            marginBottom: 12,
+          }}
+        >
+          {tags.map((t) => (
+            <span
+              key={t}
+              style={{
+                fontSize: 11,
+                color: '#2D7A2D',
+                background: '#0F1F0F',
+                border: '1px solid #1A331A',
+                padding: '2px 10px',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {t}
+            </span>
+          ))}
+          {extra > 0 && (
+            <span
+              style={{
+                fontSize: 11,
+                color: '#1A331A',
+                padding: '2px 8px',
+              }}
+            >
+              +{extra}
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Links */}
+      <div
+        style={{
+          fontSize: 11,
+          color: '#2D7A2D',
+          display: 'flex',
+          gap: 10,
+        }}
+      >
+        {project.links.live && (
+          <span style={{ color: '#39FF14' }}>[demo]</span>
+        )}
+        {project.links.github && <span>[src]</span>}
+        {project.links.docs && <span>[man]</span>}
+      </div>
     </div>
   )
 }

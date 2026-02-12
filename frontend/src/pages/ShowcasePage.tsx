@@ -118,8 +118,51 @@ export default function ShowcasePage() {
   // Render hero
   const hero = <HeroLayout profile={config.profile} />
 
-  // Render toolbar
-  const toolbar = (
+  // Render toolbar (Terminal theme uses custom toolbar)
+  const isTerminal = theme?.name === 'terminal'
+  const toolbar = isTerminal ? (
+    <div>
+      {/* Terminal search */}
+      <div
+        style={{
+          marginBottom: 24,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+        }}
+      >
+        <span style={{ color: '#1A331A', fontSize: 14 }}>$ grep</span>
+        <input
+          type="text"
+          value={projectsHook.search}
+          onChange={(e) => projectsHook.setSearch(e.target.value)}
+          placeholder="..."
+          style={{
+            background: 'transparent',
+            border: 'none',
+            borderBottom: '1px solid #1A331A',
+            color: '#39FF14',
+            fontSize: 14,
+            fontFamily: 'inherit',
+            outline: 'none',
+            padding: '5px 0',
+            width: 260,
+          }}
+        />
+      </div>
+
+      {/* Terminal count */}
+      <div
+        style={{
+          fontSize: 12,
+          color: '#1A331A',
+          marginBottom: 18,
+        }}
+      >
+        --- {projectsHook.filtered.length} processes found ---
+      </div>
+    </div>
+  ) : (
     <Toolbar
       search={projectsHook.search}
       onSearchChange={projectsHook.setSearch}
@@ -132,8 +175,8 @@ export default function ShowcasePage() {
     />
   )
 
-  // Render tag filter
-  const tagFilter = (
+  // Render tag filter (Terminal theme doesn't show tag filter)
+  const tagFilter = isTerminal ? null : (
     <TagFilterBar
       tags={projectsHook.allTags}
       activeTag={projectsHook.tagFilter}
@@ -148,17 +191,19 @@ export default function ShowcasePage() {
         padding: '2rem 0'
       }}
     >
-      {/* Project count */}
-      <div
-        style={{
-          marginBottom: '1.5rem',
-          fontSize: '0.875rem',
-          fontFamily: 'var(--font-body)',
-          color: 'var(--color-text-muted)'
-        }}
-      >
-        {projectsHook.filtered.length} {projectsHook.filtered.length === 1 ? 'project' : 'projects'} found
-      </div>
+      {/* Project count (Terminal shows this in toolbar) */}
+      {!isTerminal && (
+        <div
+          style={{
+            marginBottom: '1.5rem',
+            fontSize: '0.875rem',
+            fontFamily: 'var(--font-body)',
+            color: 'var(--color-text-muted)'
+          }}
+        >
+          {projectsHook.filtered.length} {projectsHook.filtered.length === 1 ? 'project' : 'projects'} found
+        </div>
+      )}
 
       {/* Empty state */}
       {projectsHook.filtered.length === 0 ? (
@@ -180,7 +225,9 @@ export default function ShowcasePage() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gridTemplateColumns: isTerminal
+              ? 'repeat(auto-fill, minmax(290px, 1fr))'
+              : 'repeat(auto-fill, minmax(320px, 1fr))',
             gap: 'var(--spacing-grid-gap)'
           }}
         >

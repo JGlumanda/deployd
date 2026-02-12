@@ -130,7 +130,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
         style={{
           background: 'none',
           border: 'none',
-          color: '#6B8FA3',
+          color: 'var(--color-accent)',
           cursor: 'pointer',
           fontSize: 13,
           fontWeight: 600,
@@ -142,14 +142,14 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
       <h1 style={{
         fontSize: 24,
         fontWeight: 700,
-        color: '#2C3E50',
+        color: 'var(--color-heading)',
         fontFamily: "'Libre Baskerville', serif",
         marginBottom: 8,
       }}>Import von GitHub</h1>
 
       <p style={{
         fontSize: 13,
-        color: '#A0ADB8',
+        color: 'var(--color-text-muted)',
         marginBottom: 24,
       }}>Lade deine öffentlichen Repos und importiere sie als Projekte.</p>
 
@@ -173,9 +173,9 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
               width: '100%',
               padding: '10px 14px 10px 34px',
               borderRadius: 8,
-              border: '1px solid #E2DDD5',
-              background: '#FFF',
-              color: '#2C3E50',
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-heading)',
               fontSize: 14,
               outline: 'none',
             }}
@@ -187,8 +187,8 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
           style={{
             padding: '8px 20px',
             borderRadius: 8,
-            background: '#6B8FA3',
-            color: '#FFF',
+            background: 'var(--color-accent)',
+            color: 'var(--color-card)',
             border: 'none',
             fontSize: 13,
             fontWeight: 600,
@@ -202,7 +202,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                 width: 12,
                 height: 12,
                 border: '2px solid #FFF4',
-                borderTopColor: '#FFF',
+                borderTopColor: 'var(--color-card)',
                 borderRadius: '50%',
                 animation: 'spin 0.6s linear infinite',
                 display: 'inline-block',
@@ -217,9 +217,9 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
         <div style={{
           padding: '12px 16px',
           borderRadius: 8,
-          background: '#FFF0F0',
-          border: '1px solid #D4A0A0',
-          color: '#D4A0A0',
+          background: 'var(--color-error-bg)',
+          border: '1px solid var(--color-error)',
+          color: 'var(--color-error)',
           fontSize: 13,
           marginBottom: 24,
         }}>{error}</div>
@@ -236,7 +236,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
           }}>
             <span style={{
               fontSize: 12,
-              color: '#A0ADB8',
+              color: 'var(--color-text-muted)',
               fontFamily: "'IBM Plex Mono', monospace",
             }}>
               {repos.length} Repos gefunden · {selected.size} ausgewählt
@@ -247,8 +247,8 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                 style={{
                   padding: '8px 20px',
                   borderRadius: 8,
-                  background: '#6B8FA3',
-                  color: '#FFF',
+                  background: 'var(--color-accent)',
+                  color: 'var(--color-card)',
                   border: 'none',
                   fontSize: 13,
                   fontWeight: 600,
@@ -275,8 +275,8 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                     alignItems: 'center',
                     gap: 14,
                     padding: '14px 18px',
-                    background: isSelected ? '#6B8FA308' : '#FFF',
-                    border: isSelected ? '1px solid #6B8FA366' : '1px solid #E2DDD5',
+                    background: isSelected ? 'var(--color-accent-soft)' : 'var(--color-card)',
+                    border: isSelected ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
                     borderRadius: 10,
                     cursor: isDisabled ? 'not-allowed' : 'pointer',
                     transition: 'all 0.2s',
@@ -288,8 +288,8 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                     width: 18,
                     height: 18,
                     borderRadius: 4,
-                    border: isSelected ? 'none' : '2px solid #D4D0C8',
-                    background: isSelected ? '#6B8FA3' : 'transparent',
+                    border: isSelected ? 'none' : '2px solid var(--color-border)',
+                    background: isSelected ? 'var(--color-accent)' : 'transparent',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -297,7 +297,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                     transition: 'all 0.15s',
                   }}>
                     {isSelected && (
-                      <span style={{ color: '#FFF', fontSize: 12, fontWeight: 700 }}>✓</span>
+                      <span style={{ color: 'var(--color-card)', fontSize: 12, fontWeight: 700 }}>✓</span>
                     )}
                   </div>
 
@@ -306,15 +306,15 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                       <span style={{
                         fontSize: 14,
                         fontWeight: 600,
-                        color: '#2C3E50',
+                        color: 'var(--color-heading)',
                       }}>{repo.name}</span>
 
                       {repo.language && (
                         <span style={{
                           fontSize: 10,
                           fontWeight: 600,
-                          color: '#6B8FA3',
-                          background: '#6B8FA314',
+                          color: 'var(--color-accent)',
+                          background: 'var(--color-accent-soft)',
                           padding: '1px 8px',
                           borderRadius: 4,
                           fontFamily: "'IBM Plex Mono', monospace",
@@ -325,8 +325,8 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                         <span style={{
                           fontSize: 9,
                           fontWeight: 700,
-                          color: '#A0ADB8',
-                          background: '#F0EDE6',
+                          color: 'var(--color-text-muted)',
+                          background: 'var(--color-bg-alt)',
                           padding: '1px 6px',
                           borderRadius: 3,
                           textTransform: 'uppercase',
@@ -347,7 +347,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                     </div>
                     <span style={{
                       fontSize: 12,
-                      color: '#A0ADB8',
+                      color: 'var(--color-text-muted)',
                       display: 'block',
                       marginTop: 2,
                     }}>{repo.description || 'Keine Beschreibung'}</span>
@@ -367,7 +367,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                     </div>
                     <div style={{
                       fontSize: 10,
-                      color: '#A0ADB8',
+                      color: 'var(--color-text-muted)',
                       fontFamily: "'IBM Plex Mono', monospace",
                       marginTop: 2,
                     }}>{repo.updated_at.slice(0, 7)}</div>

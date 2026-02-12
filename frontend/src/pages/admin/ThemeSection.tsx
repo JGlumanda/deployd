@@ -14,14 +14,14 @@ export default function ThemeSection({ activeTheme, onSelectTheme }: ThemeSectio
       <h1 style={{
         fontSize: 24,
         fontWeight: 700,
-        color: '#2C3E50',
+        color: 'var(--color-heading)',
         fontFamily: "'Libre Baskerville', serif",
         marginBottom: 8,
       }}>Theme</h1>
 
       <p style={{
         fontSize: 13,
-        color: '#A0ADB8',
+        color: 'var(--color-text-muted)',
         marginBottom: 28,
       }}>Wähle das Aussehen deiner Showcase-Seite.</p>
 
@@ -40,8 +40,8 @@ export default function ThemeSection({ activeTheme, onSelectTheme }: ThemeSectio
               onClick={() => onSelectTheme(theme.name)}
               style={{
                 padding: 20,
-                background: '#FFF',
-                border: isActive ? `2px solid ${accentColor}` : '1px solid #E2DDD5',
+                background: 'var(--color-card)',
+                border: isActive ? `2px solid ${accentColor}` : '1px solid var(--color-border)',
                 borderRadius: 12,
                 cursor: 'pointer',
                 transition: 'all 0.2s',
@@ -83,14 +83,14 @@ export default function ThemeSection({ activeTheme, onSelectTheme }: ThemeSectio
               <h3 style={{
                 fontSize: 15,
                 fontWeight: 700,
-                color: '#2C3E50',
+                color: 'var(--color-heading)',
                 fontFamily: "'Libre Baskerville', serif",
                 marginBottom: 4,
               }}>{theme.displayName}</h3>
 
               <p style={{
                 fontSize: 12,
-                color: '#A0ADB8',
+                color: 'var(--color-text-muted)',
                 lineHeight: 1.4,
                 marginBottom: 8,
               }}>{theme.description}</p>
@@ -116,7 +116,7 @@ export default function ThemeSection({ activeTheme, onSelectTheme }: ThemeSectio
           padding: 48,
           textAlign: 'center',
           background: '#FFF',
-          border: '1px solid #E2DDD5',
+          border: '1px solid var(--color-border)',
           borderRadius: 12,
         }}>
           <p style={{ fontSize: 14, color: '#A0ADB8' }}>

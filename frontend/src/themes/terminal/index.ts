@@ -1,6 +1,8 @@
 import type { Theme } from '@core/types'
 import { CardWrapper } from './CardWrapper'
 import { HeroLayout } from './HeroLayout'
+import { PageLayout } from './PageLayout'
+import { ModalWrapper } from './ModalWrapper'
 
 export const terminal: Theme = {
   name: 'terminal',
@@ -19,9 +21,16 @@ export const terminal: Theme = {
       accent: '#39FF14',
       accentSoft: '#39FF1414',
       error: '#FF4444',
+      errorBg: '#331111',
       statusActive: '#39FF14',
       statusWip: '#FFD700',
       statusArchived: '#666',
+      // Input field colors
+      inputBg: '#0D0D0D',
+      inputText: '#4A8C4A',
+      inputBorder: '#1A331A',
+      inputBorderFocus: '#39FF14',
+      inputPlaceholder: '#2D5A2D',
     },
     fonts: {
       heading: "'Fira Code', monospace",
@@ -46,6 +55,8 @@ export const terminal: Theme = {
   overrides: {
     CardWrapper,
     HeroLayout,
+    PageLayout,
+    ModalWrapper,
   },
   effects: {
     scanlines: true,

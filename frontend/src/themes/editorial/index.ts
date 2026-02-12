@@ -19,9 +19,16 @@ export const editorial: Theme = {
       accent: '#1A1A1A',
       accentSoft: '#1A1A1A14',
       error: '#C44536',
+      errorBg: '#FFEAE8',
       statusActive: '#2D6A4F',
       statusWip: '#B8860B',
       statusArchived: '#999',
+      // Input field colors
+      inputBg: '#FFFDF8',
+      inputText: '#1A1A1A',
+      inputBorder: '#D4C9B8',
+      inputBorderFocus: '#1A1A1A',
+      inputPlaceholder: '#AAA',
     },
     fonts: {
       heading: "'Playfair Display', Georgia, serif",
