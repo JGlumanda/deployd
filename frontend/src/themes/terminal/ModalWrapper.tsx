@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import type { ModalWrapperProps, ProjectStatus } from '@core/types'
+import { getProjectImageStyle } from '@core/utils/projectImage'
+import { getTheme } from '@themes/registry'
 
 const statusMap: Record<ProjectStatus, { label: string; color: string }> = {
   active: { label: 'RUNNING', color: '#39FF14' },
@@ -9,6 +11,8 @@ const statusMap: Record<ProjectStatus, { label: string; color: string }> = {
 
 export function ModalWrapper({ project, onClose }: ModalWrapperProps) {
   const status = statusMap[project.status] || statusMap.active
+  const theme = getTheme('terminal') || null
+  const imageStyle = getProjectImageStyle(theme, project.title)
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -73,6 +77,40 @@ export function ModalWrapper({ project, onClose }: ModalWrapperProps) {
           >
             [×]
           </button>
+        </div>
+
+        {/* Project Image */}
+        <div
+          style={{
+            width: '100%',
+            height: '180px',
+            background: project.image ? `url(${project.image})` : imageStyle.background,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderBottom: '1px solid #1A331A',
+          }}
+        >
+          {!project.image && (
+            <div
+              style={{
+                fontSize: '2rem',
+                fontWeight: 700,
+                color: imageStyle.titleColor,
+                textAlign: 'center',
+                padding: '1.5rem',
+                textShadow: imageStyle.titleShadow,
+                wordWrap: 'break-word',
+                overflowWrap: 'break-word',
+                maxWidth: '90%',
+                lineHeight: 1.15,
+              }}
+            >
+              {project.title}
+            </div>
+          )}
         </div>
 
         {/* Content */}

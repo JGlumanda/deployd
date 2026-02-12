@@ -383,7 +383,7 @@ export default function ShowcasePage() {
       {/* Modal */}
       {selectedProject && (
         <ModalWrapper project={selectedProject} onClose={() => setSelectedProject(null)}>
-          <ModalContent project={selectedProject} />
+          <ModalContent project={selectedProject} theme={theme} />
         </ModalWrapper>
       )}
 
