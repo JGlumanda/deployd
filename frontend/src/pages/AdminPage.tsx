@@ -60,6 +60,46 @@ export default function AdminPage() {
     setSaveError(null)
   }
 
+  const handleReset = () => {
+    if (!config || !draftConfig) return
+
+    const confirmed = confirm(
+      'Möchtest du die Konfiguration wirklich zurücksetzen?\n\n' +
+      'Dies wird löschen:\n' +
+      '• Alle Projekte\n' +
+      '• Profil-Informationen (Name, Bio, Avatar, Links)\n\n' +
+      'Dies bleibt erhalten:\n' +
+      '• Standard-Tags\n' +
+      '• Theme-Einstellungen\n' +
+      '• Weitere Einstellungen'
+    )
+
+    if (!confirmed) return
+
+    // Create default config with only predefined tags and settings
+    const resetConfig: AppConfig = {
+      profile: {
+        name: '',
+        tagline: '',
+        bio: '',
+        avatar: null,
+        links: {},
+      },
+      projects: [],
+      theme: draftConfig.theme,
+      settings: {
+        ...draftConfig.settings,
+        tags: {
+          predefined: config.settings.tags.predefined, // Keep predefined tags
+          custom: [], // Clear custom tags
+        },
+      },
+    }
+
+    setDraftConfig(resetConfig)
+    setHasChanges(true)
+  }
+
   // Show auth if not authenticated
   if (!password) {
     return <AdminAuth onAuthenticated={setPassword} />
@@ -178,6 +218,7 @@ export default function AdminPage() {
               settings={draftConfig.settings}
               projects={draftConfig.projects}
               onUpdateSettings={(settings) => updateDraft(d => { d.settings = settings })}
+              onReset={handleReset}
             />
           )}
         </main>

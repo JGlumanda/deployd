@@ -5,9 +5,10 @@ interface SettingsSectionProps {
   settings: Settings
   projects: Project[]
   onUpdateSettings: (settings: Settings) => void
+  onReset: () => void
 }
 
-export default function SettingsSection({ settings, projects, onUpdateSettings }: SettingsSectionProps) {
+export default function SettingsSection({ settings, projects, onUpdateSettings, onReset }: SettingsSectionProps) {
   const [githubToken, setGithubToken] = useState('')
   const [descriptionMaxChars, setDescriptionMaxChars] = useState(settings.cardDescriptionMaxChars)
 
@@ -534,6 +535,55 @@ export default function SettingsSection({ settings, projects, onUpdateSettings }
             fontFamily: "'IBM Plex Mono', monospace",
           }}>GITHUB_TOKEN</code> Environment Variable gesetzt werden.
         </p>
+      </div>
+
+      {/* Danger Zone - Reset Config */}
+      <div style={{
+        marginTop: 32,
+        padding: 20,
+        background: '#FFF',
+        borderRadius: 8,
+        border: '2px solid #D4A0A0',
+      }}>
+        <h3 style={{
+          fontSize: 16,
+          fontWeight: 700,
+          color: '#B85C5C',
+          marginBottom: 8,
+        }}>⚠️ Danger Zone</h3>
+
+        <p style={{
+          fontSize: 13,
+          color: '#7B8794',
+          marginBottom: 16,
+          lineHeight: 1.5,
+        }}>
+          Setze die Konfiguration zurück und lösche alle benutzerdefinierten Daten.
+          Standard-Tags und Einstellungen bleiben erhalten.
+        </p>
+
+        <button
+          onClick={onReset}
+          style={{
+            padding: '10px 20px',
+            borderRadius: 8,
+            background: '#D4A0A0',
+            color: '#FFF',
+            border: 'none',
+            fontSize: 13,
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#B85C5C'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = '#D4A0A0'
+          }}
+        >
+          🗑️ Konfiguration zurücksetzen
+        </button>
       </div>
     </div>
   )
