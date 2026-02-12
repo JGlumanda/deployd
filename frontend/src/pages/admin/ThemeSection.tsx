@@ -1,4 +1,5 @@
 import { getAllThemes } from '@themes/registry'
+import type { Theme } from '@core/types'
 
 interface ThemeSectionProps {
   activeTheme: string
@@ -29,7 +30,7 @@ export default function ThemeSection({ activeTheme, onSelectTheme }: ThemeSectio
         gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
         gap: 16,
       }}>
-        {themes.map(theme => {
+        {themes.map((theme: Theme) => {
           const isActive = theme.name === activeTheme
           const accentColor = theme.tokens.colors.accent
 

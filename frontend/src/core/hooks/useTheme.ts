@@ -13,7 +13,7 @@ export function useTheme(themeName: string): Theme | null {
 
     // Apply color CSS variables
     Object.entries(tokens.colors).forEach(([key, value]) => {
-      root.style.setProperty(`--color-${kebabCase(key)}`, value)
+      root.style.setProperty(`--color-${kebabCase(key)}`, value as string)
     })
 
     // Apply font CSS variables
@@ -23,18 +23,18 @@ export function useTheme(themeName: string): Theme | null {
 
     // Apply radius CSS variables
     Object.entries(tokens.radius).forEach(([key, value]) => {
-      root.style.setProperty(`--radius-${key}`, value)
+      root.style.setProperty(`--radius-${key}`, value as string)
     })
 
     // Apply spacing CSS variables
     Object.entries(tokens.spacing).forEach(([key, value]) => {
-      root.style.setProperty(`--spacing-${kebabCase(key)}`, value)
+      root.style.setProperty(`--spacing-${kebabCase(key)}`, value as string)
     })
 
     // Load Google Fonts
     const fontLinks: HTMLLinkElement[] = []
     if (tokens.fonts.googleFontsUrls) {
-      tokens.fonts.googleFontsUrls.forEach((url) => {
+      tokens.fonts.googleFontsUrls.forEach((url: string) => {
         const link = document.createElement('link')
         link.rel = 'stylesheet'
         link.href = url

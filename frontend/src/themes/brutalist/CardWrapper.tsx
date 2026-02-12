@@ -1,10 +1,10 @@
-import type { CardWrapperProps } from '@core/types'
+import type { CardWrapperProps, ProjectStatus } from '@core/types'
 
-const statusMap = {
+const statusMap: Record<ProjectStatus, { label: string; bg: string; color: string }> = {
   active: { label: 'LIVE!', bg: '#A8E6CF', color: '#000' },
   wip: { label: 'WIP', bg: '#FFE66D', color: '#000' },
   archived: { label: 'RIP', bg: '#DDD', color: '#666' },
-} as const
+}
 
 // Deterministic color generator from string
 const COLORS = [

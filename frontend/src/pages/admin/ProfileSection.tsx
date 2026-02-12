@@ -37,7 +37,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
     .map(([key, url]) => ({
       id: key,
       label: key.charAt(0).toUpperCase() + key.slice(1),
-      url: url || '',
+      url: (url as string) || '',
     }))
 
   const updateProfileField = (field: keyof Profile, value: any) => {

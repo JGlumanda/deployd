@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { Project, Settings } from '@core/types'
+import type { Project, Settings, ProjectStatus } from '@core/types'
 import ProjectEditor from './ProjectEditor'
 import GitHubImport from './GitHubImport'
 
@@ -11,7 +11,7 @@ interface ProjectsSectionProps {
 
 type View = 'list' | 'editor' | 'import'
 
-const STATUS_COLORS = {
+const STATUS_COLORS: Record<ProjectStatus, string> = {
   active: '#7BAE7F',
   wip: '#C4A35A',
   archived: '#A0ADB8',

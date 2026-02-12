@@ -3,7 +3,7 @@ import type { HeroLayoutProps } from '@core/types'
 export function DefaultHeroLayout({ profile }: HeroLayoutProps) {
   const initials = profile.name
     .split(' ')
-    .map((n) => n[0])
+    .map((n: string) => n[0])
     .join('')
     .toUpperCase()
     .slice(0, 2)
@@ -114,7 +114,7 @@ export function DefaultHeroLayout({ profile }: HeroLayoutProps) {
           }}
         >
           {Object.entries(profile.links).map(([key, url]) => {
-            if (!url) return null
+            if (!url || typeof url !== 'string') return null
 
             const labels: Record<string, string> = {
               github: 'GitHub',

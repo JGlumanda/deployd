@@ -1,10 +1,10 @@
-import type { CardWrapperProps } from '@core/types'
+import type { CardWrapperProps, ProjectStatus } from '@core/types'
 
-const statusMap = {
+const statusMap: Record<ProjectStatus, { label: string; color: string }> = {
   active: { label: 'RUNNING', color: '#39FF14' },
   wip: { label: 'BUILDING', color: '#FFD700' },
   archived: { label: 'STOPPED', color: '#666' },
-} as const
+}
 
 export function CardWrapper({
   project,

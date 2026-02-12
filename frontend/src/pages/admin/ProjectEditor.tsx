@@ -33,8 +33,8 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
   }, [project])
 
   const allTags = [
-    ...settings.tags.predefined.map(t => t.name),
-    ...settings.tags.custom.map(t => t.name),
+    ...settings.tags.predefined.map((t: Tag) => t.name),
+    ...settings.tags.custom.map((t: Tag) => t.name),
   ]
 
   const validate = (): boolean => {
@@ -220,7 +220,7 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                 outline: 'none',
               }}
             >
-              {PROJECT_STATUSES.map(status => (
+              {PROJECT_STATUSES.map((status: ProjectStatus) => (
                 <option key={status} value={status}>
                   {status === 'active' ? 'Active' : status === 'wip' ? 'In Progress' : 'Archived'}
                 </option>

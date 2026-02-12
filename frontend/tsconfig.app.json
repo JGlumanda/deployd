@@ -16,6 +16,13 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Path aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": ["./src/core/*"],
+      "@themes/*": ["./src/themes/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

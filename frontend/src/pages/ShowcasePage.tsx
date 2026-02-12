@@ -184,7 +184,7 @@ export default function ShowcasePage() {
             gap: 'var(--spacing-grid-gap)'
           }}
         >
-          {projectsHook.filtered.map((project, index) => {
+          {projectsHook.filtered.map((project: Project, index: number) => {
             // Calculate staggered animation delay
             const delay = getAnimationDelay(index, animationStyle)
 
@@ -222,7 +222,7 @@ export default function ShowcasePage() {
             gap: '1rem'
           }}
         >
-          {projectsHook.filtered.map((project, index) => {
+          {projectsHook.filtered.map((project: Project, index: number) => {
             const delay = getAnimationDelay(index, animationStyle)
 
             return (
