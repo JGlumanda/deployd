@@ -251,9 +251,9 @@ async function readConfig(): Promise<AppConfig> {
   try {
     const data = await readFile(CONFIG_PATH, 'utf-8');
     return JSON.parse(data);
-  } catch (error: any) {
+  } catch (error: unknown) {
     // If file doesn't exist, create it with default config
-    if (error.code === 'ENOENT') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
       console.log('config.json not found, creating default configuration');
       await saveConfig(DEFAULT_CONFIG);
       return DEFAULT_CONFIG;
@@ -337,11 +337,12 @@ app.get('/api/health', async (req: Request, res: Response) => {
     };
 
     res.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     // URL is not reachable - return graceful failure
+    const isAbortError = error && typeof error === 'object' && 'name' in error && error.name === 'AbortError';
     const result: HealthCheckResult = {
       online: false,
-      error: error.name === 'AbortError' ? 'Timeout' : 'Unreachable'
+      error: isAbortError ? 'Timeout' : 'Unreachable'
     };
     res.json(result);
   }

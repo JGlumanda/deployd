@@ -67,6 +67,21 @@ export interface HealthCheckResult {
   error?: string;
 }
 
+export interface GitHubUserData {
+  login: string;
+  name: string | null;
+  bio: string | null;
+  avatar_url: string;
+  blog: string | null;
+  twitter_username: string | null;
+  email: string | null;
+  location: string | null;
+  html_url: string;
+  public_repos: number;
+  followers: number;
+  following: number;
+}
+
 // Theme Types
 
 export interface ThemeTokens {

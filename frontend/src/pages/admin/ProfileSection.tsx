@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import type { Profile, Settings } from '@core/types'
+import { useState } from 'react'
+import type { Profile, Settings, GitHubUserData } from '@core/types'
 
 interface ProfileSectionProps {
   profile: Profile
@@ -28,7 +28,7 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
   const [githubUsername, setGithubUsername] = useState(settings.githubUsername || '')
   const [githubLoading, setGithubLoading] = useState(false)
   const [githubError, setGithubError] = useState<string | null>(null)
-  const [githubData, setGithubData] = useState<any>(null)
+  const [githubData, setGithubData] = useState<GitHubUserData | null>(null)
   const [githubReadme, setGithubReadme] = useState<string | null>(null)
   const [selectedFields, setSelectedFields] = useState<Set<string>>(new Set())
   const [overwriteMode, setOverwriteMode] = useState(false)
@@ -44,7 +44,7 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
       url: (url as string) || '',
     }))
 
-  const updateProfileField = (field: keyof Profile, value: any) => {
+  const updateProfileField = <K extends keyof Profile>(field: K, value: Profile[K]) => {
     onUpdateProfile({ ...profile, [field]: value })
   }
 
@@ -222,67 +222,69 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
         </p>
 
         {!showGithubImport ? (
-          <div style={{ display: 'flex', gap: 8 }}>
-            <div style={{ flex: 1, position: 'relative' }}>
-              <img
-                src="https://cdn.simpleicons.org/github/A0ADB8"
-                width="14"
-                height="14"
-                alt=""
-                style={{ position: 'absolute', left: 12, top: 11 }}
-              />
-              <input
-                type="text"
-                value={githubUsername}
-                onChange={(e) => setGithubUsername(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && fetchGithubProfile()}
-                placeholder="GitHub Username"
+          <>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <div style={{ flex: 1, position: 'relative' }}>
+                <img
+                  src="https://cdn.simpleicons.org/github/A0ADB8"
+                  width="14"
+                  height="14"
+                  alt=""
+                  style={{ position: 'absolute', left: 12, top: 11 }}
+                />
+                <input
+                  type="text"
+                  value={githubUsername}
+                  onChange={(e) => setGithubUsername(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && fetchGithubProfile()}
+                  placeholder="GitHub Username"
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px 10px 34px',
+                    borderRadius: 8,
+                    border: '1px solid var(--color-border)',
+                    background: 'var(--color-card)',
+                    color: 'var(--color-heading)',
+                    fontSize: 14,
+                    outline: 'none',
+                  }}
+                />
+              </div>
+              <button
+                onClick={fetchGithubProfile}
+                disabled={githubLoading}
                 style={{
-                  width: '100%',
-                  padding: '10px 14px 10px 34px',
+                  padding: '8px 20px',
                   borderRadius: 8,
-                  border: '1px solid var(--color-border)',
-                  background: 'var(--color-card)',
-                  color: 'var(--color-heading)',
-                  fontSize: 14,
-                  outline: 'none',
+                  background: '#24292f',
+                  color: '#ffffff',
+                  border: 'none',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: githubLoading ? 'not-allowed' : 'pointer',
+                  opacity: githubLoading ? 0.7 : 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
                 }}
-              />
+              >
+                <img src="https://cdn.simpleicons.org/github/ffffff" width="14" height="14" alt="" />
+                {githubLoading ? 'Loading...' : 'Load'}
+              </button>
             </div>
-            <button
-              onClick={fetchGithubProfile}
-              disabled={githubLoading}
-              style={{
-                padding: '8px 20px',
-                borderRadius: 8,
-                background: '#24292f',
-                color: '#ffffff',
-                border: 'none',
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: githubLoading ? 'not-allowed' : 'pointer',
-                opacity: githubLoading ? 0.7 : 1,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-              }}
-            >
-              <img src="https://cdn.simpleicons.org/github/ffffff" width="14" height="14" alt="" />
-              {githubLoading ? 'Loading...' : 'Load'}
-            </button>
-          </div>
 
-          {!githubUsername && settings.githubUsername && (
-            <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
-              💡 Using saved username: <code style={{ background: 'var(--color-bg)', padding: '2px 6px', borderRadius: 4, fontFamily: 'var(--font-mono)' }}>{settings.githubUsername}</code>
-            </p>
-          )}
+            {!githubUsername && settings.githubUsername && (
+              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
+                💡 Using saved username: <code style={{ background: 'var(--color-bg)', padding: '2px 6px', borderRadius: 4, fontFamily: 'var(--font-mono)' }}>{settings.githubUsername}</code>
+              </p>
+            )}
 
-          {!githubUsername && !settings.githubUsername && (
-            <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 8 }}>
-              💡 Tip: Set your GitHub username in Settings to quickly load your profile
-            </p>
-          )}
+            {!githubUsername && !settings.githubUsername && (
+              <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 8 }}>
+                💡 Tip: Set your GitHub username in Settings to quickly load your profile
+              </p>
+            )}
+          </>
         ) : null}
 
         {githubError && (
@@ -351,7 +353,7 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                 { key: 'x', label: 'X / Twitter', value: githubData.twitter_username, current: profile.links.x },
                 { key: 'email', label: 'Email', value: githubData.email, current: profile.links.email },
                 { key: 'github', label: 'GitHub', value: githubData.html_url, current: profile.links.github },
-              ].filter(f => f.value).map((field: any, i) => {
+              ].filter(f => f.value).map((field, i) => {
                 const isMatch = field.value === field.current
                 return (
                   <div
@@ -690,7 +692,7 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 fontFamily: "'IBM Plex Mono', monospace",
-              }}>Eigene Links</p>
+              }}>Custom Links</p>
               <button
                 onClick={addCustomLink}
                 style={{
