@@ -18,6 +18,7 @@ export const brutalist: Theme = {
       heading: '#000',
       accent: '#000',
       accentSoft: '#00000014',
+      error: '#FF6B6B',
       statusActive: '#A8E6CF',
       statusWip: '#FFE66D',
       statusArchived: '#DDD',
@@ -39,6 +40,7 @@ export const brutalist: Theme = {
       cardPadding: '16px 18px 18px',
       gridGap: '20px',
       sectionGap: '48px',
+      section: '28px',
     },
   },
   overrides: {

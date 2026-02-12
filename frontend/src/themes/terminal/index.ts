@@ -18,6 +18,7 @@ export const terminal: Theme = {
       heading: '#39FF14',
       accent: '#39FF14',
       accentSoft: '#39FF1414',
+      error: '#FF4444',
       statusActive: '#39FF14',
       statusWip: '#FFD700',
       statusArchived: '#666',
@@ -39,6 +40,7 @@ export const terminal: Theme = {
       cardPadding: '16px 18px',
       gridGap: '12px',
       sectionGap: '40px',
+      section: '24px',
     },
   },
   overrides: {

@@ -18,6 +18,7 @@ export const editorial: Theme = {
       heading: '#1A1A1A',
       accent: '#1A1A1A',
       accentSoft: '#1A1A1A14',
+      error: '#C44536',
       statusActive: '#2D6A4F',
       statusWip: '#B8860B',
       statusArchived: '#999',
@@ -39,6 +40,7 @@ export const editorial: Theme = {
       cardPadding: '20px 0',
       gridGap: '0px',
       sectionGap: '48px',
+      section: '32px',
     },
   },
   overrides: {

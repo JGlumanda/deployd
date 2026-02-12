@@ -79,6 +79,7 @@ export interface ThemeTokens {
     heading: string;
     accent: string;
     accentSoft: string;
+    error: string;
     statusActive: string;
     statusWip: string;
     statusArchived: string;
@@ -98,6 +99,7 @@ export interface ThemeTokens {
     cardPadding: string;
     gridGap: string;
     sectionGap: string;
+    section: string;
   };
 }
 

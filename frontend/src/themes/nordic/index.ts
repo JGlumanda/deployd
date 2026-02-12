@@ -16,6 +16,7 @@ export const nordic: Theme = {
       heading: '#2C3E50',
       accent: '#6B8FA3',
       accentSoft: '#6B8FA314',
+      error: '#D4A0A0',
       statusActive: '#7BAE7F',
       statusWip: '#C4A35A',
       statusArchived: '#A0ADB8',
@@ -37,6 +38,7 @@ export const nordic: Theme = {
       cardPadding: '24px',
       gridGap: '18px',
       sectionGap: '56px',
+      section: '32px',
     },
   },
   effects: {
