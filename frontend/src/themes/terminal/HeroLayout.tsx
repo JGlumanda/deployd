@@ -1,4 +1,5 @@
 import type { HeroLayoutProps } from '@core/types'
+import { MarkdownBio } from '@core/components/MarkdownBio'
 
 export function HeroLayout({ profile, children }: HeroLayoutProps) {
   return (
@@ -34,12 +35,30 @@ export function HeroLayout({ profile, children }: HeroLayoutProps) {
           fontSize: 14,
           color: '#2D7A2D',
           lineHeight: 1.6,
-          maxWidth: 560,
+          maxWidth: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
-        $ whoami
-        <br />
-        <span style={{ color: '#4A8C4A' }}>{profile.bio || profile.tagline}</span>
+        <div style={{ maxWidth: 800, width: '100%' }}>
+          <div>
+            $ whoami
+            <br />
+          </div>
+          {profile.bio ? (
+            <MarkdownBio
+              content={profile.bio}
+              style={{
+                color: '#4A8C4A',
+                fontSize: 14,
+                textAlign: 'left',
+              }}
+            />
+          ) : (
+            <span style={{ color: '#4A8C4A' }}>{profile.tagline}</span>
+          )}
+        </div>
       </div>
       {children}
     </header>

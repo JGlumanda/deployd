@@ -1,4 +1,5 @@
 import type { HeroLayoutProps } from '@core/types'
+import { MarkdownBio } from '@core/components/MarkdownBio'
 
 export function DefaultHeroLayout({ profile }: HeroLayoutProps) {
   const initials = profile.name
@@ -88,18 +89,15 @@ export function DefaultHeroLayout({ profile }: HeroLayoutProps) {
 
       {/* Bio */}
       {profile.bio && (
-        <p
+        <MarkdownBio
+          content={profile.bio}
           style={{
             margin: 0,
             fontSize: '1rem',
-            fontFamily: 'var(--font-body)',
-            color: 'var(--color-text)',
             maxWidth: '700px',
-            lineHeight: 1.6
+            textAlign: 'left',
           }}
-        >
-          {profile.bio}
-        </p>
+        />
       )}
 
       {/* Social Links */}

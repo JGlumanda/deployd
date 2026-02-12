@@ -1,4 +1,5 @@
 import type { HeroLayoutProps } from '@core/types'
+import { MarkdownBio } from '@core/components/MarkdownBio'
 
 export function HeroLayout({ profile, children }: HeroLayoutProps) {
   return (
@@ -10,19 +11,6 @@ export function HeroLayout({ profile, children }: HeroLayoutProps) {
         borderBottom: '2px solid #1A1A1A',
       }}
     >
-      <div
-        style={{
-          fontSize: 9,
-          fontWeight: 600,
-          letterSpacing: '0.25em',
-          textTransform: 'uppercase',
-          color: '#999',
-          fontFamily: 'var(--font-body)',
-          marginBottom: 12,
-        }}
-      >
-        Portfolio & Werkschau
-      </div>
       <h1
         style={{
           fontSize: 52,
@@ -44,17 +32,34 @@ export function HeroLayout({ profile, children }: HeroLayoutProps) {
           margin: '0 auto 12px',
         }}
       />
-      <p
-        style={{
-          fontSize: 15,
-          color: '#888',
-          fontFamily: "'Cormorant Garamond', serif",
-          fontStyle: 'italic',
-          fontWeight: 500,
-        }}
-      >
-        {profile.tagline}
-      </p>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        {profile.bio ? (
+          <MarkdownBio
+            content={profile.bio}
+            style={{
+              fontSize: 15,
+              color: '#888',
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: 'italic',
+              fontWeight: 500,
+              textAlign: 'left',
+              maxWidth: 800,
+            }}
+          />
+        ) : (
+          <p
+            style={{
+              fontSize: 15,
+              color: '#888',
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: 'italic',
+              fontWeight: 500,
+            }}
+          >
+            {profile.tagline}
+          </p>
+        )}
+      </div>
       {children}
     </header>
   )

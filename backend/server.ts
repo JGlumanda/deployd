@@ -286,6 +286,47 @@ app.get('/api/github/socials/:username', async (req: Request, res: Response) => 
   }
 });
 
+// GET /api/github/readme/:username - Get README from profile repository
+app.get('/api/github/readme/:username', async (req: Request, res: Response) => {
+  const { username } = req.params;
+
+  try {
+    const headers: HeadersInit = {
+      'Accept': 'application/vnd.github.v3.raw',
+      'User-Agent': 'Project-Showcase',
+    };
+
+    if (GITHUB_TOKEN) {
+      headers['Authorization'] = `token ${GITHUB_TOKEN}`;
+    }
+
+    // Try to fetch README.md from the profile repository (repo name same as username)
+    const response = await fetch(
+      `https://api.github.com/repos/${username}/${username}/readme`,
+      { headers }
+    );
+
+    if (!response.ok) {
+      // If 404, the profile repo doesn't exist or has no README
+      if (response.status === 404) {
+        return res.status(404).json({
+          error: 'Profile README not found'
+        });
+      }
+
+      return res.status(response.status).json({
+        error: `GitHub API error: ${response.statusText}`
+      });
+    }
+
+    // Return the raw markdown content
+    const markdown = await response.text();
+    res.json({ content: markdown });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch GitHub README' });
+  }
+});
+
 // Static file serving for production (frontend/dist/)
 const DIST_PATH = join(__dirname, '..', 'frontend', 'dist');
 app.use(express.static(DIST_PATH));

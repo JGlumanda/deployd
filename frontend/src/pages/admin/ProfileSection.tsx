@@ -28,6 +28,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
   const [githubLoading, setGithubLoading] = useState(false)
   const [githubError, setGithubError] = useState<string | null>(null)
   const [githubData, setGithubData] = useState<any>(null)
+  const [githubReadme, setGithubReadme] = useState<string | null>(null)
   const [selectedFields, setSelectedFields] = useState<Set<string>>(new Set())
   const [overwriteMode, setOverwriteMode] = useState(false)
 
@@ -76,6 +77,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
 
     setGithubLoading(true)
     setGithubError(null)
+    setGithubReadme(null)
 
     try {
       const response = await fetch(`/api/github/user/${githubUsername}`)
@@ -85,6 +87,17 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
 
       const data = await response.json()
       setGithubData(data)
+
+      // Try to fetch profile README (repo with same name as username)
+      try {
+        const readmeResponse = await fetch(`/api/github/readme/${githubUsername}`)
+        if (readmeResponse.ok) {
+          const readmeData = await readmeResponse.json()
+          setGithubReadme(readmeData.content)
+        }
+      } catch {
+        // Ignore README fetch errors - it's optional
+      }
 
       // Auto-select fields that are different or empty
       const autoSelect = new Set<string>()
@@ -114,7 +127,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
     if (overwriteMode) {
       // Set all fields - either to GitHub value or empty
       updates.name = selectedFields.has('name') && githubData.name ? githubData.name : ''
-      updates.bio = selectedFields.has('bio') && githubData.bio ? githubData.bio : ''
+      updates.bio = selectedFields.has('readme') && githubReadme ? githubReadme : selectedFields.has('bio') && githubData.bio ? githubData.bio : ''
       updates.avatar = selectedFields.has('avatar') && githubData.avatar_url ? githubData.avatar_url : null
       updates.tagline = profile.tagline // Keep tagline (not from GitHub)
 
@@ -130,7 +143,9 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
       if (selectedFields.has('name') && githubData.name) {
         updates.name = githubData.name
       }
-      if (selectedFields.has('bio') && githubData.bio) {
+      if (selectedFields.has('readme') && githubReadme) {
+        updates.bio = githubReadme
+      } else if (selectedFields.has('bio') && githubData.bio) {
         updates.bio = githubData.bio
       }
       if (selectedFields.has('avatar') && githubData.avatar_url) {
@@ -161,6 +176,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
 
     setShowGithubImport(false)
     setGithubData(null)
+    setGithubReadme(null)
     setSelectedFields(new Set())
   }
 
@@ -195,7 +211,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
           </span>
         </div>
         <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 14 }}>
-          Name, Bio, Avatar und Links automatisch übernehmen.
+          Name, Bio, Avatar und Links automatisch übernehmen. Wenn du ein Repository mit dem Namen deines Usernames hast, wird auch die README.md als Bio importiert (mit Markdown-Formatierung).
         </p>
 
         {!showGithubImport ? (
@@ -305,13 +321,14 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               {[
                 { key: 'name', label: 'Name', value: githubData.name, current: profile.name },
+                ...(githubReadme ? [{ key: 'readme', label: 'Profile README', value: githubReadme, current: profile.bio, isMarkdown: true }] : []),
                 { key: 'bio', label: 'Bio', value: githubData.bio, current: profile.bio },
                 { key: 'avatar', label: 'Avatar', value: githubData.avatar_url, current: profile.avatar },
                 { key: 'website', label: 'Website', value: githubData.blog, current: profile.links.website },
                 { key: 'x', label: 'X / Twitter', value: githubData.twitter_username, current: profile.links.x },
                 { key: 'email', label: 'Email', value: githubData.email, current: profile.links.email },
                 { key: 'github', label: 'GitHub', value: githubData.html_url, current: profile.links.github },
-              ].filter(f => f.value).map((field, i) => {
+              ].filter(f => f.value).map((field: any, i) => {
                 const isMatch = field.value === field.current
                 return (
                   <div
@@ -344,6 +361,19 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                     />
                     <span style={{ fontWeight: 600, color: 'var(--color-heading)', fontSize: 11 }}>
                       {field.label}
+                      {field.isMarkdown && (
+                        <span style={{
+                          marginLeft: 6,
+                          fontSize: 9,
+                          fontWeight: 600,
+                          color: '#6B8FA3',
+                          background: '#6B8FA314',
+                          padding: '2px 6px',
+                          borderRadius: 3,
+                        }}>
+                          Markdown
+                        </span>
+                      )}
                     </span>
                     <span style={{
                       color: isMatch ? '#7BAE7F' : '#6B7B8D',
@@ -353,7 +383,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                       fontFamily: "'IBM Plex Mono', monospace",
                       fontSize: 10,
                     }}>
-                      {isMatch ? '✓ identisch' : field.value}
+                      {isMatch ? '✓ identisch' : (field.isMarkdown ? `${field.value.slice(0, 50)}...` : field.value)}
                     </span>
                   </div>
                 )
@@ -410,6 +440,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                 onClick={() => {
                   setShowGithubImport(false)
                   setGithubData(null)
+                  setGithubReadme(null)
                 }}
                 style={{
                   padding: '8px 20px',
@@ -492,11 +523,24 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
-          }}>Bio</label>
+          }}>
+            Bio
+            <span style={{
+              marginLeft: 8,
+              fontSize: 10,
+              fontWeight: 500,
+              color: '#6B8FA3',
+              letterSpacing: 'normal',
+              textTransform: 'none',
+            }}>
+              (Markdown wird unterstützt)
+            </span>
+          </label>
           <textarea
             value={profile.bio}
             onChange={(e) => updateProfileField('bio', e.target.value)}
-            rows={3}
+            rows={5}
+            placeholder="Du kannst Markdown verwenden: **fett**, *kursiv*, [Link](url), etc."
             style={{
               width: '100%',
               padding: '10px 14px',
@@ -507,6 +551,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               fontSize: 14,
               outline: 'none',
               resize: 'vertical',
+              fontFamily: "'IBM Plex Mono', monospace",
             }}
           />
         </div>
