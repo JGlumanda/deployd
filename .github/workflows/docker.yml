@@ -3,6 +3,8 @@ name: Docker Build
 on:
   push:
     tags: ["v*"]
+  release:
+    types: [published]
 
 jobs:
   build-and-push:
