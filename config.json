@@ -1,10 +1,13 @@
 {
   "profile": {
-    "name": "",
+    "name": "Jonas Berger",
     "tagline": "",
     "bio": "",
-    "avatar": null,
-    "links": {}
+    "avatar": "https://avatars.githubusercontent.com/u/94634381?v=4",
+    "links": {
+      "x": "https://x.com/JGlumanda",
+      "github": "https://github.com/JGlumanda"
+    }
   },
   "projects": [
     {
@@ -15,7 +18,7 @@
         "TypeScript"
       ],
       "status": "active",
-      "featured": false,
+      "featured": true,
       "links": {
         "github": "https://github.com/JGlumanda/deployd"
       },
