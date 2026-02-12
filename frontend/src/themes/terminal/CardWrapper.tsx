@@ -1,4 +1,6 @@
 import type { CardWrapperProps, ProjectStatus } from '@core/types'
+import { getProjectImageStyle } from '@core/utils/projectImage'
+import { getTheme } from '@themes/registry'
 
 const statusMap: Record<ProjectStatus, { label: string; color: string }> = {
   active: { label: 'RUNNING', color: '#39FF14' },
@@ -18,6 +20,8 @@ export function CardWrapper({
   const status = statusMap[project.status] || statusMap.active
   const tags = project.tags.slice(0, MAX_TAGS)
   const extra = Math.max(0, project.tags.length - MAX_TAGS)
+  const theme = getTheme('terminal') || null
+  const imageStyle = getProjectImageStyle(theme, project.title)
 
   return (
     <div
@@ -31,15 +35,57 @@ export function CardWrapper({
         width: '100%',
         background: hovered ? '#0D1A0D' : '#0A0A0A',
         border: `1px solid ${hovered ? '#39FF14' : '#1A331A'}`,
-        padding: '16px 18px',
         cursor: 'pointer',
         fontFamily: "'Fira Code', monospace",
         transition: 'all 0.15s',
         boxShadow: hovered
           ? '0 0 20px rgba(57,255,20,0.08), inset 0 0 20px rgba(57,255,20,0.03)'
           : 'none',
+        overflow: 'hidden',
       }}
     >
+      {/* Image/Title area */}
+      {!project.image && (
+        <div
+          style={{
+            width: '100%',
+            height: '140px',
+            background: imageStyle.background,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '12px',
+            border: '1px solid #1A331A',
+          }}
+        >
+          <div
+            style={{
+              fontSize: '1.75rem',
+              fontWeight: 700,
+              color: imageStyle.titleColor,
+              textAlign: 'center',
+              padding: '1rem',
+              textShadow: imageStyle.titleShadow,
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              maxWidth: '90%',
+              lineHeight: 1.15,
+            }}
+          >
+            {project.title}
+          </div>
+        </div>
+      )}
+
+      {/* Content area with padding */}
+      <div
+        style={{
+          padding: '0 16px 16px 16px',
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+        }}
+      >
       {/* Top line with PID and status */}
       <div
         style={{
@@ -163,6 +209,7 @@ export function CardWrapper({
         )}
         {project.links.github && <span>[src]</span>}
         {project.links.docs && <span>[man]</span>}
+      </div>
       </div>
     </div>
   )

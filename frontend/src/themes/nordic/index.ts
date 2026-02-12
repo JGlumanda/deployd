@@ -52,4 +52,9 @@ export const nordic: Theme = {
     animationStyle: 'fade',
     cardShadow: 'soft',
   },
+  projectImageStyle: {
+    background: 'linear-gradient(135deg, #E8DCC8 0%, #C9B8A3 50%, #B8A891 100%)',
+    titleColor: '#3D4F5C',
+    titleShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+  },
 }
