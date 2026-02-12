@@ -9,46 +9,54 @@ export function DefaultModalWrapper({ onClose, children }: ModalWrapperProps) {
     const modalElement = modalRef.current
     if (!modalElement) return
 
-    // Get all focusable elements within modal
-    const getFocusableElements = () => {
-      return modalElement.querySelectorAll<HTMLElement>(
+    // Use setTimeout to avoid blocking the main thread
+    const timeoutId = setTimeout(() => {
+      // Get all focusable elements within modal
+      const focusableElements = modalElement.querySelectorAll<HTMLElement>(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       )
-    }
 
-    // Focus the close button initially
-    const focusableElements = getFocusableElements()
-    if (focusableElements.length > 0) {
-      focusableElements[0].focus()
-    }
+      // Focus the close button initially
+      if (focusableElements.length > 0) {
+        focusableElements[0].focus()
+      }
+    }, 0)
 
     // Handle Tab key to trap focus
     const handleTab = (e: KeyboardEvent) => {
-      const focusable = Array.from(getFocusableElements())
+      if (e.key !== 'Tab') return
+
+      const focusable = Array.from(
+        modalElement.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      )
+
       if (focusable.length === 0) return
 
       const firstElement = focusable[0]
       const lastElement = focusable[focusable.length - 1]
 
-      if (e.key === 'Tab') {
-        if (e.shiftKey) {
-          // Shift + Tab
-          if (document.activeElement === firstElement) {
-            e.preventDefault()
-            lastElement.focus()
-          }
-        } else {
-          // Tab
-          if (document.activeElement === lastElement) {
-            e.preventDefault()
-            firstElement.focus()
-          }
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === firstElement) {
+          e.preventDefault()
+          lastElement.focus()
+        }
+      } else {
+        // Tab
+        if (document.activeElement === lastElement) {
+          e.preventDefault()
+          firstElement.focus()
         }
       }
     }
 
-    modalElement.addEventListener('keydown', handleTab)
-    return () => modalElement.removeEventListener('keydown', handleTab)
+    modalElement.addEventListener('keydown', handleTab, { passive: false })
+    return () => {
+      clearTimeout(timeoutId)
+      modalElement.removeEventListener('keydown', handleTab)
+    }
   }, [])
 
   // Handle Escape key
@@ -88,7 +96,9 @@ export function DefaultModalWrapper({ onClose, children }: ModalWrapperProps) {
         justifyContent: 'center',
         padding: '1rem',
         zIndex: 1000,
-        overflowY: 'auto'
+        overflowY: 'auto',
+        animation: 'modalFadeIn 0.2s ease-out',
+        willChange: 'opacity'
       }}
     >
       <div
@@ -101,7 +111,10 @@ export function DefaultModalWrapper({ onClose, children }: ModalWrapperProps) {
           maxHeight: '90vh',
           overflowY: 'auto',
           position: 'relative',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+          animation: 'modalSlideUp 0.25s ease-out',
+          transform: 'translateZ(0)',
+          willChange: 'transform, opacity'
         }}
       >
         {/* Close button */}

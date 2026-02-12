@@ -363,6 +363,22 @@ export default function ShowcasePage() {
             }
           }
 
+          @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+
+          @keyframes modalSlideUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px) translateZ(0);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0) translateZ(0);
+            }
+          }
+
           @media (max-width: 768px) {
             [style*="gridTemplateColumns"] {
               grid-template-columns: 1fr !important;

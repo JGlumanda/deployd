@@ -316,8 +316,113 @@ export default function AdminPage() {
         /* Mobile responsive */
         @media (max-width: 767px) {
           .admin-layout { flex-direction: column; }
-          .admin-sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid #E2DDD5; }
-          .admin-main { padding: 20px 16px !important; }
+          .admin-sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid var(--color-border); }
+          .admin-main { padding: 20px 16px !important; max-width: 100% !important; }
+
+          /* Responsive heading sizes */
+          main h1 { font-size: 20px !important; }
+          main h2 { font-size: 18px !important; }
+          main h3 { font-size: 16px !important; }
+
+          /* Header sections with buttons - wrap on mobile */
+          main > div > div[style*="display: flex"][style*="justifyContent: space-between"] {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+          }
+
+          /* Button groups - full width on mobile */
+          main > div > div[style*="display: flex"][style*="justifyContent: space-between"] > div {
+            width: 100% !important;
+          }
+
+          main > div > div[style*="display: flex"][style*="justifyContent: space-between"] > div button {
+            flex: 1 !important;
+          }
+
+          /* Responsive forms - full width inputs */
+          main input[type="text"],
+          main input[type="email"],
+          main input[type="url"],
+          main input[type="number"],
+          main input[type="password"],
+          main textarea,
+          main select {
+            width: 100% !important;
+            max-width: 100% !important;
+            font-size: 16px !important; /* Prevents zoom on iOS */
+          }
+
+          /* Project list items - stack elements on mobile */
+          main > div > div > div[style*="display: flex"][style*="alignItems: center"][style*="gap: 16px"] {
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+            padding: 12px 14px !important;
+            position: relative !important;
+          }
+
+          /* Date field in project list - move to new line */
+          main > div > div > div[style*="display: flex"][style*="alignItems: center"] > span[style*="fontFamily"][style*="Mono"] {
+            order: 3 !important;
+            width: 100% !important;
+            margin-top: 4px !important;
+          }
+
+          /* Delete button in project list */
+          main > div > div > div[style*="display: flex"][style*="alignItems: center"] > button:last-child {
+            position: absolute !important;
+            top: 8px !important;
+            right: 8px !important;
+          }
+
+          /* Theme cards grid - single column on mobile */
+          main > div > div[style*="grid"] {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+
+          /* Theme cards - reduce padding */
+          main > div > div[style*="grid"] > button {
+            padding: 16px !important;
+          }
+
+          /* GitHub import - responsive table */
+          main table {
+            display: block !important;
+            overflow-x: auto !important;
+            font-size: 12px !important;
+          }
+
+          /* Reduce general padding on mobile */
+          main > div[style*="padding: 20px"],
+          main > div[style*="padding: 24px"],
+          main > div[style*="padding: 28px"] {
+            padding: 16px !important;
+          }
+
+          main > div[style*="padding: 48px"] {
+            padding: 24px !important;
+          }
+
+          /* Checkbox/Radio groups - better spacing */
+          main div[style*="display: flex"][style*="flexDirection: column"] {
+            gap: 12px !important;
+          }
+
+          /* Empty states - reduce padding */
+          main > div > div[style*="textAlign: center"] {
+            padding: 32px 16px !important;
+          }
+        }
+
+        /* Tablet responsive */
+        @media (min-width: 768px) and (max-width: 1024px) {
+          .admin-main { padding: 24px 20px !important; }
+
+          /* Theme cards - 2 columns on tablet */
+          main > div > div[style*="grid"][style*="gridTemplateColumns"] {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
         }
       `}</style>
 

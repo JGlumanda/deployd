@@ -35,6 +35,8 @@ export function ModalWrapper({ project, onClose }: ModalWrapperProps) {
         justifyContent: 'center',
         padding: 24,
         fontFamily: "'Fira Code', monospace",
+        animation: 'modalFadeIn 0.2s ease-out',
+        willChange: 'opacity'
       }}
     >
       <div
@@ -47,6 +49,9 @@ export function ModalWrapper({ project, onClose }: ModalWrapperProps) {
           maxHeight: '80vh',
           overflow: 'auto',
           boxShadow: '0 0 40px rgba(57,255,20,0.1)',
+          animation: 'modalSlideUp 0.25s ease-out',
+          transform: 'translateZ(0)',
+          willChange: 'transform, opacity'
         }}
       >
         {/* Title bar */}

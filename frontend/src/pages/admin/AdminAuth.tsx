@@ -78,12 +78,20 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
       <div style={{
         width: '100%',
         maxWidth: 380,
-        padding: 40,
+        padding: '40px',
         background: 'var(--color-card)',
         border: '1px solid var(--color-border)',
         borderRadius: 'var(--radius-lg)',
         boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
       }}>
+        <style>{`
+          @media (max-width: 480px) {
+            div[style*="maxWidth: 380"] {
+              padding: 24px !important;
+              margin: 0 16px !important;
+            }
+          }
+        `}</style>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <h1 style={{
             fontSize: 24,
