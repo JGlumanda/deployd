@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎨 Project Showcase
+# 🎨 deployd
 
 **A beautiful, self-hostable portfolio platform with 4 stunning themes**
 
@@ -9,7 +9,7 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
-[![Docker Image](https://img.shields.io/badge/ghcr.io-latest-2496ED?logo=docker&logoColor=white)](https://github.com/jglumanda/deployd/pkgs/container/project-showcase)
+[![Docker Image](https://img.shields.io/badge/ghcr.io-latest-2496ED?logo=docker&logoColor=white)](https://github.com/jglumanda/deployd/pkgs/container/deployd)
 
 [Demo](#-themes) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
 
@@ -145,19 +145,19 @@ Perfect for: Artists, designers, creative studios
 <summary><b>Click to see all 4 themes in action</b></summary>
 
 ### Nordic Theme
-![Nordic Theme Preview](https://via.placeholder.com/800x500/F5F1EB/6B8FA3?text=Nordic+Theme)
+![Nordic Theme Preview](screenshots/nordic-theme.png)
 
 ### Terminal Theme
-![Terminal Theme Preview](https://via.placeholder.com/800x500/050505/39FF14?text=Terminal+Theme)
+![Terminal Theme Preview](screenshots/terminal-theme.png)
 
 ### Editorial Theme
-![Editorial Theme Preview](https://via.placeholder.com/800x500/F5F0E8/1A1A1A?text=Editorial+Theme)
+![Editorial Theme Preview](screenshots/editorial-theme.png)
 
 ### Brutalist Theme
-![Brutalist Theme Preview](https://via.placeholder.com/800x500/F0EBE3/000000?text=Brutalist+Theme)
+![Brutalist Theme Preview](screenshots/brutalist-theme.png)
 
 ### Admin Panel
-![Admin Panel Preview](https://via.placeholder.com/800x500/FFFFFF/2C3E50?text=Admin+Panel)
+![Admin Panel Preview](screenshots/admin-panel.png)
 
 </details>
 
@@ -507,7 +507,7 @@ docker run -d \
   -e ADMIN_PASSWORD=your-password \
   -e GITHUB_TOKEN=your-token \
   -v $(pwd)/config.json:/app/config.json \
-  --name project-showcase \
+  --name deployd \
   ghcr.io/jglumanda/deployd:latest
 ```
 
@@ -515,7 +515,7 @@ docker run -d \
 
 ```bash
 # Build the image locally
-docker build -t project-showcase .
+docker build -t deployd .
 
 # Run the container
 docker run -d \
@@ -523,8 +523,8 @@ docker run -d \
   -e ADMIN_PASSWORD=your-password \
   -e GITHUB_TOKEN=your-token \
   -v $(pwd)/config.json:/app/config.json \
-  --name project-showcase \
-  project-showcase
+  --name deployd \
+  deployd
 ```
 
 #### Docker Compose
@@ -683,7 +683,7 @@ furnished to do so, subject to the following conditions:
 
 <div align="center">
 
-**[⬆ back to top](#-project-showcase)**
+**[⬆ back to top](#-deployd)**
 
 Made with ❤️ by [Jonas Berger](https://github.com/jglumanda)
 

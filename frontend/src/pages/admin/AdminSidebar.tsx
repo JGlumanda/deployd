@@ -50,7 +50,7 @@ export default function AdminSidebar({
             fontSize: 11,
             color: 'var(--color-text-muted)',
             fontFamily: 'var(--font-mono)',
-          }}>Project Showcase</p>
+          }}>deployd</p>
         </div>
 
         <nav>

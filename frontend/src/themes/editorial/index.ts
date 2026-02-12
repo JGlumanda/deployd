@@ -58,4 +58,9 @@ export const editorial: Theme = {
     animationStyle: 'fade',
     cardShadow: 'none',
   },
+  projectImageStyle: {
+    background: 'linear-gradient(135deg, #F5F0E8 0%, #E8DFD3 50%, #D4C8B8 100%)',
+    titleColor: '#2C2C2C',
+    titleShadow: '0 1px 2px rgba(0, 0, 0, 0.08)',
+  },
 }

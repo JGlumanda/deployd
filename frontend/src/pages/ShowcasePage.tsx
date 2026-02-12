@@ -254,6 +254,7 @@ export default function ShowcasePage() {
                     maxVisibleTags={config.settings.maxVisibleTags}
                     titleMaxLines={config.settings.cardTitleMaxLines}
                     descriptionMaxChars={config.settings.cardDescriptionMaxChars}
+                    theme={theme}
                   />
                 </CardWrapper>
               </div>
@@ -311,7 +312,7 @@ export default function ShowcasePage() {
           color: 'var(--color-text-muted)'
         }}
       >
-        Built with Project Showcase
+        Built with deployd
       </p>
     </footer>
   )
