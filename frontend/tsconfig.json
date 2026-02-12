@@ -1,8 +1,6 @@
 {
-  "compilerOptions": {
-    "paths": {
-      "@core/*": ["./src/core/*"],
-      "@themes/*": ["./src/themes/*"]
-    }
-  }
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" }
+  ]
 }
