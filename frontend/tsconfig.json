@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@core/*": ["./src/core/*"],
+      "@themes/*": ["./src/themes/*"]
+    }
+  }
+}
