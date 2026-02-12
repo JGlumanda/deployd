@@ -7,7 +7,7 @@ const statusMap: Record<ProjectStatus, { label: string; color: string }> = {
   archived: { label: 'STOPPED', color: '#666' },
 }
 
-export function ModalWrapper({ project, onClose, children }: ModalWrapperProps) {
+export function ModalWrapper({ project, onClose }: ModalWrapperProps) {
   const status = statusMap[project.status] || statusMap.active
 
   useEffect(() => {

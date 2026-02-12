@@ -1,6 +1,6 @@
 import type { PageLayoutProps } from '@core/types'
 
-export function PageLayout({ hero, toolbar, tagFilter, grid, footer }: PageLayoutProps) {
+export function PageLayout({ hero, toolbar, tagFilter, grid }: PageLayoutProps) {
   return (
     <div
       style={{
