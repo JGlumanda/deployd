@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useConfig } from '@core/hooks/useConfig'
+import { useTheme } from '@core/hooks/useTheme'
 import type { AppConfig } from '@core/types'
 import AdminAuth from './admin/AdminAuth'
 import AdminSidebar from './admin/AdminSidebar'
@@ -18,6 +19,9 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [hasChanges, setHasChanges] = useState(false)
+
+  // Apply theme to admin panel
+  useTheme(draftConfig?.theme.active || 'nordic')
 
   // Initialize draft config when config loads
   useEffect(() => {
@@ -156,13 +160,12 @@ export default function AdminPage() {
     <div style={{
       display: 'flex',
       minHeight: '100vh',
-      background: '#F5F1EB',
-      fontFamily: "'Karla', sans-serif",
+      background: 'var(--color-bg)',
+      fontFamily: 'var(--font-body)',
     }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        input, textarea, select, button { font-family: 'Karla', sans-serif; }
+        input, textarea, select, button { font-family: var(--font-body); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
 

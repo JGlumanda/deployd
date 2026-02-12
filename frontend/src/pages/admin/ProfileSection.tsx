@@ -37,7 +37,8 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
     .filter(([key]) => !standardKeys.has(key))
     .map(([key, url]) => ({
       id: key,
-      label: key.charAt(0).toUpperCase() + key.slice(1),
+      // Empty label for new links (starting with __new_), otherwise capitalize the key
+      label: key.startsWith('__new_') ? '' : key.charAt(0).toUpperCase() + key.slice(1),
       url: (url as string) || '',
     }))
 
@@ -56,7 +57,8 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
   }
 
   const addCustomLink = () => {
-    const newKey = `custom_${Date.now()}`
+    // Use a temporary unique key that won't show as label
+    const newKey = `__new_${Date.now()}`
     updateLink(newKey, '')
   }
 
