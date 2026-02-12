@@ -27,10 +27,10 @@
 Switch between Nordic, Terminal, Editorial, and Brutalist themes instantly
 
 ### 🔌 **GitHub Integration**
-Import projects and profile data directly from your GitHub account
+Import projects, profile data, and GitHub Profile README directly from your account
 
-### 📊 **Health Monitoring**
-Optional live status checks for all your project URLs
+### 📝 **Markdown & HTML Support**
+Full Markdown rendering with HTML pass-through for badges, images, and custom formatting
 
 </td>
 <td width="50%">
@@ -38,11 +38,11 @@ Optional live status checks for all your project URLs
 ### 🎯 **Admin Panel**
 Full-featured editor with real-time preview
 
+### 📊 **Health Monitoring**
+Optional live status checks for all your project URLs
+
 ### 🚀 **Production Ready**
 Docker deployment, automated builds via GitHub Actions
-
-### ♿ **Fully Accessible**
-WCAG AA compliant, keyboard navigation, ARIA labels
 
 </td>
 </tr>
@@ -101,7 +101,7 @@ npm run dev
 
 ## 🎨 Themes
 
-Switch between 4 professionally designed themes to match your style:
+Switch between 4 professionally designed themes to match your style. **All themes now support full Markdown bio rendering** with HTML, badges, and images!
 
 ### Nordic 🌊
 <sup>Scandinavian-inspired design with pastel colors and serif typography</sup>
@@ -109,6 +109,7 @@ Switch between 4 professionally designed themes to match your style:
 ```
 Warm beiges • Soft shadows • Elegant serifs
 Perfect for: Professional portfolios, design agencies
+Bio: Centered container with left-aligned content
 ```
 
 ### Terminal 💻
@@ -117,14 +118,16 @@ Perfect for: Professional portfolios, design agencies
 ```
 Matrix green • Scanline effects • Monospace everywhere
 Perfect for: Developers, hackers, system admins
+Bio: Centered with "$ whoami" command prefix
 ```
 
 ### Editorial 📰
 <sup>Magazine-style layout with sophisticated typography</sup>
 
 ```
-Two-column grid • Editorial fonts • Clean lines
+Clean header • Editorial fonts • Elegant spacing
 Perfect for: Writers, journalists, content creators
+Bio: Centered with italic serif typography
 ```
 
 ### Brutalist 🎨
@@ -133,9 +136,10 @@ Perfect for: Writers, journalists, content creators
 ```
 Thick borders • Offset shadows • Card rotation
 Perfect for: Artists, designers, creative studios
+Bio: Centered with bold visual style
 ```
 
-> 💡 **Tip:** Every theme is fully customizable through CSS variables and supports dark/light modes automatically.
+> 💡 **Tip:** Every theme is fully customizable through CSS variables. All themes render your Markdown bio exactly as it appears on GitHub, with full support for HTML tags, badges, images, and animated SVGs!
 
 ---
 
@@ -251,7 +255,7 @@ All data is stored in `config.json` at the project root. The file is auto-create
   "profile": {
     "name": "Your Name",
     "tagline": "Full-Stack Developer & Designer",
-    "bio": "Building beautiful web experiences with modern technologies.",
+    "bio": "# About Me\n\nBuilding beautiful web experiences with modern technologies.\n\n## Skills\n- React & TypeScript\n- Node.js & Express\n- Docker & DevOps\n\n**Note**: Bio supports full Markdown with HTML tags!",
     "avatar": "https://avatars.githubusercontent.com/u/your-id",
     "links": {
       "github": "https://github.com/username",
@@ -310,8 +314,8 @@ Access the admin panel at **`/admin`**. You'll be prompted for the password if `
 | Section | Description |
 |---------|-------------|
 | **Projects** | Add, edit, delete projects. Import from GitHub. |
-| **Profile** | Edit profile info. Import from GitHub. |
-| **Themes** | Switch between 4 built-in themes with live preview. |
+| **Profile** | Edit profile info with Markdown support. Import profile data and GitHub Profile README. |
+| **Themes** | Switch between 4 built-in themes, all with full Markdown bio support. |
 | **Settings** | Configure display options, health checks, manage tags. |
 
 #### GitHub Integration
@@ -347,12 +351,22 @@ Projects are auto-filled with:
 
 Fields available:
 - Name
-- Bio
+- Bio (plain text from GitHub profile)
+- **Profile README** (full Markdown with badges, images, and HTML)
 - Avatar
 - GitHub URL
 - Website
 - Twitter/X
 - LinkedIn
+
+**Profile README Support**: Import your GitHub Profile README (from `username/username` repository) as your bio. Supports:
+- Full Markdown syntax (headings, lists, links, code blocks)
+- HTML tags (images, divs, line breaks, etc.)
+- Badges from shields.io and similar services
+- GitHub contribution graphs and animated SVGs
+- Visitor counters and dynamic badges
+
+The bio renders exactly as it appears on your GitHub profile!
 
 </details>
 
@@ -382,6 +396,9 @@ GET /api/github/repos/:username
 
 # Get GitHub social accounts
 GET /api/github/socials/:username
+
+# Get GitHub Profile README (from username/username repository)
+GET /api/github/readme/:username
 ```
 
 #### Authenticated Endpoints
@@ -451,16 +468,35 @@ export const custom: Theme = {
   description: 'Your custom theme description',
   tokens: {
     colors: {
-      bg: '#...',
-      card: '#...',
-      text: '#...',
-      // ... see types.ts for all required colors
+      bg: '#ffffff',
+      bgAlt: '#f5f5f5',
+      card: '#ffffff',
+      cardHover: '#fafafa',
+      border: '#e0e0e0',
+      text: '#333333',
+      textMuted: '#666666',
+      heading: '#1a1a1a',
+      accent: '#0066cc',
+      accentSoft: '#e6f2ff',
+      error: '#dc2626',
+      errorBg: '#fee2e2',
+      statusActive: '#10b981',
+      statusWip: '#f59e0b',
+      statusArchived: '#6b7280',
+      // Input field colors
+      inputBg: '#ffffff',
+      inputText: '#333333',
+      inputBorder: '#d1d5db',
+      inputBorderFocus: '#0066cc',
+      inputPlaceholder: '#9ca3af'
     },
     fonts: {
-      heading: "'Your Font', serif",
-      body: "'Your Font', sans-serif",
+      heading: "'Inter', sans-serif",
+      body: "'Inter', sans-serif",
       mono: "'Fira Code', monospace",
-      googleFontsUrls: ['https://fonts.googleapis.com/...']
+      googleFontsUrls: [
+        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+      ]
     },
     radius: {
       sm: '4px',
@@ -470,13 +506,28 @@ export const custom: Theme = {
     spacing: {
       cardPadding: '24px',
       gridGap: '18px',
-      sectionGap: '56px'
+      sectionGap: '56px',
+      section: '80px'  // NEW: Section vertical spacing
     }
   },
   effects: {
-    scanlines: false,
-    animationStyle: 'fade',
-    cardShadow: 'soft'
+    scanlines: false,          // Terminal-style scanline effect
+    cardRotation: false,       // Card tilt on hover (boolean or degrees)
+    animationStyle: 'fade',    // 'fade' | 'slide' | 'pop' | 'type'
+    cardShadow: 'soft'         // 'none' | 'soft' | 'medium' | 'hard' | 'offset'
+  },
+  // NEW: Custom project image styling
+  projectImageStyle: {
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    titleColor: '#ffffff',
+    titleShadow: '0 2px 4px rgba(0,0,0,0.2)'
+  },
+  // NEW: Override default components
+  overrides: {
+    // CardWrapper: CustomCardWrapper,    // Custom project card
+    // HeroLayout: CustomHeroLayout,      // Custom hero section
+    // PageLayout: CustomPageLayout,      // Custom page layout
+    // ModalWrapper: CustomModalWrapper   // Custom modal
   }
 }
 ```
@@ -596,6 +647,55 @@ server {
     }
 }
 ```
+
+---
+
+## 📝 Markdown Bio Support
+
+Your bio field supports full **GitHub Flavored Markdown** with HTML pass-through, allowing you to create rich, dynamic profiles.
+
+### Supported Features
+
+- ✅ **Markdown Syntax**: Headings, lists, links, code blocks, blockquotes, tables
+- ✅ **HTML Tags**: `<img>`, `<div>`, `<br>`, `<span>`, and more
+- ✅ **Badges**: Shields.io badges, social badges, tech stack badges
+- ✅ **Images**: Static images, animated GIFs, SVG animations
+- ✅ **Embeds**: GitHub contribution graphs, visitor counters
+- ✅ **Formatting**: Bold, italic, strikethrough, inline code
+
+### Example Markdown Bio
+
+```markdown
+# 💫 About Me:
+🎓 Master's student in Computer Science<br>
+💻 Part-time Software Developer<br>
+🌐 Full-Stack Side Projects (just for fun)
+
+## 🌐 Socials:
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/username)
+
+## 💻 Tech Stack:
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+
+---
+
+<img src="https://github-readme-stats.vercel.app/api?username=yourusername" alt="GitHub Stats" />
+```
+
+### How It Renders
+
+- **Headings**: Styled according to the active theme
+- **Badges**: Display inline and wrap naturally
+- **HTML**: Rendered exactly as on GitHub
+- **Layout**: Content is left-aligned (GitHub-style) with centered container
+
+### Best Practices
+
+1. **Import from GitHub**: Use the "Import Profile README" feature to automatically import your existing GitHub profile
+2. **Test Locally**: Preview your bio in different themes before deploying
+3. **Keep It Updated**: Your GitHub README and deployd bio can be kept in sync
+4. **Use Badges Sparingly**: Too many badges can look cluttered - focus on the most important ones
 
 ---
 
