@@ -1,0 +1,149 @@
+{
+  "profile": {
+    "name": "Alex Mueller",
+    "tagline": "Building things that matter",
+    "bio": "Full-Stack Developer & Designer from Stuttgart. I build tools, apps and experiments – mostly with React, Python and a touch of creativity.",
+    "avatar": null,
+    "links": {
+      "github": "https://github.com/alexmueller",
+      "linkedin": "https://linkedin.com/in/alexmueller",
+      "email": "mailto:alex@example.com"
+    }
+  },
+  "projects": [
+    {
+      "id": 1,
+      "title": "DevFlow",
+      "description": "AI-powered code review assistant that analyzes pull requests and provides improvement suggestions.",
+      "tags": ["React", "Python", "AI", "GitHub API"],
+      "status": "active",
+      "featured": true,
+      "links": {
+        "live": "https://devflow.example.com",
+        "github": "https://github.com/alexmueller/devflow",
+        "docs": "https://devflow.example.com/docs"
+      },
+      "image": null,
+      "date": "2025-12"
+    },
+    {
+      "id": 2,
+      "title": "Autonomous Multi-Agent RL Platform",
+      "description": "Platform for multi-agent systems in simulated and real environments with distributed GPU training.",
+      "tags": ["Python", "PyTorch", "CUDA", "ROS2", "Docker", "Kubernetes", "gRPC", "Redis", "PostgreSQL", "React", "TypeScript", "WebSocket"],
+      "status": "wip",
+      "featured": true,
+      "links": {
+        "github": "https://github.com/alexmueller/multi-agent-rl",
+        "docs": "https://github.com/alexmueller/multi-agent-rl/wiki"
+      },
+      "image": null,
+      "date": "2026-02"
+    },
+    {
+      "id": 3,
+      "title": "x",
+      "description": "Minimal URL shortener.",
+      "tags": ["Go"],
+      "status": "active",
+      "featured": false,
+      "links": {
+        "live": "https://x.example.com"
+      },
+      "image": null,
+      "date": "2025-01"
+    },
+    {
+      "id": 4,
+      "title": "Terravox",
+      "description": "Procedural terrain generator with erosion simulation and biome classification.",
+      "tags": ["Rust", "WebGL", "Procedural Gen"],
+      "status": "wip",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/alexmueller/terravox"
+      },
+      "image": null,
+      "date": "2026-01"
+    },
+    {
+      "id": 5,
+      "title": "Notera",
+      "description": "Minimalist Markdown editor with Zettelkasten method. Offline-first and encrypted.",
+      "tags": ["Svelte", "IndexedDB", "Markdown"],
+      "status": "active",
+      "featured": false,
+      "links": {
+        "live": "https://notera.example.com",
+        "github": "https://github.com/alexmueller/notera"
+      },
+      "image": null,
+      "date": "2025-06"
+    },
+    {
+      "id": 6,
+      "title": "Ohne Tags Projekt",
+      "description": "A test project with no tags and no links.",
+      "tags": [],
+      "status": "active",
+      "featured": false,
+      "links": {},
+      "image": null,
+      "date": "2025-08"
+    },
+    {
+      "id": 7,
+      "title": "CLI Dash",
+      "description": "Terminal dashboard for Git stats, CI status and server health.",
+      "tags": ["Go", "CLI", "DevTools"],
+      "status": "active",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/alexmueller/cli-dash",
+        "docs": "https://github.com/alexmueller/cli-dash/blob/main/README.md"
+      },
+      "image": null,
+      "date": "2025-03"
+    },
+    {
+      "id": 8,
+      "title": "PixelForge Pro Ultra Deluxe",
+      "description": "Pixel-art editor with real-time collaboration, layer support, custom brushes and plugin system.",
+      "tags": ["TypeScript", "Canvas API", "WebSocket", "WebRTC", "IndexedDB", "Web Workers", "WASM"],
+      "status": "active",
+      "featured": true,
+      "links": {
+        "live": "https://pixelforge.example.com",
+        "github": "https://github.com/alexmueller/pixelforge",
+        "docs": "https://pixelforge.example.com/docs"
+      },
+      "image": null,
+      "date": "2025-09"
+    }
+  ],
+  "theme": {
+    "active": "nordic"
+  },
+  "settings": {
+    "maxVisibleTags": 4,
+    "cardDescriptionMaxChars": 120,
+    "cardTitleMaxLines": 1,
+    "healthCheck": {
+      "enabled": true,
+      "intervalMinutes": 5
+    },
+    "tags": {
+      "predefined": [
+        { "name": "React", "color": "#61DAFB" },
+        { "name": "Python", "color": "#3776AB" },
+        { "name": "TypeScript", "color": "#3178C6" },
+        { "name": "Go", "color": "#00ADD8" },
+        { "name": "Rust", "color": "#CE422B" }
+      ],
+      "custom": [
+        { "name": "AI" },
+        { "name": "DevTools" }
+      ]
+    }
+  }
+}
