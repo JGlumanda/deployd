@@ -29,6 +29,15 @@ export default function ShowcasePage() {
   // Initialize projects hook
   const projectsHook = useProjects({ projects: config?.projects || [] })
 
+  // Update document title based on profile name
+  useEffect(() => {
+    if (config?.profile.name) {
+      document.title = config.profile.name
+    } else {
+      document.title = 'deployd'
+    }
+  }, [config?.profile.name])
+
   // Lock body scroll when modal is open
   useEffect(() => {
     if (selectedProject) {

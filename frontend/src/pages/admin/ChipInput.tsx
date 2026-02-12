@@ -181,7 +181,7 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
         fontSize: 10,
         color: 'var(--color-text-muted)',
         marginTop: 6,
-      }}>Enter oder Komma zum Hinzufügen, Backspace zum Löschen</p>
+      }}>Enter or comma to add, Backspace to delete</p>
     </div>
   )
 }

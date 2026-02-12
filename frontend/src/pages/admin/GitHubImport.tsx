@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { Project } from '@core/types'
+import type { Project, Settings } from '@core/types'
 
 interface GitHubRepo {
   name: string
@@ -16,12 +16,13 @@ interface GitHubRepo {
 
 interface GitHubImportProps {
   existingProjects: Project[]
+  settings: Settings
   onImport: (projects: Project[]) => void
   onCancel: () => void
 }
 
-export default function GitHubImport({ existingProjects, onImport, onCancel }: GitHubImportProps) {
-  const [username, setUsername] = useState('')
+export default function GitHubImport({ existingProjects, settings, onImport, onCancel }: GitHubImportProps) {
+  const [username, setUsername] = useState(settings.githubUsername || '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [repos, setRepos] = useState<GitHubRepo[]>([])
@@ -29,7 +30,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
 
   const fetchRepos = async () => {
     if (!username.trim()) {
-      setError('Bitte gib einen GitHub-Usernamen ein')
+      setError('Please enter a GitHub username')
       return
     }
 
@@ -53,7 +54,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
           return
         }
 
-        throw new Error(data.error || 'Repos konnten nicht geladen werden. Prüfe den Usernamen.')
+        throw new Error(data.error || 'Could not load repos. Check the username.')
       }
 
       const data = await response.json()
@@ -80,7 +81,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
       })
       setSelected(autoSelected)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Fehler beim Laden der Repos')
+      setError(err instanceof Error ? err.message : 'Error loading repos')
     } finally {
       setLoading(false)
     }
@@ -103,7 +104,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
     const projects: Project[] = selectedRepos.map(repo => ({
       id: Date.now() + Math.random(),
       title: repo.name,
-      description: repo.description || 'Keine Beschreibung vorhanden',
+      description: repo.description || 'No description available',
       tags: [
         ...repo.topics,
         ...(repo.language ? [repo.language] : []),
@@ -137,7 +138,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
           marginBottom: 16,
           padding: 0,
         }}
-      >← Zurück</button>
+      >← Back</button>
 
       <h1 style={{
         fontSize: 24,
@@ -145,72 +146,102 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
         color: 'var(--color-heading)',
         fontFamily: "'Libre Baskerville', serif",
         marginBottom: 8,
-      }}>Import von GitHub</h1>
+      }}>Import from GitHub</h1>
 
       <p style={{
         fontSize: 13,
         color: 'var(--color-text-muted)',
         marginBottom: 24,
-      }}>Lade deine öffentlichen Repos und importiere sie als Projekte.</p>
+      }}>Load your public repos and import them as projects.</p>
 
       {/* Username input */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
-        <div style={{ flex: 1, position: 'relative' }}>
-          <img
-            src="https://cdn.simpleicons.org/github/A0ADB8"
-            width="14"
-            height="14"
-            alt=""
-            style={{ position: 'absolute', left: 12, top: 11 }}
-          />
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && fetchRepos()}
-            placeholder="GitHub Username"
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+          <div style={{ flex: 1, position: 'relative' }}>
+            <img
+              src="https://cdn.simpleicons.org/github/A0ADB8"
+              width="14"
+              height="14"
+              alt=""
+              style={{ position: 'absolute', left: 12, top: 11 }}
+            />
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && fetchRepos()}
+              placeholder="GitHub Username"
+              style={{
+                width: '100%',
+                padding: '10px 14px 10px 34px',
+                borderRadius: 8,
+                border: '1px solid var(--color-border)',
+                background: 'var(--color-card)',
+                color: 'var(--color-heading)',
+                fontSize: 14,
+                outline: 'none',
+              }}
+            />
+          </div>
+          <button
+            onClick={fetchRepos}
+            disabled={loading}
             style={{
-              width: '100%',
-              padding: '10px 14px 10px 34px',
+              padding: '8px 20px',
               borderRadius: 8,
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-heading)',
-              fontSize: 14,
-              outline: 'none',
+              background: '#24292f',
+              color: '#ffffff',
+              border: 'none',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: loading ? 'not-allowed' : 'pointer',
+              opacity: loading ? 0.7 : 1,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
             }}
-          />
+          >
+            {loading ? (
+              <>
+                <span style={{
+                  width: 12,
+                  height: 12,
+                  border: '2px solid #FFF4',
+                  borderTopColor: '#ffffff',
+                  borderRadius: '50%',
+                  animation: 'spin 0.6s linear infinite',
+                  display: 'inline-block',
+                }} />
+                Loading...
+              </>
+            ) : (
+              <>
+                <img src="https://cdn.simpleicons.org/github/ffffff" width="14" height="14" alt="" />
+                Load repos
+              </>
+            )}
+          </button>
         </div>
-        <button
-          onClick={fetchRepos}
-          disabled={loading}
-          style={{
-            padding: '8px 20px',
-            borderRadius: 8,
-            background: 'var(--color-accent)',
-            color: 'var(--color-card)',
-            border: 'none',
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: loading ? 'not-allowed' : 'pointer',
-            opacity: loading ? 0.7 : 1,
-          }}
-        >
-          {loading ? (
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <span style={{
-                width: 12,
-                height: 12,
-                border: '2px solid #FFF4',
-                borderTopColor: 'var(--color-card)',
-                borderRadius: '50%',
-                animation: 'spin 0.6s linear infinite',
-                display: 'inline-block',
-              }} />
-              Laden...
-            </span>
-          ) : 'Repos laden'}
-        </button>
+
+        {/* Hints */}
+        {username && username === settings.githubUsername && (
+          <p style={{
+            fontSize: 12,
+            color: 'var(--color-text-muted)',
+            marginTop: 4,
+          }}>
+            Using saved GitHub username from Settings
+          </p>
+        )}
+        {!username && !settings.githubUsername && (
+          <p style={{
+            fontSize: 12,
+            color: 'var(--color-text-muted)',
+            marginTop: 4,
+          }}>
+            💡 Tip: Set your GitHub username in Settings to pre-fill this field
+          </p>
+        )}
       </div>
 
       {error && (
@@ -239,7 +270,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
               color: 'var(--color-text-muted)',
               fontFamily: "'IBM Plex Mono', monospace",
             }}>
-              {repos.length} Repos gefunden · {selected.size} ausgewählt
+              {repos.length} repos found · {selected.size} selected
             </span>
             {selected.size > 0 && (
               <button
@@ -255,7 +286,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                   cursor: 'pointer',
                 }}
               >
-                {selected.size} Projekt{selected.size !== 1 ? 'e' : ''} importieren
+                Import {selected.size} project{selected.size !== 1 ? 's' : ''}
               </button>
             )}
           </div>
@@ -342,7 +373,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                           padding: '1px 6px',
                           borderRadius: 3,
                           textTransform: 'uppercase',
-                        }}>Bereits importiert</span>
+                        }}>Already imported</span>
                       )}
                     </div>
                     <span style={{
@@ -350,7 +381,7 @@ export default function GitHubImport({ existingProjects, onImport, onCancel }: G
                       color: 'var(--color-text-muted)',
                       display: 'block',
                       marginTop: 2,
-                    }}>{repo.description || 'Keine Beschreibung'}</span>
+                    }}>{repo.description || 'No description'}</span>
                   </div>
 
                   <div style={{ textAlign: 'right', flexShrink: 0 }}>

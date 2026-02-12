@@ -32,7 +32,7 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
   }
 
   const handleDeleteProject = (project: Project) => {
-    if (!confirm(`"${project.title}" wirklich löschen?`)) return
+    if (!confirm(`"${project.title}" really delete?`)) return
     onUpdateProjects(projects.filter(p => p.id !== project.id))
   }
 
@@ -71,6 +71,7 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
     return (
       <GitHubImport
         existingProjects={projects}
+        settings={settings}
         onImport={handleImportProjects}
         onCancel={() => setView('list')}
       />
@@ -92,7 +93,7 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
           fontWeight: 700,
           color: '#2C3E50',
           fontFamily: "'Libre Baskerville', serif",
-        }}>Projekte</h1>
+        }}>Projects</h1>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <button
@@ -112,7 +113,7 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
             }}
           >
             <img src="https://cdn.simpleicons.org/github/6B8FA3" width="14" height="14" alt="" />
-            Import von GitHub
+            Import from GitHub
           </button>
 
           <button
@@ -127,7 +128,7 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
               fontWeight: 600,
               cursor: 'pointer',
             }}
-          >+ Neues Projekt</button>
+          >+ New Project</button>
         </div>
       </div>
 
@@ -143,7 +144,7 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
             fontSize: 14,
             color: '#A0ADB8',
             marginBottom: 16,
-          }}>Noch keine Projekte vorhanden.</p>
+          }}>No projects available yet.</p>
           <button
             onClick={handleAddProject}
             style={{
@@ -156,7 +157,7 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
               fontWeight: 600,
               cursor: 'pointer',
             }}
-          >Erstes Projekt anlegen</button>
+          >Create First Project</button>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

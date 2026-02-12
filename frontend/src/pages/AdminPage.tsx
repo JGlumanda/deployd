@@ -31,6 +31,15 @@ export default function AdminPage() {
     }
   }, [config])
 
+  // Update document title for admin
+  useEffect(() => {
+    if (config?.profile.name) {
+      document.title = `Admin - ${config.profile.name}`
+    } else {
+      document.title = 'Admin - deployd'
+    }
+  }, [config?.profile.name])
+
   // Update draft and mark as changed
   const updateDraft = (updater: (draft: AppConfig) => void) => {
     if (!draftConfig) return
@@ -50,7 +59,7 @@ export default function AdminPage() {
       await save(draftConfig, password)
       setHasChanges(false)
     } catch (err) {
-      setSaveError(err instanceof Error ? err.message : 'Fehler beim Speichern')
+      setSaveError(err instanceof Error ? err.message : 'Error saving')
     } finally {
       setSaving(false)
     }
@@ -58,7 +67,7 @@ export default function AdminPage() {
 
   const handleDiscard = () => {
     if (!config) return
-    if (hasChanges && !confirm('Alle Änderungen verwerfen?')) return
+    if (hasChanges && !confirm('Discard all changes?')) return
     setDraftConfig(structuredClone(config))
     setHasChanges(false)
     setSaveError(null)
@@ -68,14 +77,14 @@ export default function AdminPage() {
     if (!config || !draftConfig) return
 
     const confirmed = confirm(
-      'Möchtest du die Konfiguration wirklich zurücksetzen?\n\n' +
-      'Dies wird löschen:\n' +
-      '• Alle Projekte\n' +
-      '• Profil-Informationen (Name, Bio, Avatar, Links)\n\n' +
-      'Dies bleibt erhalten:\n' +
-      '• Standard-Tags\n' +
-      '• Theme-Einstellungen\n' +
-      '• Weitere Einstellungen'
+      'Do you really want to reset the configuration?\n\n' +
+      'This will delete:\n' +
+      '• All projects\n' +
+      '• Profile information (name, bio, avatar, links)\n\n' +
+      'This will be retained:\n' +
+      '• Standard tags\n' +
+      '• Theme settings\n' +
+      '• Other settings'
     )
 
     if (!confirmed) return
@@ -120,7 +129,7 @@ export default function AdminPage() {
         background: 'var(--color-bg)',
         fontFamily: 'var(--font-body)',
       }}>
-        <p style={{ color: 'var(--color-text-muted)' }}>Laden...</p>
+        <p style={{ color: 'var(--color-text-muted)' }}>Loading...</p>
       </div>
     )
   }
@@ -150,7 +159,7 @@ export default function AdminPage() {
               fontWeight: 600,
               cursor: 'pointer',
             }}
-          >Erneut versuchen</button>
+          >Try Again</button>
         </div>
       </div>
     )
@@ -454,6 +463,7 @@ export default function AdminPage() {
           {activeSection === 'profile' && (
             <ProfileSection
               profile={draftConfig.profile}
+              settings={draftConfig.settings}
               onUpdateProfile={(profile) => updateDraft(d => { d.profile = profile })}
             />
           )}

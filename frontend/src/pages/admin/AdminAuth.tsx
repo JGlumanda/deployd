@@ -19,7 +19,7 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!password.trim()) {
-      setError('Bitte gib ein Passwort ein')
+      setError('Please enter a password')
       return
     }
 
@@ -38,22 +38,22 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
       })
 
       if (response.status === 401) {
-        setError('Falsches Passwort')
+        setError('Incorrect password')
         setValidating(false)
         return
       }
 
       if (response.status === 429) {
-        // Rate limit erreicht
+        // Rate limit reached
         const data = await response.json().catch(() => ({}))
         setIsRateLimited(true)
-        setError(data.message || 'Zu viele fehlgeschlagene Login-Versuche. Bitte warte 15 Minuten.')
+        setError(data.message || 'Too many failed login attempts. Please wait 15 minutes.')
         setValidating(false)
         return
       }
 
       if (!response.ok) {
-        setError('Fehler bei der Authentifizierung')
+        setError('Authentication error')
         setValidating(false)
         return
       }
@@ -61,7 +61,7 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
       // Password is valid, authenticate user
       onAuthenticated(password)
     } catch (err) {
-      setError('Verbindungsfehler zum Server')
+      setError('Server connection error')
       setValidating(false)
     }
   }
@@ -117,7 +117,7 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 8,
-            }}>Passwort</label>
+            }}>Password</label>
             <input
               type="password"
               value={password}
@@ -126,7 +126,7 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
                 setError('')
                 setIsRateLimited(false)
               }}
-              placeholder="Gib dein Admin-Passwort ein"
+              placeholder="Enter your admin password"
               autoFocus
               style={{
                 width: '100%',
@@ -167,7 +167,7 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
                     marginTop: 6,
                     marginBottom: 0,
                   }}>
-                    Nach 5 fehlgeschlagenen Versuchen wird der Login für 15 Minuten gesperrt.
+                    After 5 failed attempts, login will be blocked for 15 minutes.
                   </p>
                 )}
               </div>
@@ -191,7 +191,7 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
               opacity: (validating || isRateLimited) ? 0.6 : 1,
             }}
           >
-            {validating ? 'Prüfe Passwort...' : isRateLimited ? 'Rate Limit erreicht' : 'Anmelden'}
+            {validating ? 'Validating...' : isRateLimited ? 'Rate Limited' : 'Sign In'}
           </button>
         </form>
 
@@ -202,13 +202,13 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
           marginTop: 24,
           lineHeight: 1.5,
         }}>
-          Das Passwort ist die <code style={{
+          The password is the <code style={{
             background: 'var(--color-bg)',
             padding: '2px 6px',
             borderRadius: 'var(--radius-sm)',
             fontFamily: 'var(--font-mono)',
             color: 'var(--color-text)',
-          }}>ADMIN_PASSWORD</code> Environment Variable.
+          }}>ADMIN_PASSWORD</code> environment variable.
         </p>
       </div>
     </div>

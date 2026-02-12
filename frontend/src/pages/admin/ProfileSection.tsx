@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import type { Profile } from '@core/types'
+import { useState, useEffect } from 'react'
+import type { Profile, Settings } from '@core/types'
 
 interface ProfileSectionProps {
   profile: Profile
+  settings: Settings
   onUpdateProfile: (profile: Profile) => void
 }
 
@@ -22,9 +23,9 @@ const STANDARD_SOCIALS = [
   { key: 'website', label: 'Website', icon: null, placeholder: 'https://yoursite.com' },
 ]
 
-export default function ProfileSection({ profile, onUpdateProfile }: ProfileSectionProps) {
+export default function ProfileSection({ profile, settings, onUpdateProfile }: ProfileSectionProps) {
   const [showGithubImport, setShowGithubImport] = useState(false)
-  const [githubUsername, setGithubUsername] = useState('')
+  const [githubUsername, setGithubUsername] = useState(settings.githubUsername || '')
   const [githubLoading, setGithubLoading] = useState(false)
   const [githubError, setGithubError] = useState<string | null>(null)
   const [githubData, setGithubData] = useState<any>(null)
@@ -71,7 +72,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
 
   const fetchGithubProfile = async () => {
     if (!githubUsername.trim()) {
-      setGithubError('Bitte gib einen GitHub-Usernamen ein')
+      setGithubError('Please enter a GitHub username')
       return
     }
 
@@ -82,7 +83,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
     try {
       const response = await fetch(`/api/github/user/${githubUsername}`)
       if (!response.ok) {
-        throw new Error('Profil konnte nicht geladen werden')
+        throw new Error('Could not load profile')
       }
 
       const data = await response.json()
@@ -111,7 +112,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
 
       setSelectedFields(autoSelect)
     } catch (err) {
-      setGithubError(err instanceof Error ? err.message : 'Fehler beim Laden')
+      setGithubError(err instanceof Error ? err.message : 'Error loading')
     } finally {
       setGithubLoading(false)
     }
@@ -129,7 +130,8 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
       updates.name = selectedFields.has('name') && githubData.name ? githubData.name : ''
       updates.bio = selectedFields.has('readme') && githubReadme ? githubReadme : selectedFields.has('bio') && githubData.bio ? githubData.bio : ''
       updates.avatar = selectedFields.has('avatar') && githubData.avatar_url ? githubData.avatar_url : null
-      updates.tagline = profile.tagline // Keep tagline (not from GitHub)
+      updates.tagline = githubData.login || profile.tagline // Use GitHub username as tagline
+      updates.githubUsername = githubData.login // Save GitHub username
 
       // Clear all links, then add selected ones
       linkUpdates.github = selectedFields.has('github') && githubData.html_url ? githubData.html_url : undefined
@@ -150,6 +152,11 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
       }
       if (selectedFields.has('avatar') && githubData.avatar_url) {
         updates.avatar = githubData.avatar_url
+      }
+      // Always update tagline to GitHub username and save it
+      if (githubData.login) {
+        updates.tagline = githubData.login
+        updates.githubUsername = githubData.login
       }
       if (selectedFields.has('website') && githubData.blog) {
         linkUpdates.website = githubData.blog
@@ -188,13 +195,13 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
         color: 'var(--color-heading)',
         fontFamily: "'Libre Baskerville', serif",
         marginBottom: 8,
-      }}>Profil</h1>
+      }}>Profile</h1>
 
       <p style={{
         fontSize: 13,
         color: 'var(--color-text-muted)',
         marginBottom: 24,
-      }}>Deine Informationen und Social Links.</p>
+      }}>Your information and social links.</p>
 
       {/* GitHub Import */}
       <div style={{
@@ -207,11 +214,11 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
           <img src="https://cdn.simpleicons.org/github/2C3E50" width="16" height="16" alt="" />
           <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-heading)' }}>
-            Von GitHub importieren
+            Import from GitHub
           </span>
         </div>
         <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 14 }}>
-          Name, Bio, Avatar und Links automatisch übernehmen. Wenn du ein Repository mit dem Namen deines Usernames hast, wird auch die README.md als Bio importiert (mit Markdown-Formatierung).
+          Automatically import name, bio, avatar and links. If you have a repository with the same name as your username, the README.md will also be imported as bio (with Markdown formatting).
         </p>
 
         {!showGithubImport ? (
@@ -248,18 +255,34 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               style={{
                 padding: '8px 20px',
                 borderRadius: 8,
-                background: 'var(--color-accent)',
-                color: '#FFF',
+                background: '#24292f',
+                color: '#ffffff',
                 border: 'none',
                 fontSize: 13,
                 fontWeight: 600,
                 cursor: githubLoading ? 'not-allowed' : 'pointer',
                 opacity: githubLoading ? 0.7 : 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
               }}
             >
-              {githubLoading ? 'Laden...' : 'Laden'}
+              <img src="https://cdn.simpleicons.org/github/ffffff" width="14" height="14" alt="" />
+              {githubLoading ? 'Loading...' : 'Load'}
             </button>
           </div>
+
+          {!githubUsername && settings.githubUsername && (
+            <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
+              💡 Using saved username: <code style={{ background: 'var(--color-bg)', padding: '2px 6px', borderRadius: 4, fontFamily: 'var(--font-mono)' }}>{settings.githubUsername}</code>
+            </p>
+          )}
+
+          {!githubUsername && !settings.githubUsername && (
+            <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 8 }}>
+              💡 Tip: Set your GitHub username in Settings to quickly load your profile
+            </p>
+          )}
         ) : null}
 
         {githubError && (
@@ -316,7 +339,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 8,
-            }}>Felder übernehmen</div>
+            }}>Apply fields</div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               {[
@@ -383,7 +406,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                       fontFamily: "'IBM Plex Mono', monospace",
                       fontSize: 10,
                     }}>
-                      {isMatch ? '✓ identisch' : (field.isMarkdown ? `${field.value.slice(0, 50)}...` : field.value)}
+                      {isMatch ? '✓ identical' : (field.isMarkdown ? `${field.value.slice(0, 50)}...` : field.value)}
                     </span>
                   </div>
                 )
@@ -411,11 +434,11 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               />
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-heading)' }}>
-                  Vollständig überschreiben
+                  Overwrite completely
                 </div>
                 <div style={{ fontSize: 11, color: '#7B8794', marginTop: 2, lineHeight: 1.3 }}>
-                  Felder, die nicht in GitHub vorhanden sind, werden geleert
-                  {overwriteMode && ' (z.B. Bio, Avatar, Links)'}
+                  Fields not present in GitHub will be cleared
+                  {overwriteMode && ' (e.g. Bio, Avatar, Links)'}
                 </div>
               </div>
             </label>
@@ -435,7 +458,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                   fontWeight: 600,
                   cursor: selectedFields.size > 0 ? 'pointer' : 'not-allowed',
                 }}
-              >Ausgewählte übernehmen</button>
+              >Apply selected</button>
               <button
                 onClick={() => {
                   setShowGithubImport(false)
@@ -452,7 +475,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                   fontWeight: 600,
                   cursor: 'pointer',
                 }}
-              >Abbrechen</button>
+              >Cancel</button>
             </div>
           </div>
         )}
@@ -533,14 +556,14 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
               letterSpacing: 'normal',
               textTransform: 'none',
             }}>
-              (Markdown wird unterstützt)
+              (Markdown supported)
             </span>
           </label>
           <textarea
             value={profile.bio}
             onChange={(e) => updateProfileField('bio', e.target.value)}
             rows={5}
-            placeholder="Du kannst Markdown verwenden: **fett**, *kursiv*, [Link](url), etc."
+            placeholder="You can use Markdown: **bold**, *italic*, [Link](url), etc."
             style={{
               width: '100%',
               padding: '10px 14px',
@@ -595,7 +618,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
             marginBottom: 4,
           }}>Social Links</p>
           <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 16 }}>
-            Standard-Plattformen und eigene Links.
+            Standard platforms and custom links.
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
@@ -680,12 +703,12 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                   fontWeight: 600,
                   cursor: 'pointer',
                 }}
-              >+ Hinzufügen</button>
+              >+ Add</button>
             </div>
 
             {customLinks.length === 0 && (
               <p style={{ fontSize: 12, color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
-                Noch keine eigenen Links hinzugefügt.
+                No custom links added yet.
               </p>
             )}
 
@@ -711,7 +734,7 @@ export default function ProfileSection({ profile, onUpdateProfile }: ProfileSect
                     newLinks[newKey] = link.url
                     onUpdateProfile({ ...profile, links: newLinks })
                   }}
-                  placeholder="Label (z.B. Dribbble)"
+                  placeholder="Label (e.g., Dribbble)"
                   style={{
                     padding: '6px 10px',
                     borderRadius: 8,

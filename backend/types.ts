@@ -12,6 +12,7 @@ export interface Profile {
   tagline: string;
   bio: string;
   avatar?: string | null;
+  githubUsername?: string; // Saved GitHub username for quick import
   links: {
     github?: string;
     linkedin?: string;
@@ -49,6 +50,7 @@ export interface Settings {
   maxVisibleTags: number;
   cardDescriptionMaxChars: number;
   cardTitleMaxLines: number;
+  githubUsername?: string; // Saved GitHub username for quick import
   healthCheck: {
     enabled: boolean;
     intervalMinutes: number;
