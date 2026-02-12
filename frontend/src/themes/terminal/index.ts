@@ -63,4 +63,9 @@ export const terminal: Theme = {
     animationStyle: 'type',
     cardShadow: 'none',
   },
+  projectImageStyle: {
+    background: 'linear-gradient(135deg, #0A0A0A 0%, #0D1A0D 50%, #0A0A0A 100%)',
+    titleColor: '#39FF14',
+    titleShadow: '0 0 10px rgba(57, 255, 20, 0.3), 0 2px 4px rgba(0, 0, 0, 0.8)',
+  },
 }

@@ -54,7 +54,7 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
             fontSize: 11,
             color: 'var(--color-text-muted)',
             fontFamily: 'var(--font-mono)',
-          }}>Project Showcase</p>
+          }}>deployd</p>
         </div>
 
         <form onSubmit={handleSubmit}>

@@ -1,22 +1,26 @@
-import type { Project } from '@core/types'
+import type { Project, Theme } from '@core/types'
 import { StatusBadge } from '@core/components/StatusBadge'
 import { TagList } from '@core/components/TagList'
 import { ProjectLinks } from '@core/components/ProjectLinks'
-import { generateGradient } from '@core/utils/gradient'
+import { getProjectImageStyle } from '@core/utils/projectImage'
 
 interface CardContentProps {
   project: Project
   maxVisibleTags: number
   titleMaxLines: number
   descriptionMaxChars: number
+  theme?: Theme | null
 }
 
 export function CardContent({
   project,
   maxVisibleTags,
   titleMaxLines,
-  descriptionMaxChars
+  descriptionMaxChars,
+  theme = null
 }: CardContentProps) {
+  const imageStyle = getProjectImageStyle(theme, project.title)
+
   const truncatedDescription =
     project.description.length > descriptionMaxChars
       ? project.description.slice(0, descriptionMaxChars) + '...'
@@ -29,12 +33,39 @@ export function CardContent({
         style={{
           width: '100%',
           height: '200px',
-          background: project.image ? `url(${project.image})` : generateGradient(project.title),
+          background: project.image ? `url(${project.image})` : imageStyle.background,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          position: 'relative'
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden'
         }}
       >
+        {/* Project Title Overlay (shown when no image) */}
+        {!project.image && (
+          <div
+            style={{
+              fontSize: '2.5rem',
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 900,
+              color: imageStyle.titleColor,
+              textAlign: 'center',
+              padding: '1.5rem',
+              textShadow: imageStyle.titleShadow,
+              maxWidth: '90%',
+              lineHeight: 1.15,
+              letterSpacing: '-0.02em',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              hyphens: 'none'
+            }}
+          >
+            {project.title}
+          </div>
+        )}
+
         {/* Featured Badge */}
         {project.featured && (
           <div
@@ -53,7 +84,8 @@ export function CardContent({
               borderRadius: 'var(--radius-sm)',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.25rem'
+              gap: '0.25rem',
+              zIndex: 1
             }}
           >
             <span>★</span>

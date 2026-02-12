@@ -123,6 +123,12 @@ export interface ThemeEffects {
   cardShadow?: CardShadowStyle;
 }
 
+export interface ProjectImageStyle {
+  background: string;
+  titleColor: string;
+  titleShadow: string;
+}
+
 export interface ThemeOverrides {
   CardWrapper?: React.ComponentType<CardWrapperProps>;
   HeroLayout?: React.ComponentType<HeroLayoutProps>;
@@ -137,6 +143,7 @@ export interface Theme {
   tokens: ThemeTokens;
   overrides?: ThemeOverrides;
   effects?: ThemeEffects;
+  projectImageStyle?: ProjectImageStyle;
 }
 
 // Component Prop Types
