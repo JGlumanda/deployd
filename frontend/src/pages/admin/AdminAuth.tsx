@@ -10,18 +10,60 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
   const { config } = useConfig()
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [validating, setValidating] = useState(false)
+  const [isRateLimited, setIsRateLimited] = useState(false)
 
   // Apply theme even on auth page
   useTheme(config?.theme.active || 'nordic')
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!password.trim()) {
       setError('Bitte gib ein Passwort ein')
       return
     }
+
     setError('')
-    onAuthenticated(password)
+    setValidating(true)
+
+    try {
+      // Validate password by making a test API call
+      const response = await fetch('/api/config', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${password}`
+        },
+        body: JSON.stringify(config) // Send current config (no changes)
+      })
+
+      if (response.status === 401) {
+        setError('Falsches Passwort')
+        setValidating(false)
+        return
+      }
+
+      if (response.status === 429) {
+        // Rate limit erreicht
+        const data = await response.json().catch(() => ({}))
+        setIsRateLimited(true)
+        setError(data.message || 'Zu viele fehlgeschlagene Login-Versuche. Bitte warte 15 Minuten.')
+        setValidating(false)
+        return
+      }
+
+      if (!response.ok) {
+        setError('Fehler bei der Authentifizierung')
+        setValidating(false)
+        return
+      }
+
+      // Password is valid, authenticate user
+      onAuthenticated(password)
+    } catch (err) {
+      setError('Verbindungsfehler zum Server')
+      setValidating(false)
+    }
   }
 
   return (
@@ -74,6 +116,7 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
               onChange={(e) => {
                 setPassword(e.target.value)
                 setError('')
+                setIsRateLimited(false)
               }}
               placeholder="Gib dein Admin-Passwort ein"
               autoFocus
@@ -90,29 +133,58 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
               }}
             />
             {error && (
-              <p style={{
-                fontSize: 12,
-                color: 'var(--color-error)',
+              <div style={{
                 marginTop: 8,
-              }}>{error}</p>
+                padding: isRateLimited ? '12px' : '8px 0',
+                background: isRateLimited ? 'var(--color-error-bg)' : 'transparent',
+                borderRadius: isRateLimited ? 'var(--radius-md)' : '0',
+                border: isRateLimited ? '1px solid var(--color-error)' : 'none',
+              }}>
+                <p style={{
+                  fontSize: 12,
+                  color: 'var(--color-error)',
+                  fontWeight: isRateLimited ? 600 : 400,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  margin: 0,
+                }}>
+                  {isRateLimited && <span style={{ fontSize: 16 }}>⏱️</span>}
+                  {error}
+                </p>
+                {isRateLimited && (
+                  <p style={{
+                    fontSize: 11,
+                    color: 'var(--color-text-muted)',
+                    marginTop: 6,
+                    marginBottom: 0,
+                  }}>
+                    Nach 5 fehlgeschlagenen Versuchen wird der Login für 15 Minuten gesperrt.
+                  </p>
+                )}
+              </div>
             )}
           </div>
 
           <button
             type="submit"
+            disabled={validating || isRateLimited}
             style={{
               width: '100%',
               padding: '12px 16px',
               borderRadius: 'var(--radius-md)',
-              background: 'var(--color-accent)',
+              background: (validating || isRateLimited) ? 'var(--color-text-muted)' : 'var(--color-accent)',
               color: 'var(--color-card)',
               border: 'none',
               fontSize: 14,
               fontWeight: 600,
-              cursor: 'pointer',
+              cursor: (validating || isRateLimited) ? 'not-allowed' : 'pointer',
               fontFamily: 'var(--font-body)',
+              opacity: (validating || isRateLimited) ? 0.6 : 1,
             }}
-          >Anmelden</button>
+          >
+            {validating ? 'Prüfe Passwort...' : isRateLimited ? 'Rate Limit erreicht' : 'Anmelden'}
+          </button>
         </form>
 
         <p style={{

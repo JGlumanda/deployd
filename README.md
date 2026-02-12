@@ -52,7 +52,7 @@ Docker deployment, automated builds via GitHub Actions
 
 ## 🚀 Quick Start
 
-### Deploy with Docker (30 seconds)
+### 🏠 Local Development (HTTP)
 
 **Using Pre-built Image** (fastest)
 
@@ -72,13 +72,42 @@ docker run -d \
 ```bash
 # Clone the repository
 git clone https://github.com/jglumanda/deployd.git
-cd project-showcase
+cd deployd
 
 # Start with docker-compose
 docker-compose up -d
 
 # Open http://localhost:3000
 ```
+
+### 🌐 Production (HTTPS) - **Recommended**
+
+**Automatic HTTPS with Caddy** (5 minutes)
+
+```bash
+# 1. Clone repository
+git clone https://github.com/jglumanda/deployd.git
+cd deployd
+
+# 2. Configure environment
+cp .env.production.example .env
+nano .env  # Set DOMAIN and ADMIN_PASSWORD
+
+# 3. Start with automatic HTTPS!
+docker-compose -f docker-compose.prod.yml up -d
+
+# ✅ Opens automatically at https://yourdomain.com
+```
+
+**Features:**
+- ✅ Automatic HTTPS (Let's Encrypt)
+- ✅ Auto-renewal of certificates
+- ✅ Rate limiting (5 failed logins / 15 min)
+- ✅ Password hashing (bcrypt)
+- ✅ Security headers
+- ✅ CORS protection
+
+📖 **Full guide:** See [PRODUCTION.md](PRODUCTION.md) for detailed deployment instructions
 
 ### Local Development
 
@@ -164,6 +193,41 @@ Bio: Centered with bold visual style
 ![Admin Panel Preview](screenshots/admin-panel.png)
 
 </details>
+
+---
+
+## 🔐 Security Features
+
+deployd includes production-ready security features out of the box:
+
+### Authentication & Authorization
+
+| Feature | Implementation | Protection |
+|---------|----------------|------------|
+| **Password Hashing** | bcrypt with salt | Passwords never stored in plaintext |
+| **Rate Limiting** | 5 attempts / 15 min | Prevents brute-force attacks |
+| **Bearer Token Auth** | Per-request validation | Secure API access |
+| **Session Management** | Memory-only storage | Cleared on browser close |
+
+### Network Security
+
+| Feature | Status | Details |
+|---------|--------|---------|
+| **HTTPS** | ✅ Production | Automatic with Caddy (Let's Encrypt) |
+| **HTTP** | ⚠️ Dev only | Local development only |
+| **CORS** | ✅ Configurable | Restrict to your domain |
+| **Security Headers** | ✅ Enabled | X-Frame-Options, X-Content-Type-Options, etc. |
+
+### Let's Encrypt Integration
+
+- **Automatic HTTPS**: Caddy handles certificate issuance & renewal
+- **Rate Limit Protection**: Certificates persisted in Docker volume
+- **Staging Environment**: Test without hitting rate limits
+- **Zero Configuration**: Just set your domain name
+
+**Rate Limits:** 50 certificates per domain/week (not an issue with volume persistence)
+
+📖 **Full documentation:** [PRODUCTION.md](PRODUCTION.md)
 
 ---
 

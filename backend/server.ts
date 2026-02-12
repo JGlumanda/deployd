@@ -4,6 +4,8 @@ import type { Request, Response, NextFunction } from 'express';
 import { readFile, writeFile } from 'fs/promises';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import rateLimit from 'express-rate-limit';
+import bcrypt from 'bcrypt';
 import type { AppConfig, HealthCheckResult } from './types.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,17 +15,30 @@ const __dirname = dirname(__filename);
 config({ path: join(__dirname, '..', '.env') });
 
 const app = express();
+
+// Trust proxy - wichtig für korrekte IP-Erkennung hinter Caddy/Nginx
+// Caddy setzt X-Forwarded-For Header mit echter Client-IP
+app.set('trust proxy', true);
+
 const PORT = process.env.PORT || 3000;
 const CONFIG_PATH = join(__dirname, '..', 'config.json');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*'; // For CORS
+
+// Hash admin password on startup (cache it)
+let ADMIN_PASSWORD_HASH = '';
+if (ADMIN_PASSWORD) {
+  ADMIN_PASSWORD_HASH = await bcrypt.hash(ADMIN_PASSWORD, 10);
+  console.log('Admin password hashed successfully');
+}
 
 // Middleware
 app.use(express.json());
 
-// CORS for development
+// CORS - configurable via environment
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') {
@@ -32,8 +47,19 @@ app.use((req, res, next) => {
   next();
 });
 
+// Rate limiting for authentication endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Max 5 requests per window
+  message: 'Too many authentication attempts, please try again later',
+  standardHeaders: true,
+  legacyHeaders: false,
+  // Skip rate limiting for successful requests
+  skipSuccessfulRequests: true,
+});
+
 // Auth middleware for protected routes
-const requireAuth = (req: Request, res: Response, next: NextFunction) => {
+const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -42,7 +68,13 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
 
   const token = authHeader.substring(7); // Remove "Bearer " prefix
 
-  if (token !== ADMIN_PASSWORD) {
+  // Use bcrypt to compare password hash
+  try {
+    const isValid = await bcrypt.compare(token, ADMIN_PASSWORD_HASH);
+    if (!isValid) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+  } catch (error) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
 
@@ -120,8 +152,8 @@ app.get('/api/config', async (req: Request, res: Response) => {
   }
 });
 
-// PUT /api/config - Update config (requires auth)
-app.put('/api/config', requireAuth, async (req: Request, res: Response) => {
+// PUT /api/config - Update config (requires auth + rate limiting)
+app.put('/api/config', authLimiter, requireAuth, async (req: Request, res: Response) => {
   try {
     const newConfig = req.body;
 
