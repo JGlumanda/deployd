@@ -23,7 +23,7 @@ export default function ThemeSection({ activeTheme, onSelectTheme }: ThemeSectio
         fontSize: 13,
         color: 'var(--color-text-muted)',
         marginBottom: 28,
-      }}>Wähle das Aussehen deiner Showcase-Seite.</p>
+      }}>Choose the look of your showcase page.</p>
 
       <div style={{
         display: 'grid',
@@ -104,7 +104,7 @@ export default function ThemeSection({ activeTheme, onSelectTheme }: ThemeSectio
                   fontFamily: "'IBM Plex Mono', monospace",
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
-                }}>Aktiv</span>
+                }}>Active</span>
               )}
             </button>
           )
@@ -120,7 +120,7 @@ export default function ThemeSection({ activeTheme, onSelectTheme }: ThemeSectio
           borderRadius: 12,
         }}>
           <p style={{ fontSize: 14, color: '#A0ADB8' }}>
-            Keine Themes verfügbar.
+            No themes available.
           </p>
         </div>
       )}

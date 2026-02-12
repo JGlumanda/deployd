@@ -33,7 +33,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
     const trimmed = name.trim()
     const allTags = [...settings.tags.predefined, ...settings.tags.custom]
     if (allTags.some(t => t.name === trimmed)) {
-      alert('Tag existiert bereits')
+      alert('Tag already exists')
       return
     }
 
@@ -63,11 +63,11 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
     // Check if tag is used
     const isUsed = projects.some(p => p.tags.includes(tag.name))
     if (isUsed) {
-      alert('Tag wird noch in Projekten verwendet und kann nicht gelöscht werden.')
+      alert('Tag is still used in projects and cannot be deleted.')
       return
     }
 
-    if (!confirm(`Tag "${tag.name}" wirklich löschen?`)) return
+    if (!confirm(`Really delete tag "${tag.name}"?`)) return
 
     const newTags = settings.tags[key].filter((_: Tag, i: number) => i !== index)
     onUpdateSettings({
@@ -94,7 +94,71 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
         color: 'var(--color-heading)',
         fontFamily: "'Libre Baskerville', serif",
         marginBottom: 28,
-      }}>Einstellungen</h1>
+      }}>Settings</h1>
+
+      {/* GitHub Integration */}
+      <div style={{ marginBottom: 32 }}>
+        <p style={{
+          fontSize: 11,
+          fontWeight: 600,
+          color: 'var(--color-text-muted)',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          marginBottom: 8,
+        }}>GitHub Integration</p>
+
+        <div style={{
+          background: 'var(--color-card)',
+          border: '1px solid var(--color-border)',
+          borderRadius: 12,
+          padding: 20,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+            <img src="https://cdn.simpleicons.org/github/2C3E50" width="16" height="16" alt="" />
+            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-heading)' }}>
+              Default GitHub Username
+            </span>
+          </div>
+          <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 14 }}>
+            Set your GitHub username once to quickly import repos and profile data throughout the admin panel.
+          </p>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ flex: 1, position: 'relative' }}>
+              <img
+                src="https://cdn.simpleicons.org/github/A0ADB8"
+                width="14"
+                height="14"
+                alt=""
+                style={{
+                  position: 'absolute',
+                  left: 12,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  pointerEvents: 'none',
+                }}
+              />
+              <input
+                type="text"
+                value={settings.githubUsername || ''}
+                onChange={(e) => updateSetting('githubUsername', e.target.value || undefined)}
+                placeholder="your-github-username"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px 10px 36px',
+                  borderRadius: 8,
+                  border: '1px solid var(--color-border)',
+                  background: 'var(--color-card)',
+                  color: 'var(--color-heading)',
+                  fontSize: 14,
+                  outline: 'none',
+                  fontFamily: "'IBM Plex Mono', monospace",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Card Display */}
       <div style={{ marginBottom: 32 }}>
@@ -105,7 +169,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: 12,
-        }}>Card-Anzeige</p>
+        }}>Card Display</p>
 
         <div style={{
           display: 'grid',
@@ -122,7 +186,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 6,
-            }}>Max sichtbare Tags</label>
+            }}>Max visible tags</label>
             <input
               type="number"
               value={settings.maxVisibleTags}
@@ -141,7 +205,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               }}
             />
             <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
-              Weitere Tags als "+X" Badge.
+              Additional tags as "+X" badge.
             </p>
           </div>
 
@@ -154,7 +218,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               marginBottom: 6,
-            }}>Titel Max Zeilen</label>
+            }}>Title max lines</label>
             <select
               value={settings.cardTitleMaxLines}
               onChange={(e) => updateSetting('cardTitleMaxLines', parseInt(e.target.value))}
@@ -169,8 +233,8 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 outline: 'none',
               }}
             >
-              <option value="1">1 Zeile</option>
-              <option value="2">2 Zeilen</option>
+              <option value="1">1 line</option>
+              <option value="2">2 lines</option>
             </select>
           </div>
         </div>
@@ -184,7 +248,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
             marginBottom: 6,
-          }}>Beschreibung abschneiden nach</label>
+          }}>Truncate description after</label>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <input
               type="range"
@@ -202,10 +266,10 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               fontFamily: "'IBM Plex Mono', monospace",
               width: 100,
               textAlign: 'right',
-            }}>{descriptionMaxChars} Zeichen</span>
+            }}>{descriptionMaxChars} characters</span>
           </div>
           <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
-            Auf der Card wird der Text nach dieser Zeichenanzahl mit "..." abgeschnitten. Im Modal wird immer der volle Text angezeigt.
+            Text on the card will be truncated after this number of characters with "...". The full text is always shown in the modal.
           </p>
         </div>
       </div>
@@ -235,10 +299,10 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           }}>
             <div>
               <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-heading)' }}>
-                Erreichbarkeit prüfen
+                Check availability
               </span>
               <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 2 }}>
-                Prüft ob Live-Demo URLs erreichbar sind.
+                Checks if live demo URLs are reachable.
               </p>
             </div>
 
@@ -279,7 +343,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 marginBottom: 6,
-              }}>Prüf-Intervall</label>
+              }}>Check interval</label>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {[1, 5, 15, 30, 60].map(minutes => (
                   <button
@@ -305,7 +369,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 ))}
               </div>
               <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
-                Wie oft geprüft wird. Kürzere Intervalle = mehr Requests an deine Projekt-URLs.
+                How often to check. Shorter intervals = more requests to your project URLs.
               </p>
             </div>
           )}
@@ -326,7 +390,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             color: 'var(--color-text-muted)',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
-          }}>Tag-Verwaltung</p>
+          }}>Tag Management</p>
           <button
             onClick={addTag}
             style={{
@@ -339,11 +403,11 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               fontWeight: 600,
               cursor: 'pointer',
             }}
-          >+ Neuer Tag</button>
+          >+ New Tag</button>
         </div>
 
         <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 14 }}>
-          Standard-Tags und eigene Tags verwalten. Farbe pro Tag optional.
+          Manage standard tags and custom tags. Color per tag optional.
         </p>
 
         <div style={{
@@ -485,7 +549,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
         </div>
 
         <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 8 }}>
-          Tags die in keinem Projekt verwendet werden können gelöscht werden. Standard-Tags können umbenannt aber nicht gelöscht werden.
+          Tags that are not used in any project can be deleted. Standard tags can be renamed but not deleted.
         </p>
       </div>
 
@@ -528,12 +592,12 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
         />
 
         <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
-          Erhöht das Rate-Limit von 60 auf 5.000 Requests/Stunde. Token muss als <code style={{
+          Increases the rate limit from 60 to 5,000 requests/hour. Token must be set as <code style={{
             background: 'var(--color-bg-alt)',
             padding: '2px 6px',
             borderRadius: 4,
             fontFamily: "'IBM Plex Mono', monospace",
-          }}>GITHUB_TOKEN</code> Environment Variable gesetzt werden.
+          }}>GITHUB_TOKEN</code> environment variable.
         </p>
       </div>
 
@@ -558,8 +622,8 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           marginBottom: 16,
           lineHeight: 1.5,
         }}>
-          Setze die Konfiguration zurück und lösche alle benutzerdefinierten Daten.
-          Standard-Tags und Einstellungen bleiben erhalten.
+          Reset the configuration and delete all custom data.
+          Standard tags and settings will be preserved.
         </p>
 
         <button
@@ -582,7 +646,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             e.currentTarget.style.background = 'var(--color-error)'
           }}
         >
-          🗑️ Konfiguration zurücksetzen
+          🗑️ Reset Configuration
         </button>
       </div>
     </div>

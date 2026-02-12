@@ -1,0 +1,45 @@
+# Caddyfile - Automatisches HTTPS mit Let's Encrypt
+# Ersetze {$DOMAIN} mit deiner Domain (z.B. portfolio.example.com)
+
+{$DOMAIN} {
+	# Automatisches HTTPS (Let's Encrypt)
+	# Caddy holt & erneuert Zertifikate automatisch!
+
+	# Reverse Proxy zu Node.js App
+	reverse_proxy app:3000
+
+	# Optional: Logging
+	log {
+		output file /data/access.log
+		format json
+	}
+
+	# Security Headers
+	header {
+		# Prevent clickjacking
+		X-Frame-Options "SAMEORIGIN"
+		# XSS Protection
+		X-Content-Type-Options "nosniff"
+		# Referrer Policy
+		Referrer-Policy "strict-origin-when-cross-origin"
+		# Permissions Policy
+		Permissions-Policy "geolocation=(), microphone=(), camera=()"
+	}
+
+	# Optional: Gzip Compression
+	encode gzip
+
+	# Optional: Rate Limiting (zusätzlich zu Backend)
+	# Erfordert caddy-ratelimit plugin
+}
+
+# Staging/Testing Domain (optional)
+# Verwendet Let's Encrypt Staging für Tests ohne Rate Limits
+staging.{$DOMAIN} {
+	# Test-Zertifikate (keine Rate Limits!)
+	tls {
+		ca https://acme-staging-v02.api.letsencrypt.org/directory
+	}
+
+	reverse_proxy app:3000
+}

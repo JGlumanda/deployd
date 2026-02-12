@@ -1,8 +1,10 @@
 services:
   app:
+    image: deployd:latest
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: deployd
     ports:
       - "3000:3000"
     environment:

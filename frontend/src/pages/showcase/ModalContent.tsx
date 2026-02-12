@@ -1,50 +1,78 @@
-import type { Project } from '@core/types'
+import type { Project, Theme } from '@core/types'
 import { StatusBadge } from '@core/components/StatusBadge'
 import { TagList } from '@core/components/TagList'
 import { ProjectLinks } from '@core/components/ProjectLinks'
 import { formatDate } from '@core/utils/formatDate'
-import { generateGradient } from '@core/utils/gradient'
+import { getProjectImageStyle } from '@core/utils/projectImage'
 
 interface ModalContentProps {
   project: Project
+  theme?: Theme | null
 }
 
-export function ModalContent({ project }: ModalContentProps) {
+export function ModalContent({ project, theme = null }: ModalContentProps) {
+  const imageStyle = getProjectImageStyle(theme, project.title)
+
   return (
     <div>
-      {/* Gradient Header */}
+      {/* Header Image */}
       <div
         style={{
           height: '200px',
-          background: project.image ? `url(${project.image})` : generateGradient(project.title),
+          background: project.image ? `url(${project.image})` : imageStyle.background,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           position: 'relative',
           borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
-        {/* Title Watermark */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '1rem',
-            left: '1.5rem',
-            fontSize: '3rem',
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 900,
-            color: 'rgba(255, 255, 255, 0.2)',
-            textTransform: 'uppercase',
-            letterSpacing: '-0.05em',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            maxWidth: 'calc(100% - 3rem)',
-            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
-          }}
-        >
-          {project.title}
-        </div>
+        {/* Title Watermark - only show when user uploaded an image */}
+        {project.image ? (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '1rem',
+              left: '1.5rem',
+              fontSize: '3rem',
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 900,
+              color: 'rgba(255, 255, 255, 0.2)',
+              textTransform: 'uppercase',
+              letterSpacing: '-0.05em',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              maxWidth: 'calc(100% - 3rem)',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+            }}
+          >
+            {project.title}
+          </div>
+        ) : (
+          /* Show title overlay when no image */
+          <div
+            style={{
+              fontSize: '2.5rem',
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 900,
+              color: imageStyle.titleColor,
+              textAlign: 'center',
+              padding: '1.5rem',
+              textShadow: imageStyle.titleShadow,
+              maxWidth: '90%',
+              lineHeight: 1.15,
+              letterSpacing: '-0.02em',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word'
+            }}
+          >
+            {project.title}
+          </div>
+        )}
       </div>
 
       {/* Content */}
