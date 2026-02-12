@@ -6,7 +6,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-changeme}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
       - GITHUB_TOKEN=${GITHUB_TOKEN:-}
       - NODE_ENV=production
     volumes:
