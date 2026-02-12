@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-changeme}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - NODE_ENV=production
+    volumes:
+      - ./config.json:/app/config.json
+    restart: unless-stopped
