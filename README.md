@@ -38,6 +38,9 @@ Full Markdown rendering with HTML pass-through for badges, images, and custom fo
 ### 🎯 **Admin Panel**
 Full-featured editor with real-time preview
 
+### 🏷️ **Tag Icons**
+113 pre-configured tech stack icons with support for custom icons
+
 ### 📊 **Health Monitoring**
 Optional live status checks for all your project URLs
 
@@ -297,6 +300,7 @@ deployd includes production-ready security features out of the box:
 - [API Reference](#api-reference)
 - [Theming](#theming)
 - [Deployment](#deployment)
+- [Tag Icons](#️-tag-icons)
 
 ---
 
@@ -414,8 +418,16 @@ docker run -d \
     },
     "tags": {
       "predefined": [
-        { "name": "React", "color": "#61DAFB" },
-        { "name": "TypeScript", "color": "#3178C6" }
+        {
+          "name": "React",
+          "color": "#61DAFB",
+          "icon": "https://cdn.simpleicons.org/react/61dafb"
+        },
+        {
+          "name": "TypeScript",
+          "color": "#3178C6",
+          "icon": "https://cdn.simpleicons.org/typescript/3178c6"
+        }
       ],
       "custom": []
     }
@@ -436,7 +448,7 @@ Access the admin panel at **`/admin`**. You'll be prompted for the password if `
 | **Projects** | Add, edit, delete projects. Import from GitHub. |
 | **Profile** | Edit profile info with Markdown support. Import profile data and GitHub Profile README. |
 | **Themes** | Switch between 4 built-in themes, all with full Markdown bio support. |
-| **Settings** | Configure display options, health checks, manage tags. |
+| **Settings** | Configure display options, health checks, manage 113+ tags with icons. |
 
 #### GitHub Integration
 
@@ -634,7 +646,8 @@ export const custom: Theme = {
     scanlines: false,          // Terminal-style scanline effect
     cardRotation: false,       // Card tilt on hover (boolean or degrees)
     animationStyle: 'fade',    // 'fade' | 'slide' | 'pop' | 'type'
-    cardShadow: 'soft'         // 'none' | 'soft' | 'medium' | 'hard' | 'offset'
+    cardShadow: 'soft',        // 'none' | 'soft' | 'medium' | 'hard' | 'offset'
+    showTagIcons: true         // Show icons next to tag names (default: false)
   },
   // NEW: Custom project image styling
   projectImageStyle: {
@@ -816,6 +829,97 @@ Your bio field supports full **GitHub Flavored Markdown** with HTML pass-through
 2. **Test Locally**: Preview your bio in different themes before deploying
 3. **Keep It Updated**: Your GitHub README and deployd bio can be kept in sync
 4. **Use Badges Sparingly**: Too many badges can look cluttered - focus on the most important ones
+
+---
+
+## 🏷️ Tag Icons
+
+deployd comes with **113 pre-configured technology icons** for popular frameworks, languages, and tools. Icons are displayed next to tag names throughout the showcase for better visual recognition.
+
+### Features
+
+- ✅ **113 Pre-configured Icons**: React, TypeScript, Docker, Python, and more
+- ✅ **Multiple CDN Sources**: Simple Icons, DevIcons, Iconify, official repos
+- ✅ **Custom Icons**: Add your own icon URLs for any tag
+- ✅ **Theme Control**: Enable/disable icons per theme
+- ✅ **Auto-fallback**: Shows text-only if icon fails to load
+- ✅ **Smart Sizing**: Icons automatically scale with tag size (sm/md)
+
+### Pre-configured Technologies
+
+**Frontend Frameworks**: React, Vue, Angular, Svelte, Next.js, Nuxt, Astro, SolidJS, Preact, Qwik
+
+**Backend Frameworks**: Express, Fastify, NestJS, Django, Flask, FastAPI, Spring Boot, Laravel, Ruby on Rails, ASP.NET
+
+**Languages**: TypeScript, JavaScript, Python, Java, Go, Rust, C++, C#, PHP, Ruby, Swift, Kotlin, Dart, Elixir, Scala
+
+**Databases**: PostgreSQL, MySQL, MongoDB, Redis, SQLite, MariaDB, Supabase, Firebase, Prisma, Drizzle
+
+**DevOps & Cloud**: Docker, Kubernetes, AWS, Azure, GCP, Vercel, Netlify, Heroku, DigitalOcean, Cloudflare, Terraform, Ansible
+
+**Mobile**: React Native, Flutter, Expo, Ionic, Capacitor
+
+**Styling**: Tailwind CSS, Sass, CSS, Styled Components, Emotion, Material-UI, Chakra UI, shadcn/ui
+
+**State Management**: Redux, Zustand, Jotai, Recoil, MobX, Pinia
+
+**Testing**: Jest, Vitest, Cypress, Playwright, Testing Library
+
+**Build Tools**: Vite, Webpack, Turbopack, esbuild, Rollup, Parcel
+
+**APIs**: GraphQL, Apollo, tRPC, gRPC
+
+**Tools**: Git, GitHub, GitLab, GitHub Actions, Jenkins, CircleCI, Nginx, Apache, Linux, Ubuntu, VS Code, Figma, Postman, Stripe, OpenAI, TensorFlow, PyTorch, Electron, Tauri
+
+### Adding Custom Icons
+
+Add icon URLs to any tag in the admin panel or directly in `config.json`:
+
+```json
+{
+  "settings": {
+    "tags": {
+      "predefined": [
+        {
+          "name": "React",
+          "color": "#61DAFB",
+          "icon": "https://cdn.simpleicons.org/react/61dafb"
+        }
+      ],
+      "custom": [
+        {
+          "name": "My Framework",
+          "color": "#FF6B6B",
+          "icon": "https://example.com/my-icon.svg"
+        }
+      ]
+    }
+  }
+}
+```
+
+### Enabling/Disabling Icons Per Theme
+
+Control icon visibility in each theme's effects:
+
+```typescript
+// In your theme configuration
+effects: {
+  showTagIcons: true  // Show icons
+  // or
+  showTagIcons: false // Text only
+}
+```
+
+All built-in themes have `showTagIcons: true` by default.
+
+### Supported Icon Sources
+
+- **Simple Icons CDN**: `https://cdn.simpleicons.org/{slug}/{color}`
+- **DevIcons CDN**: `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/{name}/{name}-original.svg`
+- **Iconify API**: `https://api.iconify.design/{collection}:{icon}.svg`
+- **GitHub Raw**: Direct links to SVG files in repositories
+- **Custom URLs**: Any publicly accessible SVG/PNG/JPG URL
 
 ---
 
