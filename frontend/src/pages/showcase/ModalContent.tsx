@@ -1,4 +1,4 @@
-import type { Project, Theme } from '@core/types'
+import type { Project, Theme, Settings } from '@core/types'
 import { StatusBadge } from '@core/components/StatusBadge'
 import { TagList } from '@core/components/TagList'
 import { ProjectLinks } from '@core/components/ProjectLinks'
@@ -8,9 +8,10 @@ import { getProjectImageStyle } from '@core/utils/projectImage'
 interface ModalContentProps {
   project: Project
   theme?: Theme | null
+  settings?: Settings
 }
 
-export function ModalContent({ project, theme = null }: ModalContentProps) {
+export function ModalContent({ project, theme = null, settings }: ModalContentProps) {
   const imageStyle = getProjectImageStyle(theme, project.title)
 
   return (
@@ -176,7 +177,12 @@ export function ModalContent({ project, theme = null }: ModalContentProps) {
             >
               Tech Stack
             </h3>
-            <TagList tags={project.tags} max={project.tags.length} />
+            <TagList
+              tags={project.tags}
+              max={project.tags.length}
+              showIcons={theme?.effects?.showTagIcons ?? false}
+              tagData={settings ? [...settings.tags.predefined, ...settings.tags.custom] : []}
+            />
           </div>
         )}
 

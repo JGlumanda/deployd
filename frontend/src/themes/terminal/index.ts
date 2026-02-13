@@ -62,6 +62,7 @@ export const terminal: Theme = {
     scanlines: true,
     animationStyle: 'type',
     cardShadow: 'none',
+    showTagIcons: true,
   },
   projectImageStyle: {
     background: 'linear-gradient(135deg, #0A0A0A 0%, #0D1A0D 50%, #0A0A0A 100%)',

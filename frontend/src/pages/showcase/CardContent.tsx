@@ -1,4 +1,4 @@
-import type { Project, Theme } from '@core/types'
+import type { Project, Theme, Settings } from '@core/types'
 import { StatusBadge } from '@core/components/StatusBadge'
 import { TagList } from '@core/components/TagList'
 import { ProjectLinks } from '@core/components/ProjectLinks'
@@ -10,6 +10,7 @@ interface CardContentProps {
   titleMaxLines: number
   descriptionMaxChars: number
   theme?: Theme | null
+  settings?: Settings
 }
 
 export function CardContent({
@@ -17,7 +18,8 @@ export function CardContent({
   maxVisibleTags,
   titleMaxLines,
   descriptionMaxChars,
-  theme = null
+  theme = null,
+  settings
 }: CardContentProps) {
   const imageStyle = getProjectImageStyle(theme, project.title)
 
@@ -144,7 +146,13 @@ export function CardContent({
 
         {/* Tags */}
         {project.tags.length > 0 && (
-          <TagList tags={project.tags} max={maxVisibleTags} size="sm" />
+          <TagList
+            tags={project.tags}
+            max={maxVisibleTags}
+            size="sm"
+            showIcons={theme?.effects?.showTagIcons ?? false}
+            tagData={settings ? [...settings.tags.predefined, ...settings.tags.custom] : []}
+          />
         )}
 
         {/* Links */}

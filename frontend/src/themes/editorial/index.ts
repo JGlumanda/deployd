@@ -57,6 +57,7 @@ export const editorial: Theme = {
   effects: {
     animationStyle: 'fade',
     cardShadow: 'none',
+    showTagIcons: true,
   },
   projectImageStyle: {
     background: 'linear-gradient(135deg, #F5F0E8 0%, #E8DFD3 50%, #D4C8B8 100%)',

@@ -139,6 +139,7 @@ export interface ThemeEffects {
   cardRotation?: boolean | number;
   animationStyle?: AnimationStyle;
   cardShadow?: CardShadowStyle;
+  showTagIcons?: boolean;
 }
 
 export interface ProjectImageStyle {
