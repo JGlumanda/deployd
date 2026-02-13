@@ -3,12 +3,16 @@ node_modules
 npm-debug.log
 .env
 .env.local
+config.json
 .git
 .gitignore
 .vscode
 .idea
 *.md
 !README.md
+docs/
+docker/
+screenshots/
 dist
 build
 .cache

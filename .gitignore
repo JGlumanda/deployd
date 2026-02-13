@@ -11,6 +11,9 @@ build/
 .env.local
 .env.*.local
 
+# Personal configuration (use config.default.json as template)
+config.json
+
 # OS
 .DS_Store
 Thumbs.db

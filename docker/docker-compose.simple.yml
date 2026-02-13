@@ -1,0 +1,16 @@
+name: deployd
+
+services:
+  app:
+    image: ghcr.io/jglumanda/deployd:latest
+    container_name: deployd
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - ALLOWED_ORIGIN=${ALLOWED_ORIGIN:-}
+    volumes:
+      - ../config.json:/app/config.json
+    restart: unless-stopped
