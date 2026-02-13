@@ -1,4 +1,4 @@
-import type { Project } from '@core/types'
+import type { Project, Theme, Settings } from '@core/types'
 import { StatusBadge } from '@core/components/StatusBadge'
 import { TagList } from '@core/components/TagList'
 import { formatDate } from '@core/utils/formatDate'
@@ -8,13 +8,17 @@ interface CardListItemProps {
   maxVisibleTags: number
   descriptionMaxChars: number
   onClick: (project: Project) => void
+  theme?: Theme | null
+  settings?: Settings
 }
 
 export function CardListItem({
   project,
   maxVisibleTags,
   descriptionMaxChars,
-  onClick
+  onClick,
+  theme = null,
+  settings
 }: CardListItemProps) {
   const truncatedDescription =
     project.description.length > descriptionMaxChars
@@ -133,7 +137,13 @@ export function CardListItem({
 
         {/* Tags */}
         {project.tags.length > 0 && (
-          <TagList tags={project.tags} max={maxVisibleTags} size="sm" />
+          <TagList
+            tags={project.tags}
+            max={maxVisibleTags}
+            size="sm"
+            showIcons={theme?.effects?.showTagIcons ?? false}
+            tagData={settings ? [...settings.tags.predefined, ...settings.tags.custom] : []}
+          />
         )}
       </div>
 

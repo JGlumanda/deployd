@@ -11,8 +11,9 @@ build/
 .env.local
 .env.*.local
 
-# Personal configuration (use config.default.json as template)
+# Personal configuration and runtime data
 config.json
+data/
 
 # OS
 .DS_Store

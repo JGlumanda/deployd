@@ -43,371 +43,463 @@
       "predefined": [
         {
           "name": "React",
-          "color": "#61dafb"
+          "color": "#61dafb",
+          "icon": "https://cdn.simpleicons.org/react/61dafb"
         },
         {
           "name": "Vue",
-          "color": "#4fc08d"
+          "color": "#4fc08d",
+          "icon": "https://cdn.simpleicons.org/vuedotjs/4fc08d"
         },
         {
           "name": "Angular",
-          "color": "#dd0031"
+          "color": "#dd0031",
+          "icon": "https://cdn.simpleicons.org/angular/dd0031"
         },
         {
           "name": "Svelte",
-          "color": "#ff3e00"
+          "color": "#ff3e00",
+          "icon": "https://cdn.simpleicons.org/svelte/ff3e00"
         },
         {
           "name": "Next.js",
-          "color": "#000000"
+          "color": "#000000",
+          "icon": "https://cdn.simpleicons.org/nextdotjs/000000"
         },
         {
           "name": "Nuxt",
-          "color": "#00dc82"
+          "color": "#00dc82",
+          "icon": "https://cdn.simpleicons.org/nuxt/00dc82"
         },
         {
           "name": "Astro",
-          "color": "#ff5d01"
+          "color": "#ff5d01",
+          "icon": "https://cdn.simpleicons.org/astro/ff5d01"
         },
         {
           "name": "SolidJS",
-          "color": "#446b9e"
+          "color": "#446b9e",
+          "icon": "https://cdn.simpleicons.org/solid/446b9e"
         },
         {
           "name": "Preact",
-          "color": "#673ab8"
+          "color": "#673ab8",
+          "icon": "https://cdn.simpleicons.org/preact/673ab8"
         },
         {
           "name": "Qwik",
-          "color": "#18b6f6"
+          "color": "#18b6f6",
+          "icon": "https://cdn.simpleicons.org/qwik/18b6f6"
         },
         {
           "name": "Node.js",
-          "color": "#339933"
+          "color": "#339933",
+          "icon": "https://cdn.simpleicons.org/nodedotjs/339933"
         },
         {
           "name": "Express",
-          "color": "#000000"
+          "color": "#000000",
+          "icon": "https://cdn.simpleicons.org/express/000000"
         },
         {
           "name": "Fastify",
-          "color": "#000000"
+          "color": "#000000",
+          "icon": "https://cdn.simpleicons.org/fastify/000000"
         },
         {
           "name": "NestJS",
-          "color": "#e0234e"
+          "color": "#e0234e",
+          "icon": "https://cdn.simpleicons.org/nestjs/e0234e"
         },
         {
           "name": "Django",
-          "color": "#092e20"
+          "color": "#092e20",
+          "icon": "https://cdn.simpleicons.org/django/092e20"
         },
         {
           "name": "Flask",
-          "color": "#000000"
+          "color": "#000000",
+          "icon": "https://cdn.simpleicons.org/flask/000000"
         },
         {
           "name": "FastAPI",
-          "color": "#009688"
+          "color": "#009688",
+          "icon": "https://cdn.simpleicons.org/fastapi/009688"
         },
         {
           "name": "Spring Boot",
-          "color": "#6db33f"
+          "color": "#6db33f",
+          "icon": "https://cdn.simpleicons.org/springboot/6db33f"
         },
         {
           "name": "Laravel",
-          "color": "#ff2d20"
+          "color": "#ff2d20",
+          "icon": "https://cdn.simpleicons.org/laravel/ff2d20"
         },
         {
           "name": "Ruby on Rails",
-          "color": "#cc0000"
+          "color": "#cc0000",
+          "icon": "https://cdn.simpleicons.org/rubyonrails/cc0000"
         },
         {
           "name": "ASP.NET",
-          "color": "#512bd4"
+          "color": "#512bd4",
+          "icon": "https://cdn.simpleicons.org/dotnet/512bd4"
         },
         {
           "name": "Go Fiber",
-          "color": "#00add8"
+          "color": "#00add8",
+          "icon": "https://raw.githubusercontent.com/gofiber/docs/master/static/img/logo.svg"
         },
         {
           "name": "TypeScript",
-          "color": "#3178c6"
+          "color": "#3178c6",
+          "icon": "https://cdn.simpleicons.org/typescript/3178c6"
         },
         {
           "name": "JavaScript",
-          "color": "#f7df1e"
+          "color": "#f7df1e",
+          "icon": "https://cdn.simpleicons.org/javascript/f7df1e"
         },
         {
           "name": "Python",
-          "color": "#3776ab"
+          "color": "#3776ab",
+          "icon": "https://cdn.simpleicons.org/python/3776ab"
         },
         {
           "name": "Java",
-          "color": "#007396"
+          "color": "#007396",
+          "icon": "https://cdn.simpleicons.org/openjdk/007396"
         },
         {
           "name": "Go",
-          "color": "#00add8"
+          "color": "#00add8",
+          "icon": "https://cdn.simpleicons.org/go/00add8"
         },
         {
           "name": "Rust",
-          "color": "#000000"
+          "color": "#000000",
+          "icon": "https://cdn.simpleicons.org/rust/000000"
         },
         {
           "name": "C++",
-          "color": "#00599c"
+          "color": "#00599c",
+          "icon": "https://cdn.simpleicons.org/cplusplus/00599c"
         },
         {
           "name": "C#",
-          "color": "#239120"
+          "color": "#239120",
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
         },
         {
           "name": "PHP",
-          "color": "#777bb4"
+          "color": "#777bb4",
+          "icon": "https://cdn.simpleicons.org/php/777bb4"
         },
         {
           "name": "Ruby",
-          "color": "#cc342d"
+          "color": "#cc342d",
+          "icon": "https://cdn.simpleicons.org/ruby/cc342d"
         },
         {
           "name": "Swift",
-          "color": "#f05138"
+          "color": "#f05138",
+          "icon": "https://cdn.simpleicons.org/swift/f05138"
         },
         {
           "name": "Kotlin",
-          "color": "#7f52ff"
+          "color": "#7f52ff",
+          "icon": "https://cdn.simpleicons.org/kotlin/7f52ff"
         },
         {
           "name": "Dart",
-          "color": "#0175c2"
+          "color": "#0175c2",
+          "icon": "https://cdn.simpleicons.org/dart/0175c2"
         },
         {
           "name": "Elixir",
-          "color": "#4b275f"
+          "color": "#4b275f",
+          "icon": "https://cdn.simpleicons.org/elixir/4b275f"
         },
         {
           "name": "Scala",
-          "color": "#dc322f"
+          "color": "#dc322f",
+          "icon": "https://cdn.simpleicons.org/scala/dc322f"
         },
         {
           "name": "PostgreSQL",
-          "color": "#4169e1"
+          "color": "#4169e1",
+          "icon": "https://cdn.simpleicons.org/postgresql/4169e1"
         },
         {
           "name": "MySQL",
-          "color": "#4479a1"
+          "color": "#4479a1",
+          "icon": "https://cdn.simpleicons.org/mysql/4479a1"
         },
         {
           "name": "MongoDB",
-          "color": "#47a248"
+          "color": "#47a248",
+          "icon": "https://cdn.simpleicons.org/mongodb/47a248"
         },
         {
           "name": "Redis",
-          "color": "#dc382d"
+          "color": "#dc382d",
+          "icon": "https://cdn.simpleicons.org/redis/dc382d"
         },
         {
           "name": "SQLite",
-          "color": "#003b57"
+          "color": "#003b57",
+          "icon": "https://cdn.simpleicons.org/sqlite/003b57"
         },
         {
           "name": "MariaDB",
-          "color": "#003545"
+          "color": "#003545",
+          "icon": "https://cdn.simpleicons.org/mariadb/003545"
         },
         {
           "name": "Supabase",
-          "color": "#3ecf8e"
+          "color": "#3ecf8e",
+          "icon": "https://cdn.simpleicons.org/supabase/3ecf8e"
         },
         {
           "name": "Firebase",
-          "color": "#ffca28"
+          "color": "#ffca28",
+          "icon": "https://cdn.simpleicons.org/firebase/ffca28"
         },
         {
           "name": "Prisma",
-          "color": "#2d3748"
+          "color": "#2d3748",
+          "icon": "https://cdn.simpleicons.org/prisma/2d3748"
         },
         {
           "name": "Drizzle",
-          "color": "#c5f74f"
+          "color": "#c5f74f",
+          "icon": "https://cdn.simpleicons.org/drizzle/c5f74f"
         },
         {
           "name": "Docker",
-          "color": "#2496ed"
+          "color": "#2496ed",
+          "icon": "https://cdn.simpleicons.org/docker/2496ed"
         },
         {
           "name": "Kubernetes",
-          "color": "#326ce5"
+          "color": "#326ce5",
+          "icon": "https://cdn.simpleicons.org/kubernetes/326ce5"
         },
         {
           "name": "AWS",
-          "color": "#ff9900"
+          "color": "#ff9900",
+          "icon": "https://api.iconify.design/logos/aws.svg"
         },
         {
           "name": "Azure",
-          "color": "#0078d4"
+          "color": "#0078d4",
+          "icon": "https://api.iconify.design/skill-icons/azure-dark.svg"
         },
         {
           "name": "GCP",
-          "color": "#4285f4"
+          "color": "#4285f4",
+          "icon": "https://cdn.simpleicons.org/googlecloud/4285f4"
         },
         {
           "name": "Vercel",
-          "color": "#000000"
+          "color": "#000000",
+          "icon": "https://cdn.simpleicons.org/vercel/000000"
         },
         {
           "name": "Netlify",
-          "color": "#00c7b7"
+          "color": "#00c7b7",
+          "icon": "https://cdn.simpleicons.org/netlify/00c7b7"
         },
         {
           "name": "Heroku",
-          "color": "#430098"
+          "color": "#430098",
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/heroku/heroku-original.svg"
         },
         {
           "name": "DigitalOcean",
-          "color": "#0080ff"
+          "color": "#0080ff",
+          "icon": "https://cdn.simpleicons.org/digitalocean/0080ff"
         },
         {
           "name": "Cloudflare",
-          "color": "#f38020"
+          "color": "#f38020",
+          "icon": "https://cdn.simpleicons.org/cloudflare/f38020"
         },
         {
           "name": "Terraform",
-          "color": "#7b42bc"
+          "color": "#7b42bc",
+          "icon": "https://cdn.simpleicons.org/terraform/7b42bc"
         },
         {
           "name": "Ansible",
-          "color": "#ee0000"
+          "color": "#ee0000",
+          "icon": "https://cdn.simpleicons.org/ansible/ee0000"
         },
         {
           "name": "React Native",
-          "color": "#61dafb"
+          "color": "#61dafb",
+          "icon": "https://cdn.simpleicons.org/react/61dafb"
         },
         {
           "name": "Flutter",
-          "color": "#02569b"
+          "color": "#02569b",
+          "icon": "https://cdn.simpleicons.org/flutter/02569b"
         },
         {
           "name": "Expo",
-          "color": "#000020"
+          "color": "#000020",
+          "icon": "https://cdn.simpleicons.org/expo/000020"
         },
         {
           "name": "Ionic",
-          "color": "#3880ff"
+          "color": "#3880ff",
+          "icon": "https://cdn.simpleicons.org/ionic/3880ff"
         },
         {
           "name": "Capacitor",
-          "color": "#119eff"
+          "color": "#119eff",
+          "icon": "https://cdn.simpleicons.org/capacitor/119eff"
         },
         {
           "name": "Tailwind CSS",
-          "color": "#06b6d4"
+          "color": "#06b6d4",
+          "icon": "https://cdn.simpleicons.org/tailwindcss/06b6d4"
         },
         {
           "name": "Sass",
-          "color": "#cc6699"
+          "color": "#cc6699",
+          "icon": "https://cdn.simpleicons.org/sass/cc6699"
         },
         {
           "name": "CSS",
-          "color": "#1572b6"
+          "color": "#1572b6",
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
         },
         {
           "name": "Styled Components",
-          "color": "#db7093"
+          "color": "#db7093",
+          "icon": "https://cdn.simpleicons.org/styledcomponents/db7093"
         },
         {
           "name": "Emotion",
-          "color": "#d36ac2"
+          "color": "#d36ac2",
+          "icon": "https://emotion.sh/logo-48x48.png"
         },
         {
           "name": "Material-UI",
-          "color": "#007fff"
+          "color": "#007fff",
+          "icon": "https://cdn.simpleicons.org/mui/007fff"
         },
         {
           "name": "Chakra UI",
-          "color": "#319795"
+          "color": "#319795",
+          "icon": "https://cdn.simpleicons.org/chakraui/319795"
         },
         {
           "name": "shadcn/ui",
-          "color": "#000000"
+          "color": "#000000",
+          "icon": "https://cdn.simpleicons.org/shadcnui/000000"
         },
         {
           "name": "Redux",
-          "color": "#764abc"
+          "color": "#764abc",
+          "icon": "https://cdn.simpleicons.org/redux/764abc"
         },
         {
           "name": "Zustand",
-          "color": "#443e38"
+          "color": "#443e38",
+          "icon": "https://cdn.jsdelivr.net/gh/pmndrs/zustand@main/docs/bear.jpg"
         },
         {
           "name": "Jotai",
-          "color": "#000000"
+          "color": "#000000",
+          "icon": "https://jotai.org/favicon.svg"
         },
         {
           "name": "Recoil",
-          "color": "#3578e5"
+          "color": "#3578e5",
+          "icon": "https://cdn.simpleicons.org/recoil/3578e5"
         },
         {
           "name": "MobX",
-          "color": "#ff9955"
+          "color": "#ff9955",
+          "icon": "https://cdn.simpleicons.org/mobx/ff9955"
         },
         {
           "name": "Pinia",
-          "color": "#ffd859"
+          "color": "#ffd859",
+          "icon": "https://cdn.simpleicons.org/pinia/ffd859"
         },
         {
           "name": "Jest",
-          "color": "#c21325"
+          "color": "#c21325",
+          "icon": "https://cdn.simpleicons.org/jest/c21325"
         },
         {
           "name": "Vitest",
-          "color": "#6e9f18"
+          "color": "#6e9f18",
+          "icon": "https://cdn.simpleicons.org/vitest/6e9f18"
         },
         {
           "name": "Cypress",
-          "color": "#17202c"
+          "color": "#17202c",
+          "icon": "https://cdn.simpleicons.org/cypress/17202c"
         },
         {
           "name": "Playwright",
-          "color": "#2ead33"
+          "color": "#2ead33",
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/playwright/playwright-original.svg"
         },
         {
           "name": "Testing Library",
-          "color": "#e33332"
+          "color": "#e33332",
+          "icon": "https://cdn.simpleicons.org/testinglibrary/e33332"
         },
         {
           "name": "Vite",
-          "color": "#646cff"
+          "color": "#646cff",
+          "icon": "https://cdn.simpleicons.org/vite/646cff"
         },
         {
           "name": "Webpack",
-          "color": "#8dd6f9"
+          "color": "#8dd6f9",
+          "icon": "https://cdn.simpleicons.org/webpack/8dd6f9"
         },
         {
           "name": "Turbopack",
-          "color": "#0a7ea4"
+          "color": "#0a7ea4",
+          "icon": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/turbopack-icon.svg"
         },
         {
           "name": "esbuild",
-          "color": "#ffcf00"
+          "color": "#ffcf00",
+          "icon": "https://cdn.simpleicons.org/esbuild/ffcf00"
         },
         {
           "name": "Rollup",
-          "color": "#ec4a3f"
+          "color": "#ec4a3f",
+          "icon": "https://cdn.simpleicons.org/rollupdotjs/ec4a3f"
         },
         {
           "name": "Parcel",
-          "color": "#e7a87b"
+          "color": "#e7a87b",
+          "icon": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/parcel-icon.svg"
         },
         {
           "name": "GraphQL",
-          "color": "#e10098"
+          "color": "#e10098",
+          "icon": "https://cdn.simpleicons.org/graphql/e10098"
         },
         {
           "name": "Apollo",
-          "color": "#311c87"
+          "color": "#311c87",
+          "icon": "https://cdn.simpleicons.org/apollographql/311c87"
         },
         {
           "name": "tRPC",
-          "color": "#2596be"
+          "color": "#2596be",
+          "icon": "https://cdn.simpleicons.org/trpc/2596be"
         },
         {
           "name": "REST API",
@@ -415,83 +507,103 @@
         },
         {
           "name": "gRPC",
-          "color": "#244c5a"
+          "color": "#244c5a",
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grpc/grpc-original.svg"
         },
         {
           "name": "Git",
-          "color": "#f05032"
+          "color": "#f05032",
+          "icon": "https://cdn.simpleicons.org/git/f05032"
         },
         {
           "name": "GitHub",
-          "color": "#181717"
+          "color": "#181717",
+          "icon": "https://cdn.simpleicons.org/github/181717"
         },
         {
           "name": "GitLab",
-          "color": "#fc6d26"
+          "color": "#fc6d26",
+          "icon": "https://cdn.simpleicons.org/gitlab/fc6d26"
         },
         {
           "name": "GitHub Actions",
-          "color": "#2088ff"
+          "color": "#2088ff",
+          "icon": "https://cdn.simpleicons.org/githubactions/2088ff"
         },
         {
           "name": "Jenkins",
-          "color": "#d24939"
+          "color": "#d24939",
+          "icon": "https://cdn.simpleicons.org/jenkins/d24939"
         },
         {
           "name": "CircleCI",
-          "color": "#343434"
+          "color": "#343434",
+          "icon": "https://cdn.simpleicons.org/circleci/343434"
         },
         {
           "name": "Nginx",
-          "color": "#009639"
+          "color": "#009639",
+          "icon": "https://cdn.simpleicons.org/nginx/009639"
         },
         {
           "name": "Apache",
-          "color": "#d22128"
+          "color": "#d22128",
+          "icon": "https://cdn.simpleicons.org/apache/d22128"
         },
         {
           "name": "Linux",
-          "color": "#fcc624"
+          "color": "#fcc624",
+          "icon": "https://cdn.simpleicons.org/linux/fcc624"
         },
         {
           "name": "Ubuntu",
-          "color": "#e95420"
+          "color": "#e95420",
+          "icon": "https://cdn.simpleicons.org/ubuntu/e95420"
         },
         {
           "name": "VS Code",
-          "color": "#007acc"
+          "color": "#007acc",
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
         },
         {
           "name": "Figma",
-          "color": "#f24e1e"
+          "color": "#f24e1e",
+          "icon": "https://cdn.simpleicons.org/figma/f24e1e"
         },
         {
           "name": "Postman",
-          "color": "#ff6c37"
+          "color": "#ff6c37",
+          "icon": "https://cdn.simpleicons.org/postman/ff6c37"
         },
         {
           "name": "Stripe",
-          "color": "#008cdd"
+          "color": "#008cdd",
+          "icon": "https://cdn.simpleicons.org/stripe/008cdd"
         },
         {
           "name": "OpenAI",
-          "color": "#412991"
+          "color": "#412991",
+          "icon": "https://api.iconify.design/simple-icons:openai.svg?color=%23412991"
         },
         {
           "name": "TensorFlow",
-          "color": "#ff6f00"
+          "color": "#ff6f00",
+          "icon": "https://cdn.simpleicons.org/tensorflow/ff6f00"
         },
         {
           "name": "PyTorch",
-          "color": "#ee4c2c"
+          "color": "#ee4c2c",
+          "icon": "https://cdn.simpleicons.org/pytorch/ee4c2c"
         },
         {
           "name": "Electron",
-          "color": "#47848f"
+          "color": "#47848f",
+          "icon": "https://cdn.simpleicons.org/electron/47848f"
         },
         {
           "name": "Tauri",
-          "color": "#ffc131"
+          "color": "#ffc131",
+          "icon": "https://cdn.simpleicons.org/tauri/ffc131"
         }
       ],
       "custom": []

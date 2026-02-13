@@ -1,11 +1,24 @@
+import type { Theme, Settings } from '@core/types'
+
 interface TagFilterBarProps {
   tags: string[]
   activeTag: string | null
   onTagClick: (tag: string | null) => void
+  theme?: Theme | null
+  settings?: Settings
 }
 
-export function TagFilterBar({ tags, activeTag, onTagClick }: TagFilterBarProps) {
+export function TagFilterBar({ tags, activeTag, onTagClick, theme = null, settings }: TagFilterBarProps) {
   if (tags.length === 0) return null
+
+  const showIcons = theme?.effects?.showTagIcons ?? false
+  const allTags = settings ? [...settings.tags.predefined, ...settings.tags.custom] : []
+
+  // Helper function to get tag icon
+  const getTagIcon = (tagName: string): string | undefined => {
+    const tagInfo = allTags.find(t => t.name === tagName)
+    return tagInfo?.icon
+  }
 
   return (
     <div
@@ -66,42 +79,64 @@ export function TagFilterBar({ tags, activeTag, onTagClick }: TagFilterBarProps)
         )}
 
         {/* Tag chips */}
-        {tags.map((tag) => (
-          <button
-            key={tag}
-            onClick={() => onTagClick(activeTag === tag ? null : tag)}
-            aria-label={`Filter by ${tag}`}
-            aria-pressed={activeTag === tag}
-            style={{
-              padding: '0.375rem 0.75rem',
-              fontSize: '0.8125rem',
-              fontFamily: 'var(--font-mono)',
-              fontWeight: 500,
-              color: activeTag === tag ? '#fff' : 'var(--color-text)',
-              backgroundColor: activeTag === tag ? 'var(--color-accent)' : 'var(--color-accent-soft)',
-              border: '1px solid',
-              borderColor: activeTag === tag ? 'var(--color-accent)' : 'transparent',
-              borderRadius: 'var(--radius-sm)',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              userSelect: 'none'
-            }}
-            onMouseEnter={(e) => {
-              if (activeTag !== tag) {
-                e.currentTarget.style.backgroundColor = 'var(--color-accent)'
-                e.currentTarget.style.color = '#fff'
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTag !== tag) {
-                e.currentTarget.style.backgroundColor = 'var(--color-accent-soft)'
-                e.currentTarget.style.color = 'var(--color-text)'
-              }
-            }}
-          >
-            {tag}
-          </button>
-        ))}
+        {tags.map((tag) => {
+          const icon = showIcons ? getTagIcon(tag) : undefined
+
+          return (
+            <button
+              key={tag}
+              onClick={() => onTagClick(activeTag === tag ? null : tag)}
+              aria-label={`Filter by ${tag}`}
+              aria-pressed={activeTag === tag}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.375rem',
+                padding: '0.375rem 0.75rem',
+                fontSize: '0.8125rem',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 500,
+                color: activeTag === tag ? '#fff' : 'var(--color-text)',
+                backgroundColor: activeTag === tag ? 'var(--color-accent)' : 'var(--color-accent-soft)',
+                border: '1px solid',
+                borderColor: activeTag === tag ? 'var(--color-accent)' : 'transparent',
+                borderRadius: 'var(--radius-sm)',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                userSelect: 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (activeTag !== tag) {
+                  e.currentTarget.style.backgroundColor = 'var(--color-accent)'
+                  e.currentTarget.style.color = '#fff'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeTag !== tag) {
+                  e.currentTarget.style.backgroundColor = 'var(--color-accent-soft)'
+                  e.currentTarget.style.color = 'var(--color-text)'
+                }
+              }}
+            >
+              {icon && (
+                <img
+                  src={icon}
+                  alt=""
+                  style={{
+                    width: '14px',
+                    height: '14px',
+                    objectFit: 'contain',
+                    flexShrink: 0
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                  }}
+                />
+              )}
+              <span>{tag}</span>
+            </button>
+          )
+        })}
       </div>
     </div>
   )

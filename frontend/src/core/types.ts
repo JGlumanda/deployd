@@ -25,6 +25,7 @@ export interface Profile {
 export interface Tag {
   name: string;
   color?: string;
+  icon?: string; // URL to icon/logo image
 }
 
 export const PROJECT_STATUSES = ["active", "wip", "archived"] as const;
@@ -138,6 +139,7 @@ export interface ThemeEffects {
   cardRotation?: boolean | number;
   animationStyle?: AnimationStyle;
   cardShadow?: CardShadowStyle;
+  showTagIcons?: boolean;
 }
 
 export interface ProjectImageStyle {
