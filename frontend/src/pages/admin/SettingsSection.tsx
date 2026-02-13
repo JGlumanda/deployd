@@ -11,6 +11,7 @@ interface SettingsSectionProps {
 export default function SettingsSection({ settings, projects, onUpdateSettings, onReset }: SettingsSectionProps) {
   const [githubToken, setGithubToken] = useState('')
   const [descriptionMaxChars, setDescriptionMaxChars] = useState(settings.cardDescriptionMaxChars)
+  const [tagSearch, setTagSearch] = useState('')
 
   const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
     onUpdateSettings({ ...settings, [key]: value })
@@ -85,6 +86,10 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
     ...settings.tags.predefined.map((t: Tag, i: number) => ({ ...t, isPredefined: true, index: i })),
     ...settings.tags.custom.map((t: Tag, i: number) => ({ ...t, isPredefined: false, index: i })),
   ]
+
+  const filteredTags = allTags.filter(tag =>
+    tag.name.toLowerCase().includes(tagSearch.toLowerCase())
+  )
 
   return (
     <div>
@@ -410,6 +415,26 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           Manage standard tags and custom tags. Color per tag optional.
         </p>
 
+        {/* Search Input */}
+        <div style={{ marginBottom: 12 }}>
+          <input
+            type="text"
+            placeholder="Search tags..."
+            value={tagSearch}
+            onChange={(e) => setTagSearch(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px 14px',
+              borderRadius: 8,
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-card)',
+              color: 'var(--color-heading)',
+              fontSize: 13,
+              outline: 'none',
+            }}
+          />
+        </div>
+
         <div style={{
           background: 'var(--color-card)',
           border: '1px solid var(--color-border)',
@@ -419,7 +444,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           {/* Header */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '20px 1fr 100px 30px',
+            gridTemplateColumns: '20px 40px 1fr 150px 100px 30px',
             gap: 8,
             padding: '8px 14px',
             borderBottom: '1px solid var(--color-border)',
@@ -436,7 +461,21 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               fontWeight: 600,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
+            }}>Icon</span>
+            <span style={{
+              fontSize: 9,
+              color: 'var(--color-text-muted)',
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
             }}>Name</span>
+            <span style={{
+              fontSize: 9,
+              color: 'var(--color-text-muted)',
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+            }}>Icon URL</span>
             <span style={{
               fontSize: 9,
               color: 'var(--color-text-muted)',
@@ -447,8 +486,12 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             <span></span>
           </div>
 
-          {/* Rows */}
-          {allTags.map((tag, i) => {
+          {/* Rows - Scrollable */}
+          <div style={{
+            maxHeight: '400px',
+            overflowY: 'auto',
+          }}>
+          {filteredTags.map((tag, i) => {
             const usage = getTagUsage(tag.name)
             const canDelete = usage === 0 && !tag.isPredefined
 
@@ -457,11 +500,11 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 key={`${tag.isPredefined ? 'pred' : 'custom'}-${tag.index}`}
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '20px 1fr 100px 30px',
+                  gridTemplateColumns: '20px 40px 1fr 150px 100px 30px',
                   gap: 8,
                   padding: '10px 14px',
                   alignItems: 'center',
-                  borderBottom: i < allTags.length - 1 ? '1px solid var(--color-bg-alt)' : 'none',
+                  borderBottom: i < filteredTags.length - 1 ? '1px solid var(--color-bg-alt)' : 'none',
                   background: i % 2 === 0 ? 'var(--color-card)' : 'var(--color-bg-alt)',
                 }}
               >
@@ -473,6 +516,39 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                   background: tag.color || 'var(--color-border)',
                   border: '1px solid var(--color-border)',
                 }} />
+
+                {/* Icon preview */}
+                <div style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 4,
+                  border: '1px solid var(--color-border)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  background: 'var(--color-bg-alt)',
+                }}>
+                  {tag.icon ? (
+                    <img
+                      src={tag.icon}
+                      alt={tag.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                      }}
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                  ) : (
+                    <span style={{
+                      fontSize: 8,
+                      color: 'var(--color-text-muted)',
+                    }}>-</span>
+                  )}
+                </div>
 
                 {/* Name + info */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -507,6 +583,24 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                     ({usage}×)
                   </span>
                 </div>
+
+                {/* Icon URL input */}
+                <input
+                  type="text"
+                  value={tag.icon || ''}
+                  onChange={(e) => updateTag(tag.isPredefined, tag.index, { icon: e.target.value || undefined })}
+                  placeholder="Icon URL"
+                  style={{
+                    border: '1px solid var(--color-border)',
+                    background: 'transparent',
+                    fontSize: 11,
+                    color: 'var(--color-heading)',
+                    outline: 'none',
+                    padding: '4px 8px',
+                    borderRadius: 4,
+                    fontFamily: "'IBM Plex Mono', monospace",
+                  }}
+                />
 
                 {/* Color picker */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -546,6 +640,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               </div>
             )
           })}
+          </div>
         </div>
 
         <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 8 }}>
