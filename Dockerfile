@@ -30,8 +30,8 @@ COPY backend/ ./backend/
 # Copy built frontend from stage 1
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
-# Copy config.json (will be overridden by volume in production)
-COPY config.json ./config.json
+# Copy default config template
+COPY config/config.default.json ./config.default.json
 
 # Expose port
 EXPOSE 3000
@@ -40,4 +40,5 @@ EXPOSE 3000
 WORKDIR /app/backend
 
 # Run backend with tsx
+# Backend automatically creates config.json with defaults if missing
 CMD ["npx", "tsx", "server.ts"]

@@ -1,6 +1,13 @@
+name: deployd
+
+# First time setup: Create empty config.json before starting
+# Run: echo "{}" > config.json
+#
+# For production with HTTPS: docker-compose -f docker/docker-compose.prod.yml up -d
+# For use with own reverse proxy: docker-compose -f docker/docker-compose.simple.yml up -d
+
 services:
   app:
-    image: deployd:latest
     build:
       context: .
       dockerfile: Dockerfile
