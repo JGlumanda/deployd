@@ -21,8 +21,8 @@ const app = express();
 app.set('trust proxy', true);
 
 const PORT = process.env.PORT || 3000;
-const CONFIG_PATH = join(__dirname, '..', 'config.json');
-const DEFAULT_CONFIG_PATH = join(__dirname, '..', 'config.default.json');
+const CONFIG_PATH = join(__dirname, '..', 'data', 'config.json');
+const DEFAULT_CONFIG_PATH = join(__dirname, '..', 'config', 'config.default.json');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*'; // For CORS

@@ -30,8 +30,11 @@ COPY backend/ ./backend/
 # Copy built frontend from stage 1
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
-# Copy default config template
-COPY config/config.default.json ./config.default.json
+# Copy config templates
+COPY config/ ./config/
+
+# Create data directory (will be mounted in production)
+RUN mkdir -p data
 
 # Expose port
 EXPOSE 3000

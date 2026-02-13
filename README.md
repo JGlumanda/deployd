@@ -74,10 +74,11 @@ docker run -d \
 git clone https://github.com/jglumanda/deployd.git
 cd deployd
 
-# Start with docker-compose
+# Start with docker-compose (config.json is automatically created!)
 docker-compose up -d
 
 # Open http://localhost:3000
+# Your config is in data/config.json and persists across restarts
 ```
 
 ### 🔧 With Your Own Reverse Proxy
@@ -89,9 +90,10 @@ docker-compose up -d
 git clone https://github.com/jglumanda/deployd.git
 cd deployd
 
-# 2. Create config.json (or use default)
-cp config/config.default.json config.json
-nano config.json  # Edit with your info
+# 2. (Optional) Customize config before first start
+cp config/config.default.json data/config.json
+nano data/config.json  # Edit with your info
+# Or skip this - config.json will be auto-created on first run!
 
 # 3. Set environment variables
 export ADMIN_PASSWORD=your-secure-password

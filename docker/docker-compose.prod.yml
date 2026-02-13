@@ -14,7 +14,7 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN:-}
       - ALLOWED_ORIGIN=https://${DOMAIN}
     volumes:
-      - ../config.json:/app/config.json
+      - ../data:/app/data
     restart: unless-stopped
     networks:
       - deployd-network

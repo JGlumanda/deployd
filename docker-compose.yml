@@ -1,7 +1,6 @@
 name: deployd
 
-# First time setup: Create empty config.json before starting
-# Run: echo "{}" > config.json
+# The data/ directory is automatically created and config.json is generated on first run
 #
 # For production with HTTPS: docker-compose -f docker/docker-compose.prod.yml up -d
 # For use with own reverse proxy: docker-compose -f docker/docker-compose.simple.yml up -d
@@ -19,5 +18,5 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN:-}
       - NODE_ENV=production
     volumes:
-      - ./config.json:/app/config.json
+      - ./data:/app/data
     restart: unless-stopped
