@@ -22,6 +22,7 @@ app.set('trust proxy', true);
 
 const PORT = process.env.PORT || 3000;
 const CONFIG_PATH = join(__dirname, '..', 'config.json');
+const DEFAULT_CONFIG_PATH = join(__dirname, '..', 'config.default.json');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*'; // For CORS
@@ -81,12 +82,13 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-// Default config to use when config.json doesn't exist
+// Minimal fallback config (should never be used since config.default.json is always in the container)
+// This exists only as a safety net if config.default.json is somehow missing
 const DEFAULT_CONFIG: AppConfig = {
   profile: {
     name: 'deployd',
-    tagline: 'Self-hosted Project Showcase',
-    bio: 'Welcome to deployd - a modern, themeable project showcase platform. Edit this profile in the admin panel to get started.',
+    tagline: 'Configuration Error: config.default.json is missing',
+    bio: '**Error**: The default configuration file is missing from the container. Please rebuild the Docker image.',
     avatar: null,
     links: {}
   },
@@ -104,159 +106,45 @@ const DEFAULT_CONFIG: AppConfig = {
     },
     tags: {
       predefined: [
-        // Frontend Frameworks & Libraries
-        { name: 'React', color: '#61dafb' },
-        { name: 'Vue', color: '#4fc08d' },
-        { name: 'Angular', color: '#dd0031' },
-        { name: 'Svelte', color: '#ff3e00' },
-        { name: 'Next.js', color: '#000000' },
-        { name: 'Nuxt', color: '#00dc82' },
-        { name: 'Astro', color: '#ff5d01' },
-        { name: 'SolidJS', color: '#446b9e' },
-        { name: 'Preact', color: '#673ab8' },
-        { name: 'Qwik', color: '#18b6f6' },
-
-        // Backend Frameworks
-        { name: 'Node.js', color: '#339933' },
-        { name: 'Express', color: '#000000' },
-        { name: 'Fastify', color: '#000000' },
-        { name: 'NestJS', color: '#e0234e' },
-        { name: 'Django', color: '#092e20' },
-        { name: 'Flask', color: '#000000' },
-        { name: 'FastAPI', color: '#009688' },
-        { name: 'Spring Boot', color: '#6db33f' },
-        { name: 'Laravel', color: '#ff2d20' },
-        { name: 'Ruby on Rails', color: '#cc0000' },
-        { name: 'ASP.NET', color: '#512bd4' },
-        { name: 'Go Fiber', color: '#00add8' },
-
-        // Programming Languages
-        { name: 'TypeScript', color: '#3178c6' },
-        { name: 'JavaScript', color: '#f7df1e' },
-        { name: 'Python', color: '#3776ab' },
-        { name: 'Java', color: '#007396' },
-        { name: 'Go', color: '#00add8' },
-        { name: 'Rust', color: '#000000' },
-        { name: 'C++', color: '#00599c' },
-        { name: 'C#', color: '#239120' },
-        { name: 'PHP', color: '#777bb4' },
-        { name: 'Ruby', color: '#cc342d' },
-        { name: 'Swift', color: '#f05138' },
-        { name: 'Kotlin', color: '#7f52ff' },
-        { name: 'Dart', color: '#0175c2' },
-        { name: 'Elixir', color: '#4b275f' },
-        { name: 'Scala', color: '#dc322f' },
-
-        // Databases
-        { name: 'PostgreSQL', color: '#4169e1' },
-        { name: 'MySQL', color: '#4479a1' },
-        { name: 'MongoDB', color: '#47a248' },
-        { name: 'Redis', color: '#dc382d' },
-        { name: 'SQLite', color: '#003b57' },
-        { name: 'MariaDB', color: '#003545' },
-        { name: 'Supabase', color: '#3ecf8e' },
-        { name: 'Firebase', color: '#ffca28' },
-        { name: 'Prisma', color: '#2d3748' },
-        { name: 'Drizzle', color: '#c5f74f' },
-
-        // DevOps & Cloud
-        { name: 'Docker', color: '#2496ed' },
-        { name: 'Kubernetes', color: '#326ce5' },
-        { name: 'AWS', color: '#ff9900' },
-        { name: 'Azure', color: '#0078d4' },
-        { name: 'GCP', color: '#4285f4' },
-        { name: 'Vercel', color: '#000000' },
-        { name: 'Netlify', color: '#00c7b7' },
-        { name: 'Heroku', color: '#430098' },
-        { name: 'DigitalOcean', color: '#0080ff' },
-        { name: 'Cloudflare', color: '#f38020' },
-        { name: 'Terraform', color: '#7b42bc' },
-        { name: 'Ansible', color: '#ee0000' },
-
-        // Mobile Development
-        { name: 'React Native', color: '#61dafb' },
-        { name: 'Flutter', color: '#02569b' },
-        { name: 'Expo', color: '#000020' },
-        { name: 'Ionic', color: '#3880ff' },
-        { name: 'Capacitor', color: '#119eff' },
-
-        // CSS & Styling
-        { name: 'Tailwind CSS', color: '#06b6d4' },
-        { name: 'Sass', color: '#cc6699' },
-        { name: 'CSS', color: '#1572b6' },
-        { name: 'Styled Components', color: '#db7093' },
-        { name: 'Emotion', color: '#d36ac2' },
-        { name: 'Material-UI', color: '#007fff' },
-        { name: 'Chakra UI', color: '#319795' },
-        { name: 'shadcn/ui', color: '#000000' },
-
-        // State Management
-        { name: 'Redux', color: '#764abc' },
-        { name: 'Zustand', color: '#443e38' },
-        { name: 'Jotai', color: '#000000' },
-        { name: 'Recoil', color: '#3578e5' },
-        { name: 'MobX', color: '#ff9955' },
-        { name: 'Pinia', color: '#ffd859' },
-
-        // Testing
-        { name: 'Jest', color: '#c21325' },
-        { name: 'Vitest', color: '#6e9f18' },
-        { name: 'Cypress', color: '#17202c' },
-        { name: 'Playwright', color: '#2ead33' },
-        { name: 'Testing Library', color: '#e33332' },
-
-        // Build Tools & Bundlers
-        { name: 'Vite', color: '#646cff' },
-        { name: 'Webpack', color: '#8dd6f9' },
-        { name: 'Turbopack', color: '#0a7ea4' },
-        { name: 'esbuild', color: '#ffcf00' },
-        { name: 'Rollup', color: '#ec4a3f' },
-        { name: 'Parcel', color: '#e7a87b' },
-
-        // GraphQL & APIs
-        { name: 'GraphQL', color: '#e10098' },
-        { name: 'Apollo', color: '#311c87' },
-        { name: 'tRPC', color: '#2596be' },
-        { name: 'REST API', color: '#009688' },
-        { name: 'gRPC', color: '#244c5a' },
-
-        // Tools & Others
-        { name: 'Git', color: '#f05032' },
-        { name: 'GitHub', color: '#181717' },
-        { name: 'GitLab', color: '#fc6d26' },
-        { name: 'GitHub Actions', color: '#2088ff' },
-        { name: 'Jenkins', color: '#d24939' },
-        { name: 'CircleCI', color: '#343434' },
-        { name: 'Nginx', color: '#009639' },
-        { name: 'Apache', color: '#d22128' },
-        { name: 'Linux', color: '#fcc624' },
-        { name: 'Ubuntu', color: '#e95420' },
-        { name: 'VS Code', color: '#007acc' },
-        { name: 'Figma', color: '#f24e1e' },
-        { name: 'Postman', color: '#ff6c37' },
-        { name: 'Stripe', color: '#008cdd' },
-        { name: 'OpenAI', color: '#412991' },
-        { name: 'TensorFlow', color: '#ff6f00' },
-        { name: 'PyTorch', color: '#ee4c2c' },
-        { name: 'Electron', color: '#47848f' },
-        { name: 'Tauri', color: '#ffc131' }
+        // No tags in fallback config - all tags are in config.default.json
       ],
       custom: []
     }
   }
 };
+// Helper function to load default config from template file
+async function loadDefaultConfig(): Promise<AppConfig> {
+  try {
+    const data = await readFile(DEFAULT_CONFIG_PATH, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Warning: Could not read config.default.json, using minimal fallback');
+    return DEFAULT_CONFIG; // Fallback to hardcoded minimal config
+  }
+}
 
 // Helper function to read config
 async function readConfig(): Promise<AppConfig> {
   try {
     const data = await readFile(CONFIG_PATH, 'utf-8');
-    return JSON.parse(data);
+    const config = JSON.parse(data);
+
+    // If config is empty or missing required fields, use defaults from template
+    if (!config || !config.profile || Object.keys(config).length === 0) {
+      console.log('config.json is empty or invalid, loading default configuration from template');
+      const defaultConfig = await loadDefaultConfig();
+      await saveConfig(defaultConfig);
+      return defaultConfig;
+    }
+
+    return config;
   } catch (error: unknown) {
-    // If file doesn't exist, create it with default config
+    // If file doesn't exist, create it with default config from template
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
-      console.log('config.json not found, creating default configuration');
-      await saveConfig(DEFAULT_CONFIG);
-      return DEFAULT_CONFIG;
+      console.log('config.json not found, loading default configuration from template');
+      const defaultConfig = await loadDefaultConfig();
+      await saveConfig(defaultConfig);
+      return defaultConfig;
     }
     throw new Error('Failed to read config.json');
   }

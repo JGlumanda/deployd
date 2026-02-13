@@ -80,6 +80,36 @@ docker-compose up -d
 # Open http://localhost:3000
 ```
 
+### 🔧 With Your Own Reverse Proxy
+
+**Already have Nginx, Traefik, or Caddy?** Use the simple setup:
+
+```bash
+# 1. Clone repository
+git clone https://github.com/jglumanda/deployd.git
+cd deployd
+
+# 2. Create config.json (or use default)
+cp config/config.default.json config.json
+nano config.json  # Edit with your info
+
+# 3. Set environment variables
+export ADMIN_PASSWORD=your-secure-password
+export GITHUB_TOKEN=your-github-token  # Optional
+
+# 4. Start the app (port 3000)
+docker-compose -f docker/docker-compose.simple.yml up -d
+
+# ✅ App running on http://localhost:3000
+# Now configure your reverse proxy to point to port 3000
+```
+
+**Features:**
+- ✅ Just the app, no bundled reverse proxy
+- ✅ Uses pre-built image from GitHub Container Registry
+- ✅ Integrates with your existing infrastructure
+- ✅ Port 3000 by default (configurable)
+
 ### 🌐 Production (HTTPS) - **Recommended**
 
 **Automatic HTTPS with Caddy** (5 minutes)
@@ -90,11 +120,11 @@ git clone https://github.com/jglumanda/deployd.git
 cd deployd
 
 # 2. Configure environment
-cp .env.production.example .env
+cp config/.env.production.example .env
 nano .env  # Set DOMAIN and ADMIN_PASSWORD
 
 # 3. Start with automatic HTTPS!
-docker-compose -f docker-compose.prod.yml up -d
+docker-compose -f docker/docker-compose.prod.yml up -d
 
 # ✅ Opens automatically at https://yourdomain.com
 ```
@@ -107,7 +137,7 @@ docker-compose -f docker-compose.prod.yml up -d
 - ✅ Security headers
 - ✅ CORS protection
 
-📖 **Full guide:** See [PRODUCTION.md](PRODUCTION.md) for detailed deployment instructions
+📖 **Full guide:** See [docs/PRODUCTION.md](docs/PRODUCTION.md) for detailed deployment instructions
 
 ### Local Development
 
@@ -310,7 +340,31 @@ NODE_ENV=production
 
 ### Configuration
 
-All data is stored in `config.json` at the project root. The file is auto-created with sensible defaults if missing.
+All data is stored in `config.json` at the project root.
+
+#### First Time Setup
+
+When you pull the Docker image and run it **without mounting a config.json**, you'll see a default placeholder configuration that prompts you to set up the admin panel:
+
+- **Username**: deployd
+- **Tagline**: "Successfully deployed! Please visit /admin to configure your showcase"
+- **Sample project** to demonstrate the layout
+
+**To customize your showcase**, create your own `config.json`:
+
+```bash
+# Option 1: Copy the default template
+curl -O https://raw.githubusercontent.com/jglumanda/deployd/main/config.default.json
+mv config.default.json config.json
+
+# Option 2: Create from scratch (see structure below)
+
+# Then mount it when running Docker
+docker run -d \
+  -p 3000:3000 \
+  -v $(pwd)/config.json:/app/config.json \
+  ghcr.io/jglumanda/deployd:latest
+```
 
 #### Config Structure
 
