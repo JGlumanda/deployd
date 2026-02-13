@@ -69,7 +69,7 @@
         {
           "name": "Nuxt",
           "color": "#00dc82",
-          "icon": "https://cdn.simpleicons.org/nuxtdotjs/00dc82"
+          "icon": "https://cdn.simpleicons.org/nuxt/00dc82"
         },
         {
           "name": "Astro",
@@ -149,7 +149,7 @@
         {
           "name": "Go Fiber",
           "color": "#00add8",
-          "icon": "https://cdn.simpleicons.org/fiber/00add8"
+          "icon": "https://raw.githubusercontent.com/gofiber/docs/master/static/img/logo.svg"
         },
         {
           "name": "TypeScript",
@@ -189,7 +189,7 @@
         {
           "name": "C#",
           "color": "#239120",
-          "icon": "https://cdn.simpleicons.org/csharp/239120"
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
         },
         {
           "name": "PHP",
@@ -289,12 +289,12 @@
         {
           "name": "AWS",
           "color": "#ff9900",
-          "icon": "https://cdn.simpleicons.org/amazonaws/ff9900"
+          "icon": "https://api.iconify.design/logos/aws.svg"
         },
         {
           "name": "Azure",
           "color": "#0078d4",
-          "icon": "https://cdn.simpleicons.org/microsoftazure/0078d4"
+          "icon": "https://api.iconify.design/skill-icons/azure-dark.svg"
         },
         {
           "name": "GCP",
@@ -314,7 +314,7 @@
         {
           "name": "Heroku",
           "color": "#430098",
-          "icon": "https://cdn.simpleicons.org/heroku/430098"
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/heroku/heroku-original.svg"
         },
         {
           "name": "DigitalOcean",
@@ -374,7 +374,7 @@
         {
           "name": "CSS",
           "color": "#1572b6",
-          "icon": "https://cdn.simpleicons.org/css3/1572b6"
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
         },
         {
           "name": "Styled Components",
@@ -384,7 +384,7 @@
         {
           "name": "Emotion",
           "color": "#d36ac2",
-          "icon": "https://cdn.simpleicons.org/emotion/d36ac2"
+          "icon": "https://emotion.sh/logo-48x48.png"
         },
         {
           "name": "Material-UI",
@@ -409,12 +409,12 @@
         {
           "name": "Zustand",
           "color": "#443e38",
-          "icon": "https://cdn.simpleicons.org/zustand/443e38"
+          "icon": "https://cdn.jsdelivr.net/gh/pmndrs/zustand@main/docs/bear.jpg"
         },
         {
           "name": "Jotai",
           "color": "#000000",
-          "icon": "https://cdn.simpleicons.org/jotai/000000"
+          "icon": "https://jotai.org/favicon.svg"
         },
         {
           "name": "Recoil",
@@ -449,7 +449,7 @@
         {
           "name": "Playwright",
           "color": "#2ead33",
-          "icon": "https://cdn.simpleicons.org/playwright/2ead33"
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/playwright/playwright-original.svg"
         },
         {
           "name": "Testing Library",
@@ -469,7 +469,7 @@
         {
           "name": "Turbopack",
           "color": "#0a7ea4",
-          "icon": "https://cdn.simpleicons.org/turbopack/0a7ea4"
+          "icon": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/turbopack-icon.svg"
         },
         {
           "name": "esbuild",
@@ -484,7 +484,7 @@
         {
           "name": "Parcel",
           "color": "#e7a87b",
-          "icon": "https://cdn.simpleicons.org/parcel/e7a87b"
+          "icon": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/parcel-icon.svg"
         },
         {
           "name": "GraphQL",
@@ -508,7 +508,7 @@
         {
           "name": "gRPC",
           "color": "#244c5a",
-          "icon": "https://cdn.simpleicons.org/grpc/244c5a"
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grpc/grpc-original.svg"
         },
         {
           "name": "Git",
@@ -563,7 +563,7 @@
         {
           "name": "VS Code",
           "color": "#007acc",
-          "icon": "https://cdn.simpleicons.org/visualstudiocode/007acc"
+          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
         },
         {
           "name": "Figma",
@@ -583,7 +583,7 @@
         {
           "name": "OpenAI",
           "color": "#412991",
-          "icon": "https://cdn.simpleicons.org/openai/412991"
+          "icon": "https://api.iconify.design/simple-icons:openai.svg?color=%23412991"
         },
         {
           "name": "TensorFlow",
