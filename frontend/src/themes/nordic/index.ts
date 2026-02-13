@@ -51,6 +51,7 @@ export const nordic: Theme = {
   effects: {
     animationStyle: 'fade',
     cardShadow: 'soft',
+    showTagIcons: true,
   },
   projectImageStyle: {
     background: 'linear-gradient(135deg, #E8DCC8 0%, #C9B8A3 50%, #B8A891 100%)',

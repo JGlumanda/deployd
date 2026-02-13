@@ -57,5 +57,6 @@ export const brutalist: Theme = {
     cardRotation: 0.4,
     animationStyle: 'pop',
     cardShadow: 'offset',
+    showTagIcons: true,
   },
 }

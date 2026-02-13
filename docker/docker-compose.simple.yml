@@ -12,5 +12,5 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN:-}
       - ALLOWED_ORIGIN=${ALLOWED_ORIGIN:-}
     volumes:
-      - ../config.json:/app/config.json
+      - ../data:/app/data
     restart: unless-stopped

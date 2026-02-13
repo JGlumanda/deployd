@@ -190,6 +190,8 @@ export default function ShowcasePage() {
       tags={projectsHook.allTags}
       activeTag={projectsHook.tagFilter}
       onTagClick={projectsHook.setTagFilter}
+      theme={theme}
+      settings={config.settings}
     />
   )
 
@@ -264,6 +266,7 @@ export default function ShowcasePage() {
                     titleMaxLines={config.settings.cardTitleMaxLines}
                     descriptionMaxChars={config.settings.cardDescriptionMaxChars}
                     theme={theme}
+                    settings={config.settings}
                   />
                 </CardWrapper>
               </div>
@@ -294,6 +297,8 @@ export default function ShowcasePage() {
                   maxVisibleTags={config.settings.maxVisibleTags}
                   descriptionMaxChars={config.settings.cardDescriptionMaxChars}
                   onClick={setSelectedProject}
+                  theme={theme}
+                  settings={config.settings}
                 />
               </div>
             )
@@ -408,7 +413,7 @@ export default function ShowcasePage() {
       {/* Modal */}
       {selectedProject && (
         <ModalWrapper project={selectedProject} onClose={() => setSelectedProject(null)}>
-          <ModalContent project={selectedProject} theme={theme} />
+          <ModalContent project={selectedProject} theme={theme} settings={config.settings} />
         </ModalWrapper>
       )}
 
