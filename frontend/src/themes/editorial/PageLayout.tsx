@@ -8,29 +8,17 @@ export function PageLayout({
   sidebar,
 }: PageLayoutProps) {
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--color-bg)',
-        fontFamily: 'var(--font-body)',
-      }}
-    >
+    <div className="min-h-screen bg-bg font-body">
       <div
-        style={{
-          maxWidth: 940,
-          margin: '0 auto',
-          padding: '48px 28px 80px',
-        }}
+        className="max-w-[940px] mx-auto"
+        style={{ padding: '48px 28px 80px' }}
       >
         {hero}
 
         {/* Two-column magazine layout */}
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 280px',
-            gap: 48,
-          }}
+          className="grid gap-12"
+          style={{ gridTemplateColumns: '1fr 280px' }}
         >
           {/* Main content column */}
           <div>

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { cn } from '@core/utils/cn'
 import { useConfig } from '@core/hooks/useConfig'
 import { useTheme } from '@core/hooks/useTheme'
 
@@ -60,64 +61,23 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
 
       // Password is valid, authenticate user
       onAuthenticated(password)
-    } catch (err) {
+    } catch {
       setError('Server connection error')
       setValidating(false)
     }
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'var(--color-bg)',
-      fontFamily: 'var(--font-body)',
-    }}>
-      <div style={{
-        width: '100%',
-        maxWidth: 380,
-        padding: '40px',
-        background: 'var(--color-card)',
-        border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius-lg)',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
-      }}>
-        <style>{`
-          @media (max-width: 480px) {
-            div[style*="maxWidth: 380"] {
-              padding: 24px !important;
-              margin: 0 16px !important;
-            }
-          }
-        `}</style>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h1 style={{
-            fontSize: 24,
-            fontWeight: 700,
-            color: 'var(--color-heading)',
-            fontFamily: 'var(--font-heading)',
-            marginBottom: 4,
-          }}>Admin</h1>
-          <p style={{
-            fontSize: 11,
-            color: 'var(--color-text-muted)',
-            fontFamily: 'var(--font-mono)',
-          }}>deployd</p>
+    <div className="min-h-screen flex items-center justify-center bg-bg font-body">
+      <div className="w-full max-w-[380px] p-6 sm:p-10 bg-card border border-border rounded-lg shadow-lg">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-heading font-heading mb-1">Admin</h1>
+          <p className="text-[11px] text-text-muted font-mono">deployd</p>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: 20 }}>
-            <label style={{
-              display: 'block',
-              fontSize: 11,
-              fontWeight: 600,
-              color: 'var(--color-text-muted)',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              marginBottom: 8,
-            }}>Password</label>
+          <div className="mb-5">
+            <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-2">Password</label>
             <input
               type="password"
               value={password}
@@ -128,45 +88,25 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
               }}
               placeholder="Enter your admin password"
               autoFocus
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                borderRadius: 'var(--radius-md)',
-                border: error ? '1px solid var(--color-error)' : '1px solid var(--color-input-border)',
-                background: 'var(--color-input-bg)',
-                color: 'var(--color-input-text)',
-                fontSize: 14,
-                outline: 'none',
-                fontFamily: 'var(--font-body)',
-              }}
+              className={cn(
+                'w-full px-3.5 py-3 rounded-md border bg-[var(--color-input-bg)] text-[var(--color-input-text)] text-sm outline-none font-body',
+                error ? 'border-error' : 'border-[var(--color-input-border)]'
+              )}
             />
             {error && (
-              <div style={{
-                marginTop: 8,
-                padding: isRateLimited ? '12px' : '8px 0',
-                background: isRateLimited ? 'var(--color-error-bg)' : 'transparent',
-                borderRadius: isRateLimited ? 'var(--radius-md)' : '0',
-                border: isRateLimited ? '1px solid var(--color-error)' : 'none',
-              }}>
-                <p style={{
-                  fontSize: 12,
-                  color: 'var(--color-error)',
-                  fontWeight: isRateLimited ? 600 : 400,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  margin: 0,
-                }}>
-                  {isRateLimited && <span style={{ fontSize: 16 }}>⏱️</span>}
+              <div className={cn(
+                'mt-2',
+                isRateLimited ? 'p-3 bg-[var(--color-error-bg)] rounded-md border border-error' : 'py-2 px-0 bg-transparent rounded-none border-none'
+              )}>
+                <p className={cn(
+                  'text-xs text-error flex items-center gap-2 m-0',
+                  isRateLimited ? 'font-semibold' : 'font-normal'
+                )}>
+                  {isRateLimited && <span className="text-[16px]">{'\u23F1\uFE0F'}</span>}
                   {error}
                 </p>
                 {isRateLimited && (
-                  <p style={{
-                    fontSize: 11,
-                    color: 'var(--color-text-muted)',
-                    marginTop: 6,
-                    marginBottom: 0,
-                  }}>
+                  <p className="text-[11px] text-text-muted mt-1.5 mb-0">
                     After 5 failed attempts, login will be blocked for 15 minutes.
                   </p>
                 )}
@@ -177,38 +117,19 @@ export default function AdminAuth({ onAuthenticated }: AdminAuthProps) {
           <button
             type="submit"
             disabled={validating || isRateLimited}
-            style={{
-              width: '100%',
-              padding: '12px 16px',
-              borderRadius: 'var(--radius-md)',
-              background: (validating || isRateLimited) ? 'var(--color-text-muted)' : 'var(--color-accent)',
-              color: 'var(--color-card)',
-              border: 'none',
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: (validating || isRateLimited) ? 'not-allowed' : 'pointer',
-              fontFamily: 'var(--font-body)',
-              opacity: (validating || isRateLimited) ? 0.6 : 1,
-            }}
+            className={cn(
+              'w-full px-4 py-3 rounded-md border-none text-sm font-semibold font-body text-card',
+              (validating || isRateLimited)
+                ? 'bg-text-muted cursor-not-allowed opacity-60'
+                : 'bg-accent cursor-pointer opacity-100'
+            )}
           >
             {validating ? 'Validating...' : isRateLimited ? 'Rate Limited' : 'Sign In'}
           </button>
         </form>
 
-        <p style={{
-          fontSize: 11,
-          color: 'var(--color-text-muted)',
-          textAlign: 'center',
-          marginTop: 24,
-          lineHeight: 1.5,
-        }}>
-          The password is the <code style={{
-            background: 'var(--color-bg)',
-            padding: '2px 6px',
-            borderRadius: 'var(--radius-sm)',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--color-text)',
-          }}>ADMIN_PASSWORD</code> environment variable.
+        <p className="text-[11px] text-text-muted text-center mt-6 leading-normal">
+          The password is the <code className="bg-bg px-1.5 py-0.5 rounded-sm font-mono text-text">ADMIN_PASSWORD</code> environment variable.
         </p>
       </div>
     </div>

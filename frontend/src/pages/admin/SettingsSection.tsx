@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { cn } from '@core/utils/cn'
 import type { Settings, Project, Tag } from '@core/types'
 
 interface SettingsSectionProps {
@@ -93,54 +94,35 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
 
   return (
     <div>
-      <h1 style={{
-        fontSize: 24,
-        fontWeight: 700,
-        color: 'var(--color-heading)',
-        fontFamily: "'Libre Baskerville', serif",
-        marginBottom: 28,
-      }}>Settings</h1>
+      <h1 className="text-2xl font-bold text-heading font-heading mb-7">Settings</h1>
 
       {/* GitHub Integration */}
-      <div style={{ marginBottom: 32 }}>
-        <p style={{
-          fontSize: 11,
-          fontWeight: 600,
-          color: 'var(--color-text-muted)',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          marginBottom: 8,
-        }}>GitHub Integration</p>
+      <div className="mb-8">
+        <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-2">GitHub Integration</p>
 
-        <div style={{
-          background: 'var(--color-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 12,
-          padding: 20,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+        <div className="bg-card border border-border rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-1">
             <img src="https://cdn.simpleicons.org/github/2C3E50" width="16" height="16" alt="" />
-            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-heading)' }}>
+            <span className="text-[13px] font-bold text-heading">
               Default GitHub Username
             </span>
           </div>
-          <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 14 }}>
+          <p className="text-xs text-text-muted mb-3.5">
             Set your GitHub username once to quickly import repos and profile data throughout the admin panel.
           </p>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ flex: 1, position: 'relative' }}>
+          <div className="flex items-center gap-2">
+            <div className="flex-1 relative">
               <img
                 src="https://cdn.simpleicons.org/github/A0ADB8"
                 width="14"
                 height="14"
                 alt=""
+                className="absolute pointer-events-none"
                 style={{
-                  position: 'absolute',
                   left: 12,
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  pointerEvents: 'none',
                 }}
               />
               <input
@@ -148,17 +130,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                 value={settings.githubUsername || ''}
                 onChange={(e) => updateSetting('githubUsername', e.target.value || undefined)}
                 placeholder="your-github-username"
-                style={{
-                  width: '100%',
-                  padding: '10px 14px 10px 36px',
-                  borderRadius: 8,
-                  border: '1px solid var(--color-border)',
-                  background: 'var(--color-card)',
-                  color: 'var(--color-heading)',
-                  fontSize: 14,
-                  outline: 'none',
-                  fontFamily: "'IBM Plex Mono', monospace",
-                }}
+                className="w-full py-2.5 pr-3.5 pl-[36px] rounded-lg border border-border bg-card text-heading text-sm outline-none font-mono"
               />
             </div>
           </div>
@@ -166,77 +138,31 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
       </div>
 
       {/* Card Display */}
-      <div style={{ marginBottom: 32 }}>
-        <p style={{
-          fontSize: 11,
-          fontWeight: 600,
-          color: 'var(--color-text-muted)',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          marginBottom: 12,
-        }}>Card Display</p>
+      <div className="mb-8">
+        <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-3">Card Display</p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: 16,
-          marginBottom: 16,
-        }}>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 mb-4">
           <div>
-            <label style={{
-              display: 'block',
-              fontSize: 11,
-              fontWeight: 600,
-              color: 'var(--color-text-muted)',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              marginBottom: 6,
-            }}>Max visible tags</label>
+            <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Max visible tags</label>
             <input
               type="number"
               value={settings.maxVisibleTags}
               onChange={(e) => updateSetting('maxVisibleTags', parseInt(e.target.value) || 1)}
               min={1}
               max={10}
-              style={{
-                width: '100%',
-                padding: '10px 14px',
-                borderRadius: 8,
-                border: '1px solid var(--color-border)',
-                background: 'var(--color-card)',
-                color: 'var(--color-heading)',
-                fontSize: 14,
-                outline: 'none',
-              }}
+              className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
             />
-            <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
+            <p className="text-[11px] text-text-muted mt-1.5">
               Additional tags as "+X" badge.
             </p>
           </div>
 
           <div>
-            <label style={{
-              display: 'block',
-              fontSize: 11,
-              fontWeight: 600,
-              color: 'var(--color-text-muted)',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              marginBottom: 6,
-            }}>Title max lines</label>
+            <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Title max lines</label>
             <select
               value={settings.cardTitleMaxLines}
               onChange={(e) => updateSetting('cardTitleMaxLines', parseInt(e.target.value))}
-              style={{
-                width: '100%',
-                padding: '10px 14px',
-                borderRadius: 8,
-                border: '1px solid var(--color-border)',
-                background: 'var(--color-card)',
-                color: 'var(--color-heading)',
-                fontSize: 14,
-                outline: 'none',
-              }}
+              className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
             >
               <option value="1">1 line</option>
               <option value="2">2 lines</option>
@@ -245,16 +171,8 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
         </div>
 
         <div>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}>Truncate description after</label>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Truncate description after</label>
+          <div className="flex items-center gap-3">
             <input
               type="range"
               min={80}
@@ -263,50 +181,28 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               onChange={(e) => setDescriptionMaxChars(parseInt(e.target.value))}
               onMouseUp={(e) => updateSetting('cardDescriptionMaxChars', parseInt((e.target as HTMLInputElement).value))}
               onTouchEnd={(e) => updateSetting('cardDescriptionMaxChars', parseInt((e.target as HTMLInputElement).value))}
-              style={{ flex: 1, accentColor: 'var(--color-accent)' }}
+              className="flex-1"
+              style={{ accentColor: 'var(--color-accent)' }}
             />
-            <span style={{
-              fontSize: 12,
-              color: 'var(--color-heading)',
-              fontFamily: "'IBM Plex Mono', monospace",
-              width: 100,
-              textAlign: 'right',
-            }}>{descriptionMaxChars} characters</span>
+            <span className="text-xs text-heading font-mono w-[100px] text-right">{descriptionMaxChars} characters</span>
           </div>
-          <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
+          <p className="text-[11px] text-text-muted mt-1.5">
             Text on the card will be truncated after this number of characters with "...". The full text is always shown in the modal.
           </p>
         </div>
       </div>
 
       {/* Health Check */}
-      <div style={{ marginBottom: 32 }}>
-        <p style={{
-          fontSize: 11,
-          fontWeight: 600,
-          color: 'var(--color-text-muted)',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          marginBottom: 12,
-        }}>Health Check</p>
+      <div className="mb-8">
+        <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-3">Health Check</p>
 
-        <div style={{
-          background: 'var(--color-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 10,
-          padding: 18,
-        }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 14,
-          }}>
+        <div className="bg-card border border-border rounded-[10px] p-[18px]">
+          <div className="flex justify-between items-center mb-3.5">
             <div>
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-heading)' }}>
+              <span className="text-[13px] font-semibold text-heading">
                 Check availability
               </span>
-              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 2 }}>
+              <p className="text-[11px] text-text-muted mt-0.5">
                 Checks if live demo URLs are reachable.
               </p>
             </div>
@@ -314,66 +210,46 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             {/* Toggle */}
             <button
               onClick={() => updateHealthCheck('enabled', !settings.healthCheck.enabled)}
+              className="relative cursor-pointer border-none"
               style={{
                 width: 44,
                 height: 24,
                 borderRadius: 12,
-                border: 'none',
                 background: settings.healthCheck.enabled ? 'var(--color-accent)' : 'var(--color-border)',
-                position: 'relative',
-                cursor: 'pointer',
                 transition: 'background 0.3s',
               }}
             >
-              <span style={{
-                position: 'absolute',
-                top: 3,
-                left: settings.healthCheck.enabled ? 23 : 3,
-                width: 18,
-                height: 18,
-                borderRadius: '50%',
-                background: 'var(--color-card)',
-                transition: 'left 0.3s',
-              }} />
+              <span
+                className="absolute rounded-full bg-card"
+                style={{
+                  top: 3,
+                  left: settings.healthCheck.enabled ? 23 : 3,
+                  width: 18,
+                  height: 18,
+                  transition: 'left 0.3s',
+                }}
+              />
             </button>
           </div>
 
           {settings.healthCheck.enabled && (
             <div>
-              <label style={{
-                display: 'block',
-                fontSize: 11,
-                fontWeight: 600,
-                color: 'var(--color-text-muted)',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                marginBottom: 6,
-              }}>Check interval</label>
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Check interval</label>
+              <div className="flex gap-1.5 flex-wrap">
                 {[1, 5, 15, 30, 60].map(minutes => (
                   <button
                     key={minutes}
                     onClick={() => updateHealthCheck('intervalMinutes', minutes)}
-                    style={{
-                      padding: '6px 14px',
-                      borderRadius: 8,
-                      cursor: 'pointer',
-                      fontSize: 12,
-                      fontWeight: 600,
-                      border: settings.healthCheck.intervalMinutes === minutes
-                        ? '1px solid var(--color-accent-soft)'
-                        : '1px solid var(--color-border)',
-                      background: settings.healthCheck.intervalMinutes === minutes
-                        ? 'var(--color-accent-soft)'
-                        : 'var(--color-card)',
-                      color: settings.healthCheck.intervalMinutes === minutes
-                        ? 'var(--color-accent)'
-                        : 'var(--color-text-muted)',
-                    }}
+                    className={cn(
+                      'px-3.5 py-1.5 rounded-lg cursor-pointer text-xs font-semibold',
+                      settings.healthCheck.intervalMinutes === minutes
+                        ? 'border border-accent-soft bg-accent-soft text-accent'
+                        : 'border border-border bg-card text-text-muted'
+                    )}
                   >{minutes === 60 ? '1h' : `${minutes}m`}</button>
                 ))}
               </div>
-              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
+              <p className="text-[11px] text-text-muted mt-1.5">
                 How often to check. Shorter intervals = more requests to your project URLs.
               </p>
             </div>
@@ -382,115 +258,43 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
       </div>
 
       {/* Tag Management */}
-      <div style={{ marginBottom: 32 }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 14,
-        }}>
-          <p style={{
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-          }}>Tag Management</p>
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-3.5">
+          <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase">Tag Management</p>
           <button
             onClick={addTag}
-            style={{
-              padding: '4px 12px',
-              borderRadius: 8,
-              background: 'transparent',
-              color: 'var(--color-accent)',
-              border: '1px solid var(--color-accent-soft)',
-              fontSize: 11,
-              fontWeight: 600,
-              cursor: 'pointer',
-            }}
+            className="px-3 py-1 rounded-lg bg-transparent text-accent border border-accent-soft text-[11px] font-semibold cursor-pointer"
           >+ New Tag</button>
         </div>
 
-        <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 14 }}>
+        <p className="text-xs text-text-muted mb-3.5">
           Manage standard tags and custom tags. Color per tag optional.
         </p>
 
         {/* Search Input */}
-        <div style={{ marginBottom: 12 }}>
+        <div className="mb-3">
           <input
             type="text"
             placeholder="Search tags..."
             value={tagSearch}
             onChange={(e) => setTagSearch(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '10px 14px',
-              borderRadius: 8,
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-heading)',
-              fontSize: 13,
-              outline: 'none',
-            }}
+            className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-[13px] outline-none"
           />
         </div>
 
-        <div style={{
-          background: 'var(--color-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 10,
-          overflow: 'hidden',
-        }}>
+        <div className="bg-card border border-border rounded-[10px] overflow-hidden">
           {/* Header */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '20px 40px 1fr 150px 100px 30px',
-            gap: 8,
-            padding: '8px 14px',
-            borderBottom: '1px solid var(--color-border)',
-            background: 'var(--color-bg-alt)',
-          }}>
-            <span style={{
-              fontSize: 9,
-              color: 'var(--color-text-muted)',
-              fontWeight: 600,
-            }}></span>
-            <span style={{
-              fontSize: 9,
-              color: 'var(--color-text-muted)',
-              fontWeight: 600,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-            }}>Icon</span>
-            <span style={{
-              fontSize: 9,
-              color: 'var(--color-text-muted)',
-              fontWeight: 600,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-            }}>Name</span>
-            <span style={{
-              fontSize: 9,
-              color: 'var(--color-text-muted)',
-              fontWeight: 600,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-            }}>Icon URL</span>
-            <span style={{
-              fontSize: 9,
-              color: 'var(--color-text-muted)',
-              fontWeight: 600,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-            }}>Farbe</span>
+          <div className="grid grid-cols-[20px_40px_1fr_150px_100px_30px] gap-2 px-3.5 py-2 border-b border-border bg-bg-alt">
+            <span className="text-[9px] text-text-muted font-semibold"></span>
+            <span className="text-[9px] text-text-muted font-semibold tracking-wider uppercase">Icon</span>
+            <span className="text-[9px] text-text-muted font-semibold tracking-wider uppercase">Name</span>
+            <span className="text-[9px] text-text-muted font-semibold tracking-wider uppercase">Icon URL</span>
+            <span className="text-[9px] text-text-muted font-semibold tracking-wider uppercase">Farbe</span>
             <span></span>
           </div>
 
           {/* Rows - Scrollable */}
-          <div style={{
-            maxHeight: '400px',
-            overflowY: 'auto',
-          }}>
+          <div className="max-h-[400px] overflow-y-auto">
           {filteredTags.map((tag, i) => {
             const usage = getTagUsage(tag.name)
             const canDelete = usage === 0 && !tag.isPredefined
@@ -498,88 +302,48 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
             return (
               <div
                 key={`${tag.isPredefined ? 'pred' : 'custom'}-${tag.index}`}
+                className={cn(
+                  'grid grid-cols-[20px_40px_1fr_150px_100px_30px] gap-2 px-3.5 py-2.5 items-center',
+                  i % 2 === 0 ? 'bg-card' : 'bg-bg-alt'
+                )}
                 style={{
-                  display: 'grid',
-                  gridTemplateColumns: '20px 40px 1fr 150px 100px 30px',
-                  gap: 8,
-                  padding: '10px 14px',
-                  alignItems: 'center',
                   borderBottom: i < filteredTags.length - 1 ? '1px solid var(--color-bg-alt)' : 'none',
-                  background: i % 2 === 0 ? 'var(--color-card)' : 'var(--color-bg-alt)',
                 }}
               >
                 {/* Color dot */}
-                <div style={{
-                  width: 12,
-                  height: 12,
-                  borderRadius: 3,
-                  background: tag.color || 'var(--color-border)',
-                  border: '1px solid var(--color-border)',
-                }} />
+                <div
+                  className="w-3 h-3 rounded-sm border border-border"
+                  style={{ background: tag.color || 'var(--color-border)' }}
+                />
 
                 {/* Icon preview */}
-                <div style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 4,
-                  border: '1px solid var(--color-border)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  overflow: 'hidden',
-                  background: 'var(--color-bg-alt)',
-                }}>
+                <div className="w-8 h-8 rounded border border-border flex items-center justify-center overflow-hidden bg-bg-alt">
                   {tag.icon ? (
                     <img
                       src={tag.icon}
                       alt={tag.name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'contain',
-                      }}
+                      className="w-full h-full object-contain"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none'
                       }}
                     />
                   ) : (
-                    <span style={{
-                      fontSize: 8,
-                      color: 'var(--color-text-muted)',
-                    }}>-</span>
+                    <span className="text-[8px] text-text-muted">-</span>
                   )}
                 </div>
 
                 {/* Name + info */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div className="flex items-center gap-2">
                   <input
                     type="text"
                     value={tag.name}
                     onChange={(e) => updateTag(tag.isPredefined, tag.index, { name: e.target.value })}
-                    style={{
-                      border: 'none',
-                      background: 'transparent',
-                      fontSize: 13,
-                      fontWeight: 500,
-                      color: 'var(--color-heading)',
-                      outline: 'none',
-                      padding: 0,
-                      width: '100%',
-                    }}
+                    className="border-none bg-transparent text-[13px] font-medium text-heading outline-none p-0 w-full"
                   />
                   {tag.isPredefined && (
-                    <span style={{
-                      fontSize: 8,
-                      fontWeight: 700,
-                      color: 'var(--color-text-muted)',
-                      background: 'var(--color-bg-alt)',
-                      padding: '1px 6px',
-                      borderRadius: 3,
-                      textTransform: 'uppercase',
-                      flexShrink: 0,
-                    }}>Standard</span>
+                    <span className="text-[8px] font-bold text-text-muted bg-bg-alt px-1.5 py-px rounded-sm uppercase shrink-0">Standard</span>
                   )}
-                  <span style={{ fontSize: 10, color: 'var(--color-text-muted)', flexShrink: 0 }}>
+                  <span className="text-[10px] text-text-muted shrink-0">
                     ({usage}×)
                   </span>
                 </div>
@@ -590,52 +354,28 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                   value={tag.icon || ''}
                   onChange={(e) => updateTag(tag.isPredefined, tag.index, { icon: e.target.value || undefined })}
                   placeholder="Icon URL"
-                  style={{
-                    border: '1px solid var(--color-border)',
-                    background: 'transparent',
-                    fontSize: 11,
-                    color: 'var(--color-heading)',
-                    outline: 'none',
-                    padding: '4px 8px',
-                    borderRadius: 4,
-                    fontFamily: "'IBM Plex Mono', monospace",
-                  }}
+                  className="border border-border bg-transparent text-[11px] text-heading outline-none px-2 py-1 rounded font-mono"
                 />
 
                 {/* Color picker */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div className="flex items-center gap-1">
                   <input
                     type="color"
                     value={tag.color || getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim()}
                     onChange={(e) => updateTag(tag.isPredefined, tag.index, { color: e.target.value })}
-                    style={{
-                      width: 24,
-                      height: 24,
-                      border: '1px solid var(--color-border)',
-                      borderRadius: 4,
-                      cursor: 'pointer',
-                      padding: 0,
-                    }}
+                    className="w-6 h-6 border border-border rounded cursor-pointer p-0"
                   />
-                  <span style={{
-                    fontSize: 10,
-                    color: 'var(--color-text-muted)',
-                    fontFamily: "'IBM Plex Mono', monospace",
-                  }}>{tag.color || 'auto'}</span>
+                  <span className="text-[10px] text-text-muted font-mono">{tag.color || 'auto'}</span>
                 </div>
 
                 {/* Delete */}
                 <button
                   onClick={() => canDelete && deleteTag(tag.isPredefined, tag.index)}
                   disabled={!canDelete}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: canDelete ? 'var(--color-error)' : 'var(--color-border)',
-                    cursor: canDelete ? 'pointer' : 'not-allowed',
-                    fontSize: 16,
-                    padding: 0,
-                  }}
+                  className={cn(
+                    'bg-none border-none text-base p-0',
+                    canDelete ? 'text-error cursor-pointer' : 'text-border cursor-not-allowed'
+                  )}
                 >×</button>
               </div>
             )
@@ -643,103 +383,45 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
           </div>
         </div>
 
-        <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 8 }}>
+        <p className="text-[11px] text-text-muted mt-2">
           Tags that are not used in any project can be deleted. Standard tags can be renamed but not deleted.
         </p>
       </div>
 
       {/* GitHub Token */}
       <div>
-        <p style={{
-          fontSize: 11,
-          fontWeight: 600,
-          color: 'var(--color-text-muted)',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          marginBottom: 12,
-        }}>GitHub</p>
+        <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-3">GitHub</p>
 
-        <label style={{
-          display: 'block',
-          fontSize: 11,
-          fontWeight: 600,
-          color: 'var(--color-text-muted)',
-          letterSpacing: '0.06em',
-          textTransform: 'uppercase',
-          marginBottom: 6,
-        }}>API Token (optional)</label>
+        <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">API Token (optional)</label>
 
         <input
           type="password"
           value={githubToken}
           onChange={(e) => setGithubToken(e.target.value)}
           placeholder="ghp_..."
-          style={{
-            width: '100%',
-            padding: '10px 14px',
-            borderRadius: 8,
-            border: '1px solid var(--color-border)',
-            background: 'var(--color-card)',
-            color: 'var(--color-heading)',
-            fontSize: 14,
-            outline: 'none',
-          }}
+          className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
         />
 
-        <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 6 }}>
-          Increases the rate limit from 60 to 5,000 requests/hour. Token must be set as <code style={{
-            background: 'var(--color-bg-alt)',
-            padding: '2px 6px',
-            borderRadius: 4,
-            fontFamily: "'IBM Plex Mono', monospace",
-          }}>GITHUB_TOKEN</code> environment variable.
+        <p className="text-[11px] text-text-muted mt-1.5">
+          Increases the rate limit from 60 to 5,000 requests/hour. Token must be set as <code className="bg-bg-alt px-1.5 py-0.5 rounded font-mono">GITHUB_TOKEN</code> environment variable.
         </p>
       </div>
 
       {/* Danger Zone - Reset Config */}
-      <div style={{
-        marginTop: 32,
-        padding: 20,
-        background: 'var(--color-card)',
-        borderRadius: 8,
-        border: '2px solid var(--color-error)',
-      }}>
-        <h3 style={{
-          fontSize: 16,
-          fontWeight: 700,
-          color: 'var(--color-error)',
-          marginBottom: 8,
-        }}>⚠️ Danger Zone</h3>
+      <div
+        className="mt-8 p-5 bg-card rounded-lg"
+        style={{ border: '2px solid var(--color-error)' }}
+      >
+        <h3 className="text-base font-bold text-error mb-2">⚠️ Danger Zone</h3>
 
-        <p style={{
-          fontSize: 13,
-          color: 'var(--color-text)',
-          marginBottom: 16,
-          lineHeight: 1.5,
-        }}>
+        <p className="text-[13px] text-text mb-4 leading-normal">
           Reset the configuration and delete all custom data.
           Standard tags and settings will be preserved.
         </p>
 
         <button
           onClick={onReset}
-          style={{
-            padding: '10px 20px',
-            borderRadius: 8,
-            background: 'var(--color-error)',
-            color: 'var(--color-card)',
-            border: 'none',
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'color-mix(in srgb, var(--color-error) 80%, black)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'var(--color-error)'
-          }}
+          className="px-5 py-2.5 rounded-lg bg-error text-card border-none text-[13px] font-semibold cursor-pointer transition-all duration-200 hover:brightness-90"
         >
           🗑️ Reset Configuration
         </button>
