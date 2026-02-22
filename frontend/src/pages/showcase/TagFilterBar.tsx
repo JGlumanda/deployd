@@ -1,4 +1,5 @@
 import type { Theme, Settings } from '@core/types'
+import { cn } from '@core/utils/cn'
 
 interface TagFilterBarProps {
   tags: string[]
@@ -21,30 +22,9 @@ export function TagFilterBar({ tags, activeTag, onTagClick, theme = null, settin
   }
 
   return (
-    <div
-      style={{
-        padding: '1.5rem 0',
-        borderBottom: '1px solid var(--color-border)'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '0.75rem',
-          alignItems: 'center'
-        }}
-      >
-        <span
-          style={{
-            fontSize: '0.875rem',
-            fontFamily: 'var(--font-body)',
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em'
-          }}
-        >
+    <div className="py-6 border-b border-border">
+      <div className="flex flex-wrap gap-3 items-center">
+        <span className="text-sm font-body font-semibold text-text-muted uppercase tracking-wider">
           Filter by tag:
         </span>
 
@@ -53,28 +33,9 @@ export function TagFilterBar({ tags, activeTag, onTagClick, theme = null, settin
           <button
             onClick={() => onTagClick(null)}
             aria-label="Clear tag filter"
-            style={{
-              padding: '0.375rem 0.75rem',
-              fontSize: '0.8125rem',
-              fontFamily: 'var(--font-mono)',
-              fontWeight: 500,
-              color: 'var(--color-text-muted)',
-              backgroundColor: 'transparent',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-sm)',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--color-accent)'
-              e.currentTarget.style.color = 'var(--color-accent)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--color-border)'
-              e.currentTarget.style.color = 'var(--color-text-muted)'
-            }}
+            className="px-3 py-1.5 text-[0.8125rem] font-mono font-medium text-text-muted bg-transparent border border-border rounded-sm cursor-pointer transition-all duration-200 hover:border-accent hover:text-accent"
           >
-            Clear ×
+            Clear &times;
           </button>
         )}
 
@@ -88,46 +49,18 @@ export function TagFilterBar({ tags, activeTag, onTagClick, theme = null, settin
               onClick={() => onTagClick(activeTag === tag ? null : tag)}
               aria-label={`Filter by ${tag}`}
               aria-pressed={activeTag === tag}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.375rem',
-                padding: '0.375rem 0.75rem',
-                fontSize: '0.8125rem',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 500,
-                color: activeTag === tag ? '#fff' : 'var(--color-text)',
-                backgroundColor: activeTag === tag ? 'var(--color-accent)' : 'var(--color-accent-soft)',
-                border: '1px solid',
-                borderColor: activeTag === tag ? 'var(--color-accent)' : 'transparent',
-                borderRadius: 'var(--radius-sm)',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                userSelect: 'none'
-              }}
-              onMouseEnter={(e) => {
-                if (activeTag !== tag) {
-                  e.currentTarget.style.backgroundColor = 'var(--color-accent)'
-                  e.currentTarget.style.color = '#fff'
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeTag !== tag) {
-                  e.currentTarget.style.backgroundColor = 'var(--color-accent-soft)'
-                  e.currentTarget.style.color = 'var(--color-text)'
-                }
-              }}
+              className={cn(
+                "inline-flex items-center gap-1.5 px-3 py-1.5 text-[0.8125rem] font-mono font-medium border rounded-sm cursor-pointer transition-all duration-200 select-none",
+                activeTag === tag
+                  ? "text-white bg-accent border-accent"
+                  : "text-text bg-accent-soft border-transparent hover:bg-accent hover:text-white"
+              )}
             >
               {icon && (
                 <img
                   src={icon}
                   alt=""
-                  style={{
-                    width: '14px',
-                    height: '14px',
-                    objectFit: 'contain',
-                    flexShrink: 0
-                  }}
+                  className="w-3.5 h-3.5 object-contain shrink-0"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none'
                   }}

@@ -1,3 +1,4 @@
+import { cn } from '@core/utils/cn'
 import type { Project } from '@core/types'
 
 interface StatusBadgeProps {
@@ -13,52 +14,30 @@ const statusLabels: Record<Project['status'], string> = {
 }
 
 export function StatusBadge({ status, healthStatus, size = 'md' }: StatusBadgeProps) {
-  const fontSize = size === 'sm' ? '0.75rem' : '0.875rem'
-  const dotSize = size === 'sm' ? '6px' : '8px'
-  const padding = size === 'sm' ? '0.25rem 0.5rem' : '0.375rem 0.75rem'
-
   return (
     <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '0.5rem',
-        padding,
-        fontSize,
-        fontFamily: 'var(--font-body)',
-        fontWeight: 500,
-        borderRadius: 'var(--radius-sm)',
-        backgroundColor: 'var(--color-card)',
-        border: '1px solid var(--color-border)',
-        color: 'var(--color-text)'
-      }}
+      className={cn(
+        'inline-flex items-center gap-2 font-body font-medium rounded-sm bg-card border border-border text-text',
+        size === 'sm' ? 'text-xs px-2 py-1' : 'text-sm px-3 py-1.5'
+      )}
     >
       <span
-        style={{
-          width: dotSize,
-          height: dotSize,
-          borderRadius: '50%',
-          backgroundColor: `var(--color-status-${status})`,
-          flexShrink: 0
-        }}
+        className={cn('rounded-full shrink-0', size === 'sm' ? 'w-1.5 h-1.5' : 'w-2 h-2')}
+        style={{ backgroundColor: `var(--color-status-${status})` }}
       />
       {statusLabels[status]}
       {healthStatus && (
         <span
           role="img"
           aria-label={healthStatus === 'online' ? 'Online' : healthStatus === 'offline' ? 'Offline' : 'Checking status'}
+          className={cn('rounded-full shrink-0 ml-1', size === 'sm' ? 'w-1.5 h-1.5' : 'w-2 h-2')}
           style={{
-            width: dotSize,
-            height: dotSize,
-            borderRadius: '50%',
             backgroundColor:
               healthStatus === 'online'
                 ? '#10b981'
                 : healthStatus === 'offline'
                 ? '#ef4444'
-                : '#94a3b8',
-            flexShrink: 0,
-            marginLeft: '0.25rem'
+                : '#94a3b8'
           }}
           title={healthStatus === 'online' ? 'Online' : healthStatus === 'offline' ? 'Offline' : 'Checking...'}
         />

@@ -8,41 +8,28 @@ export function Toolbar({ search, onSearchChange, projectCount }: TerminalToolba
   return (
     <div>
       {/* Search */}
-      <div
-        style={{
-          marginBottom: 24,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-        }}
-      >
+      <div className="mb-6 flex items-center gap-2">
         <span style={{ color: '#1A331A', fontSize: 13 }}>$ grep</span>
         <input
           type="text"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="..."
+          className="bg-transparent border-none outline-none w-[240px]"
           style={{
-            background: 'transparent',
-            border: 'none',
             borderBottom: '1px solid #1A331A',
             color: '#39FF14',
             fontSize: 13,
             fontFamily: 'inherit',
-            outline: 'none',
             padding: '4px 0',
-            width: 240,
           }}
         />
       </div>
 
       {/* Count */}
       <div
-        style={{
-          fontSize: 11,
-          color: '#1A331A',
-          marginBottom: 16,
-        }}
+        className="mb-4"
+        style={{ fontSize: 11, color: '#1A331A' }}
       >
         --- {projectCount} processes found ---
       </div>

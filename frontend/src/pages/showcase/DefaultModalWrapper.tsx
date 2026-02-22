@@ -84,34 +84,16 @@ export function DefaultModalWrapper({ onClose, children }: ModalWrapperProps) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
+      className="fixed inset-0 bg-black/75 flex items-center justify-center p-4 z-[1000] overflow-y-auto"
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1rem',
-        zIndex: 1000,
-        overflowY: 'auto',
         animation: 'modalFadeIn 0.2s ease-out',
         willChange: 'opacity'
       }}
     >
       <div
         ref={modalRef}
+        className="bg-card rounded-lg max-w-[800px] w-full max-h-[90vh] overflow-y-auto relative shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
         style={{
-          backgroundColor: 'var(--color-card)',
-          borderRadius: 'var(--radius-lg)',
-          maxWidth: '800px',
-          width: '100%',
-          maxHeight: '90vh',
-          overflowY: 'auto',
-          position: 'relative',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
           animation: 'modalSlideUp 0.25s ease-out',
           transform: 'translateZ(0)',
           willChange: 'transform, opacity'
@@ -120,35 +102,7 @@ export function DefaultModalWrapper({ onClose, children }: ModalWrapperProps) {
         {/* Close button */}
         <button
           onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: '1rem',
-            right: '1rem',
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            border: '1px solid var(--color-border)',
-            backgroundColor: 'var(--color-bg)',
-            color: 'var(--color-text)',
-            fontSize: '1.25rem',
-            fontWeight: 700,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.2s ease',
-            zIndex: 10
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'var(--color-accent)'
-            e.currentTarget.style.borderColor = 'var(--color-accent)'
-            e.currentTarget.style.color = '#fff'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'var(--color-bg)'
-            e.currentTarget.style.borderColor = 'var(--color-border)'
-            e.currentTarget.style.color = 'var(--color-text)'
-          }}
+          className="absolute top-4 right-4 w-9 h-9 rounded-full border border-border bg-bg text-text text-xl font-bold cursor-pointer flex items-center justify-center transition-all duration-200 z-10 hover:bg-accent hover:border-accent hover:text-white"
           aria-label="Close modal"
         >
           ×

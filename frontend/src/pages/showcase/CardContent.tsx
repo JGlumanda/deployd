@@ -32,36 +32,20 @@ export function CardContent({
     <>
       {/* Thumbnail */}
       <div
+        className="w-full h-[200px] relative flex items-center justify-center overflow-hidden"
         style={{
-          width: '100%',
-          height: '200px',
           background: project.image ? `url(${project.image})` : imageStyle.background,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden'
+          backgroundPosition: 'center'
         }}
       >
         {/* Project Title Overlay (shown when no image) */}
         {!project.image && (
           <div
+            className="text-[2.5rem] font-heading font-black text-center p-6 max-w-[90%] leading-[1.15] -tracking-[0.02em] break-words"
             style={{
-              fontSize: '2.5rem',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 900,
               color: imageStyle.titleColor,
-              textAlign: 'center',
-              padding: '1.5rem',
-              textShadow: imageStyle.titleShadow,
-              maxWidth: '90%',
-              lineHeight: 1.15,
-              letterSpacing: '-0.02em',
-              wordWrap: 'break-word',
-              overflowWrap: 'break-word',
-              hyphens: 'none'
+              textShadow: imageStyle.titleShadow
             }}
           >
             {project.title}
@@ -73,76 +57,34 @@ export function CardContent({
           <div
             role="img"
             aria-label="Featured project"
-            style={{
-              position: 'absolute',
-              top: '0.75rem',
-              right: '0.75rem',
-              padding: '0.375rem 0.75rem',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              color: '#fbbf24',
-              fontSize: '0.75rem',
-              fontFamily: 'var(--font-mono)',
-              fontWeight: 600,
-              borderRadius: 'var(--radius-sm)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.25rem',
-              zIndex: 1
-            }}
+            className="absolute top-3 right-3 px-3 py-1.5 bg-black/80 text-[#fbbf24] text-xs font-mono font-semibold rounded-sm flex items-center gap-1 z-[1]"
           >
-            <span>★</span>
+            <span>&#9733;</span>
             <span>Featured</span>
           </div>
         )}
       </div>
 
       {/* Content */}
-      <div
-        style={{
-          padding: 'var(--spacing-card-padding)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          flex: 1
-        }}
-      >
+      <div className="p-card-padding flex flex-col gap-4 flex-1">
         {/* Status Badge */}
         <StatusBadge status={project.status} size="sm" />
 
         {/* Title */}
         <h3
-          style={{
-            margin: 0,
-            fontSize: '1.25rem',
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 700,
-            color: 'var(--color-heading)',
-            lineHeight: 1.3,
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: titleMaxLines,
-            WebkitBoxOrient: 'vertical',
-            wordBreak: 'break-word'
-          }}
+          className="text-xl font-heading font-bold text-heading leading-snug overflow-hidden [-webkit-box-orient:vertical] [display:-webkit-box] break-words"
+          style={{ WebkitLineClamp: titleMaxLines }}
         >
           {project.title}
         </h3>
 
         {/* Description */}
-        <p
-          style={{
-            margin: 0,
-            fontSize: '0.9375rem',
-            fontFamily: 'var(--font-body)',
-            color: 'var(--color-text)',
-            lineHeight: 1.6
-          }}
-        >
+        <p className="text-[0.9375rem] font-body text-text leading-relaxed">
           {truncatedDescription}
         </p>
 
         {/* Spacer to push tags and links to bottom */}
-        <div style={{ flex: 1 }} />
+        <div className="flex-1" />
 
         {/* Tags */}
         {project.tags.length > 0 && (

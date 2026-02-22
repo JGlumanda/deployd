@@ -39,99 +39,30 @@ export function CardListItem({
       onClick={() => onClick(project)}
       onKeyDown={handleKeyDown}
       aria-label={`View details for ${project.title}`}
-      style={{
-        display: 'flex',
-        gap: '1.5rem',
-        padding: '1.5rem',
-        backgroundColor: 'var(--color-card)',
-        border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius-md)',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        outline: 'none'
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = 'var(--color-card-hover)'
-        e.currentTarget.style.borderColor = 'var(--color-accent)'
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = 'var(--color-card)'
-        e.currentTarget.style.borderColor = 'var(--color-border)'
-      }}
-      onFocus={(e) => {
-        e.currentTarget.style.backgroundColor = 'var(--color-card-hover)'
-        e.currentTarget.style.borderColor = 'var(--color-accent)'
-      }}
-      onBlur={(e) => {
-        e.currentTarget.style.backgroundColor = 'var(--color-card)'
-        e.currentTarget.style.borderColor = 'var(--color-border)'
-      }}
+      className="flex gap-6 p-6 bg-card border border-border rounded-md cursor-pointer transition-all duration-200 outline-none hover:bg-card-hover hover:border-accent focus:bg-card-hover focus:border-accent"
     >
       {/* Left: Title & Status */}
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.75rem',
-          minWidth: 0
-        }}
-      >
+      <div className="flex-1 flex flex-col gap-3 min-w-0">
         {/* Title Row */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem'
-          }}
-        >
+        <div className="flex items-center gap-3">
           {project.featured && (
             <span
               role="img"
               aria-label="Featured project"
-              style={{
-                color: '#fbbf24',
-                fontSize: '1.125rem',
-                flexShrink: 0
-              }}
+              className="text-[#fbbf24] text-lg shrink-0"
               title="Featured"
             >
-              ★
+              &#9733;
             </span>
           )}
-          <h3
-            style={{
-              margin: 0,
-              fontSize: '1.125rem',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 700,
-              color: 'var(--color-heading)',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              flex: 1,
-              minWidth: 0
-            }}
-          >
+          <h3 className="font-heading font-bold text-heading truncate flex-1 min-w-0 text-lg">
             {project.title}
           </h3>
           <StatusBadge status={project.status} size="sm" />
         </div>
 
         {/* Description */}
-        <p
-          style={{
-            margin: 0,
-            fontSize: '0.9375rem',
-            fontFamily: 'var(--font-body)',
-            color: 'var(--color-text)',
-            lineHeight: 1.6,
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical'
-          }}
-        >
+        <p className="text-[0.9375rem] font-body text-text leading-relaxed overflow-hidden [-webkit-box-orient:vertical] [display:-webkit-box] [-webkit-line-clamp:2]">
           {truncatedDescription}
         </p>
 
@@ -148,15 +79,7 @@ export function CardListItem({
       </div>
 
       {/* Right: Date */}
-      <div
-        style={{
-          flexShrink: 0,
-          fontSize: '0.875rem',
-          fontFamily: 'var(--font-mono)',
-          color: 'var(--color-text-muted)',
-          alignSelf: 'flex-start'
-        }}
-      >
+      <div className="shrink-0 text-sm font-mono text-text-muted self-start">
         {formatDate(project.date)}
       </div>
     </div>

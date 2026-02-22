@@ -4,35 +4,24 @@ import { MarkdownBio } from '@core/components/MarkdownBio'
 export function HeroLayout({ profile, children }: HeroLayoutProps) {
   return (
     <header
-      style={{
-        textAlign: 'center',
-        marginBottom: 48,
-        paddingBottom: 28,
-        borderBottom: '2px solid #1A1A1A',
-      }}
+      className="text-center mb-12 pb-7"
+      style={{ borderBottom: '2px solid #1A1A1A' }}
     >
       <h1
+        className="font-black font-heading leading-none mb-2.5"
         style={{
           fontSize: 52,
-          fontWeight: 900,
           color: '#1A1A1A',
-          fontFamily: 'var(--font-heading)',
           letterSpacing: '-0.03em',
-          lineHeight: 1,
-          marginBottom: 10,
         }}
       >
         {profile.name}
       </h1>
       <div
-        style={{
-          width: 40,
-          height: 2,
-          background: '#1A1A1A',
-          margin: '0 auto 12px',
-        }}
+        className="mx-auto mb-3"
+        style={{ width: 40, height: 2, background: '#1A1A1A' }}
       />
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className="flex justify-center">
         {profile.bio ? (
           <MarkdownBio
             content={profile.bio}

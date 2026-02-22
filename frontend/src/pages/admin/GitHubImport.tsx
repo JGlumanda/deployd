@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { cn } from '@core/utils/cn'
 import type { Project, Settings } from '@core/types'
 
 interface GitHubRepo {
@@ -128,42 +129,23 @@ export default function GitHubImport({ existingProjects, settings, onImport, onC
     <div>
       <button
         onClick={onCancel}
-        style={{
-          background: 'none',
-          border: 'none',
-          color: 'var(--color-accent)',
-          cursor: 'pointer',
-          fontSize: 13,
-          fontWeight: 600,
-          marginBottom: 16,
-          padding: 0,
-        }}
-      >← Back</button>
+        className="bg-none border-none text-accent cursor-pointer text-[13px] font-semibold mb-4 p-0"
+      >{'\u2190'} Back</button>
 
-      <h1 style={{
-        fontSize: 24,
-        fontWeight: 700,
-        color: 'var(--color-heading)',
-        fontFamily: "'Libre Baskerville', serif",
-        marginBottom: 8,
-      }}>Import from GitHub</h1>
+      <h1 className="text-2xl font-bold text-heading font-heading mb-2">Import from GitHub</h1>
 
-      <p style={{
-        fontSize: 13,
-        color: 'var(--color-text-muted)',
-        marginBottom: 24,
-      }}>Load your public repos and import them as projects.</p>
+      <p className="text-[13px] text-text-muted mb-6">Load your public repos and import them as projects.</p>
 
       {/* Username input */}
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-          <div style={{ flex: 1, position: 'relative' }}>
+      <div className="mb-6">
+        <div className="flex gap-2 mb-2">
+          <div className="flex-1 relative">
             <img
               src="https://cdn.simpleicons.org/github/A0ADB8"
               width="14"
               height="14"
               alt=""
-              style={{ position: 'absolute', left: 12, top: 11 }}
+              className="absolute left-3 top-[11px]"
             />
             <input
               type="text"
@@ -171,47 +153,20 @@ export default function GitHubImport({ existingProjects, settings, onImport, onC
               onChange={(e) => setUsername(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && fetchRepos()}
               placeholder="GitHub Username"
-              style={{
-                width: '100%',
-                padding: '10px 14px 10px 34px',
-                borderRadius: 8,
-                border: '1px solid var(--color-border)',
-                background: 'var(--color-card)',
-                color: 'var(--color-heading)',
-                fontSize: 14,
-                outline: 'none',
-              }}
+              className="w-full py-2.5 pr-3.5 pl-[34px] rounded-lg border border-border bg-card text-heading text-sm outline-none"
             />
           </div>
           <button
             onClick={fetchRepos}
             disabled={loading}
-            style={{
-              padding: '8px 20px',
-              borderRadius: 8,
-              background: '#24292f',
-              color: '#ffffff',
-              border: 'none',
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: loading ? 'not-allowed' : 'pointer',
-              opacity: loading ? 0.7 : 1,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className={cn(
+              'px-5 py-2 rounded-lg bg-[#24292f] text-white border-none text-[13px] font-semibold inline-flex items-center gap-1.5',
+              loading ? 'cursor-not-allowed opacity-70' : 'cursor-pointer opacity-100'
+            )}
           >
             {loading ? (
               <>
-                <span style={{
-                  width: 12,
-                  height: 12,
-                  border: '2px solid #FFF4',
-                  borderTopColor: '#ffffff',
-                  borderRadius: '50%',
-                  animation: 'spin 0.6s linear infinite',
-                  display: 'inline-block',
-                }} />
+                <span className="w-3 h-3 border-2 border-[#FFF4] border-t-white rounded-full animate-spin-slow inline-block" />
                 Loading...
               </>
             ) : (
@@ -225,73 +180,39 @@ export default function GitHubImport({ existingProjects, settings, onImport, onC
 
         {/* Hints */}
         {username && username === settings.githubUsername && (
-          <p style={{
-            fontSize: 12,
-            color: 'var(--color-text-muted)',
-            marginTop: 4,
-          }}>
+          <p className="text-xs text-text-muted mt-1">
             Using saved GitHub username from Settings
           </p>
         )}
         {!username && !settings.githubUsername && (
-          <p style={{
-            fontSize: 12,
-            color: 'var(--color-text-muted)',
-            marginTop: 4,
-          }}>
-            💡 Tip: Set your GitHub username in Settings to pre-fill this field
+          <p className="text-xs text-text-muted mt-1">
+            Tip: Set your GitHub username in Settings to pre-fill this field
           </p>
         )}
       </div>
 
       {error && (
-        <div style={{
-          padding: '12px 16px',
-          borderRadius: 8,
-          background: 'var(--color-error-bg)',
-          border: '1px solid var(--color-error)',
-          color: 'var(--color-error)',
-          fontSize: 13,
-          marginBottom: 24,
-        }}>{error}</div>
+        <div className="px-4 py-3 rounded-lg bg-[var(--color-error-bg)] border border-error text-error text-[13px] mb-6">{error}</div>
       )}
 
       {/* Results */}
       {repos.length > 0 && (
         <div>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 12,
-          }}>
-            <span style={{
-              fontSize: 12,
-              color: 'var(--color-text-muted)',
-              fontFamily: "'IBM Plex Mono', monospace",
-            }}>
+          <div className="flex justify-between items-center mb-3">
+            <span className="text-xs text-text-muted font-mono">
               {repos.length} repos found · {selected.size} selected
             </span>
             {selected.size > 0 && (
               <button
                 onClick={handleImport}
-                style={{
-                  padding: '8px 20px',
-                  borderRadius: 8,
-                  background: 'var(--color-accent)',
-                  color: 'var(--color-card)',
-                  border: 'none',
-                  fontSize: 13,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                }}
+                className="px-5 py-2 rounded-lg bg-accent text-card border-none text-[13px] font-semibold cursor-pointer"
               >
                 Import {selected.size} project{selected.size !== 1 ? 's' : ''}
               </button>
             )}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div className="flex flex-col gap-2">
             {repos.map(repo => {
               const isSelected = selected.has(repo.name)
               const isAlreadyImported = existingUrls.has(repo.html_url)
@@ -301,107 +222,46 @@ export default function GitHubImport({ existingProjects, settings, onImport, onC
                 <div
                   key={repo.name}
                   onClick={() => !isDisabled && toggleRepo(repo.name)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 14,
-                    padding: '14px 18px',
-                    background: isSelected ? 'var(--color-accent-soft)' : 'var(--color-card)',
-                    border: isSelected ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
-                    borderRadius: 10,
-                    cursor: isDisabled ? 'not-allowed' : 'pointer',
-                    transition: 'all 0.2s',
-                    opacity: isDisabled ? 0.5 : 1,
-                  }}
+                  className={cn(
+                    'flex items-center gap-3.5 px-[18px] py-3.5 rounded-[10px] transition-all duration-200',
+                    isSelected ? 'bg-accent-soft border border-accent' : 'bg-card border border-border',
+                    isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer opacity-100'
+                  )}
                 >
                   {/* Checkbox */}
-                  <div style={{
-                    width: 18,
-                    height: 18,
-                    borderRadius: 4,
-                    border: isSelected ? 'none' : '2px solid var(--color-border)',
-                    background: isSelected ? 'var(--color-accent)' : 'transparent',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    transition: 'all 0.15s',
-                  }}>
+                  <div className={cn(
+                    'w-[18px] h-[18px] rounded flex items-center justify-center shrink-0 transition-all duration-150',
+                    isSelected ? 'border-none bg-accent' : 'border-2 border-border bg-transparent'
+                  )}>
                     {isSelected && (
-                      <span style={{ color: 'var(--color-card)', fontSize: 12, fontWeight: 700 }}>✓</span>
+                      <span className="text-card text-xs font-bold">{'\u2713'}</span>
                     )}
                   </div>
 
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                      <span style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: 'var(--color-heading)',
-                      }}>{repo.name}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm font-semibold text-heading">{repo.name}</span>
 
                       {repo.language && (
-                        <span style={{
-                          fontSize: 10,
-                          fontWeight: 600,
-                          color: 'var(--color-accent)',
-                          background: 'var(--color-accent-soft)',
-                          padding: '1px 8px',
-                          borderRadius: 4,
-                          fontFamily: "'IBM Plex Mono', monospace",
-                        }}>{repo.language}</span>
+                        <span className="text-[10px] font-semibold text-accent bg-accent-soft px-2 py-[1px] rounded font-mono">{repo.language}</span>
                       )}
 
                       {repo.fork && (
-                        <span style={{
-                          fontSize: 9,
-                          fontWeight: 700,
-                          color: 'var(--color-text-muted)',
-                          background: 'var(--color-bg-alt)',
-                          padding: '1px 6px',
-                          borderRadius: 3,
-                          textTransform: 'uppercase',
-                        }}>Fork</span>
+                        <span className="text-[9px] font-bold text-text-muted bg-bg-alt px-1.5 py-[1px] rounded-sm uppercase">Fork</span>
                       )}
 
                       {isAlreadyImported && (
-                        <span style={{
-                          fontSize: 9,
-                          fontWeight: 700,
-                          color: '#7BAE7F',
-                          background: '#7BAE7F14',
-                          padding: '1px 6px',
-                          borderRadius: 3,
-                          textTransform: 'uppercase',
-                        }}>Already imported</span>
+                        <span className="text-[9px] font-bold text-[#7BAE7F] bg-[#7BAE7F14] px-1.5 py-[1px] rounded-sm uppercase">Already imported</span>
                       )}
                     </div>
-                    <span style={{
-                      fontSize: 12,
-                      color: 'var(--color-text-muted)',
-                      display: 'block',
-                      marginTop: 2,
-                    }}>{repo.description || 'No description'}</span>
+                    <span className="text-xs text-text-muted block mt-0.5">{repo.description || 'No description'}</span>
                   </div>
 
-                  <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                    <div style={{
-                      fontSize: 12,
-                      color: '#C4A35A',
-                      fontWeight: 600,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 3,
-                      justifyContent: 'flex-end',
-                    }}>
-                      <span style={{ fontSize: 10 }}>★</span> {repo.stargazers_count}
+                  <div className="text-right shrink-0">
+                    <div className="text-xs text-[#C4A35A] font-semibold flex items-center gap-[3px] justify-end">
+                      <span className="text-[10px]">{'\u2605'}</span> {repo.stargazers_count}
                     </div>
-                    <div style={{
-                      fontSize: 10,
-                      color: 'var(--color-text-muted)',
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      marginTop: 2,
-                    }}>{repo.updated_at.slice(0, 7)}</div>
+                    <div className="text-[10px] text-text-muted font-mono mt-0.5">{repo.updated_at.slice(0, 7)}</div>
                   </div>
                 </div>
               )

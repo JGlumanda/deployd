@@ -1,14 +1,8 @@
 export function ScanlineOverlay() {
   return (
     <div
+      className="fixed inset-0 pointer-events-none z-[9999] opacity-50"
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        pointerEvents: 'none',
-        zIndex: 9999,
         background: `
           repeating-linear-gradient(
             0deg,
@@ -17,8 +11,7 @@ export function ScanlineOverlay() {
             transparent 1px,
             transparent 2px
           )
-        `,
-        opacity: 0.5
+        `
       }}
     />
   )

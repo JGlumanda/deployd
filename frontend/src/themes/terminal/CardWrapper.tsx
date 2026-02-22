@@ -28,50 +28,35 @@ export function CardWrapper({
       onClick={() => onClick(project)}
       onMouseEnter={() => onHover(index)}
       onMouseLeave={() => onHover(null)}
+      className="flex flex-col h-full w-full cursor-pointer overflow-hidden"
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        width: '100%',
         background: hovered ? '#0D1A0D' : '#0A0A0A',
         border: `1px solid ${hovered ? '#39FF14' : '#1A331A'}`,
-        cursor: 'pointer',
         fontFamily: "'Fira Code', monospace",
         transition: 'all 0.15s',
         boxShadow: hovered
           ? '0 0 20px rgba(57,255,20,0.08), inset 0 0 20px rgba(57,255,20,0.03)'
           : 'none',
-        overflow: 'hidden',
       }}
     >
       {/* Image/Title area */}
       <div
+        className="w-full h-[140px] flex items-center justify-center mb-3"
         style={{
-          width: '100%',
-          height: '140px',
           background: project.image ? `url(${project.image})` : imageStyle.background,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: '12px',
           border: '1px solid #1A331A',
         }}
       >
         {!project.image && (
           <div
+            className="text-center p-4 max-w-[90%] leading-[1.15] break-words"
             style={{
               fontSize: '1.75rem',
               fontWeight: 700,
               color: imageStyle.titleColor,
-              textAlign: 'center',
-              padding: '1rem',
               textShadow: imageStyle.titleShadow,
-              wordWrap: 'break-word',
-              overflowWrap: 'break-word',
-              maxWidth: '90%',
-              lineHeight: 1.15,
             }}
           >
             {project.title}
@@ -81,22 +66,13 @@ export function CardWrapper({
 
       {/* Content area with padding */}
       <div
-        style={{
-          padding: '0 16px 16px 16px',
-          display: 'flex',
-          flexDirection: 'column',
-          flex: 1,
-        }}
+        className="flex flex-col flex-1"
+        style={{ padding: '0 16px 16px 16px' }}
       >
       {/* Top line with PID and status */}
       <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 10,
-          fontSize: 11,
-        }}
+        className="flex justify-between items-center mb-2.5"
+        style={{ fontSize: 11 }}
       >
         <span style={{ color: '#39FF14', opacity: 0.5 }}>
           {project.featured ? '★ ' : ''}PID:{project.id}
@@ -125,14 +101,11 @@ export function CardWrapper({
 
       {/* Title with > prefix */}
       <div
+        className="truncate mb-2"
         style={{
           color: '#39FF14',
           fontSize: 16,
           fontWeight: 700,
-          marginBottom: 8,
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
         }}
       >
         {'>'} {project.title}
@@ -140,34 +113,22 @@ export function CardWrapper({
 
       {/* Description with # prefix */}
       <div
+        className="overflow-hidden [-webkit-box-orient:vertical] [display:-webkit-box] [-webkit-line-clamp:2] mb-3.5"
         style={{
           color: '#4A8C4A',
           fontSize: 13,
           lineHeight: 1.5,
-          marginBottom: 14,
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
         }}
       >
         # {project.description}
       </div>
 
       {/* Spacer */}
-      <div style={{ flex: 1 }} />
+      <div className="flex-1" />
 
       {/* Tags */}
       {project.tags.length > 0 && (
-        <div
-          style={{
-            display: 'flex',
-            gap: 6,
-            flexWrap: 'nowrap',
-            overflow: 'hidden',
-            marginBottom: 12,
-          }}
-        >
+        <div className="flex gap-1.5 flex-nowrap overflow-hidden mb-3">
           {tags.map((t) => (
             <span
               key={t}
@@ -199,12 +160,8 @@ export function CardWrapper({
 
       {/* Links */}
       <div
-        style={{
-          fontSize: 11,
-          color: '#2D7A2D',
-          display: 'flex',
-          gap: 10,
-        }}
+        className="flex gap-2.5"
+        style={{ fontSize: 11, color: '#2D7A2D' }}
       >
         {project.links.live && (
           <span style={{ color: '#39FF14' }}>[demo]</span>
