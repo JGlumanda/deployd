@@ -18,17 +18,12 @@ export function ModalContent({ project, theme = null, settings }: ModalContentPr
     <div>
       {/* Header Image */}
       <div
+        className="h-[200px] relative overflow-hidden flex items-center justify-center"
         style={{
-          height: '200px',
           background: project.image ? `url(${project.image})` : imageStyle.background,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          position: 'relative',
-          borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0',
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
+          borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0'
         }}
       >
         {/* Title Watermark - only show when user uploaded an image */}
@@ -56,19 +51,10 @@ export function ModalContent({ project, theme = null, settings }: ModalContentPr
         ) : (
           /* Show title overlay when no image */
           <div
+            className="text-[2.5rem] font-heading font-black text-center p-6 max-w-[90%] leading-[1.15] -tracking-[0.02em] break-words"
             style={{
-              fontSize: '2.5rem',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 900,
               color: imageStyle.titleColor,
-              textAlign: 'center',
-              padding: '1.5rem',
-              textShadow: imageStyle.titleShadow,
-              maxWidth: '90%',
-              lineHeight: 1.15,
-              letterSpacing: '-0.02em',
-              wordWrap: 'break-word',
-              overflowWrap: 'break-word'
+              textShadow: imageStyle.titleShadow
             }}
           >
             {project.title}
@@ -77,67 +63,24 @@ export function ModalContent({ project, theme = null, settings }: ModalContentPr
       </div>
 
       {/* Content */}
-      <div
-        style={{
-          padding: '2rem',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1.5rem'
-        }}
-      >
+      <div className="p-8 flex flex-col gap-6">
         {/* Header Row */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            gap: '1rem',
-            flexWrap: 'wrap'
-          }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div className="flex flex-col gap-2 flex-1">
             {/* Title */}
-            <h2
-              style={{
-                margin: 0,
-                fontSize: '2rem',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 700,
-                color: 'var(--color-heading)',
-                lineHeight: 1.2
-              }}
-            >
+            <h2 className="text-[2rem] font-heading font-bold text-heading leading-[1.2]">
               {project.title}
             </h2>
 
             {/* Status & Date */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <div className="flex items-center gap-4 flex-wrap">
               <StatusBadge status={project.status} />
-              <span
-                style={{
-                  fontSize: '0.875rem',
-                  fontFamily: 'var(--font-mono)',
-                  color: 'var(--color-text-muted)'
-                }}
-              >
+              <span className="text-sm font-mono text-text-muted">
                 {formatDate(project.date)}
               </span>
               {project.featured && (
-                <span
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.25rem',
-                    padding: '0.375rem 0.75rem',
-                    backgroundColor: 'var(--color-accent-soft)',
-                    color: '#fbbf24',
-                    fontSize: '0.875rem',
-                    fontFamily: 'var(--font-mono)',
-                    fontWeight: 600,
-                    borderRadius: 'var(--radius-sm)'
-                  }}
-                >
-                  <span>★</span>
+                <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-accent-soft text-[#fbbf24] text-sm font-mono font-semibold rounded-sm">
+                  <span>&#9733;</span>
                   <span>Featured</span>
                 </span>
               )}
@@ -147,16 +90,7 @@ export function ModalContent({ project, theme = null, settings }: ModalContentPr
 
         {/* Description */}
         <div>
-          <p
-            style={{
-              margin: 0,
-              fontSize: '1rem',
-              fontFamily: 'var(--font-body)',
-              color: 'var(--color-text)',
-              lineHeight: 1.7,
-              whiteSpace: 'pre-wrap'
-            }}
-          >
+          <p className="text-base font-body text-text leading-[1.7] whitespace-pre-wrap">
             {project.description}
           </p>
         </div>
@@ -164,17 +98,7 @@ export function ModalContent({ project, theme = null, settings }: ModalContentPr
         {/* Tech Stack */}
         {project.tags.length > 0 && (
           <div>
-            <h3
-              style={{
-                margin: '0 0 0.75rem 0',
-                fontSize: '1rem',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 600,
-                color: 'var(--color-heading)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em'
-              }}
-            >
+            <h3 className="mb-3 text-base font-heading font-semibold text-heading uppercase tracking-wider">
               Tech Stack
             </h3>
             <TagList

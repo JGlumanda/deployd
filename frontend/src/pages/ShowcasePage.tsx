@@ -53,18 +53,9 @@ export default function ShowcasePage() {
   // Loading state
   if (loading) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          fontFamily: 'system-ui',
-          backgroundColor: '#f5f5f5'
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <h1 style={{ fontSize: '1.5rem', color: '#333' }}>Loading...</h1>
+      <div className="flex items-center justify-center min-h-screen font-sans bg-[#f5f5f5]">
+        <div className="text-center">
+          <h1 className="text-2xl text-[#333]">Loading...</h1>
         </div>
       </div>
     )
@@ -73,20 +64,10 @@ export default function ShowcasePage() {
   // Error state
   if (error) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          fontFamily: 'system-ui',
-          backgroundColor: '#f5f5f5',
-          padding: '2rem'
-        }}
-      >
-        <div style={{ textAlign: 'center', maxWidth: '600px' }}>
-          <h1 style={{ fontSize: '1.5rem', color: '#ef4444', marginBottom: '1rem' }}>Error</h1>
-          <p style={{ color: '#666' }}>{error}</p>
+      <div className="flex items-center justify-center min-h-screen font-sans bg-[#f5f5f5] p-8">
+        <div className="text-center max-w-[600px]">
+          <h1 className="text-2xl text-[#ef4444] mb-4">Error</h1>
+          <p className="text-[#666]">{error}</p>
         </div>
       </div>
     )
@@ -95,21 +76,12 @@ export default function ShowcasePage() {
   // No config state
   if (!config) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          fontFamily: 'system-ui',
-          backgroundColor: '#f5f5f5'
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <h1 style={{ fontSize: '1.5rem', color: '#333', marginBottom: '0.5rem' }}>
+      <div className="flex items-center justify-center min-h-screen font-sans bg-[#f5f5f5]">
+        <div className="text-center">
+          <h1 className="text-2xl text-[#333] mb-2">
             No Configuration
           </h1>
-          <p style={{ color: '#666' }}>Configuration data is not available.</p>
+          <p className="text-[#666]">Configuration data is not available.</p>
         </div>
       </div>
     )
@@ -132,14 +104,7 @@ export default function ShowcasePage() {
   const toolbar = isTerminal ? (
     <div>
       {/* Terminal search */}
-      <div
-        style={{
-          marginBottom: 24,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-        }}
-      >
+      <div className="mb-6 flex items-center gap-2">
         <span style={{ color: '#1A331A', fontSize: 14 }}>$ grep</span>
         <input
           type="text"
@@ -161,13 +126,7 @@ export default function ShowcasePage() {
       </div>
 
       {/* Terminal count */}
-      <div
-        style={{
-          fontSize: 12,
-          color: '#1A331A',
-          marginBottom: 18,
-        }}
-      >
+      <div style={{ fontSize: 12, color: '#1A331A', marginBottom: 18 }}>
         --- {projectsHook.filtered.length} processes found ---
       </div>
     </div>
@@ -197,35 +156,18 @@ export default function ShowcasePage() {
 
   // Render grid or list
   const grid = (
-    <div
-      style={{
-        padding: '2rem 0'
-      }}
-    >
+    <div className="py-8">
       {/* Project count (Terminal shows this in toolbar) */}
       {!isTerminal && (
-        <div
-          style={{
-            marginBottom: '1.5rem',
-            fontSize: '0.875rem',
-            fontFamily: 'var(--font-body)',
-            color: 'var(--color-text-muted)'
-          }}
-        >
+        <div className="mb-6 text-sm font-body text-text-muted">
           {projectsHook.filtered.length} {projectsHook.filtered.length === 1 ? 'project' : 'projects'} found
         </div>
       )}
 
       {/* Empty state */}
       {projectsHook.filtered.length === 0 ? (
-        <div
-          style={{
-            textAlign: 'center',
-            padding: '4rem 2rem',
-            color: 'var(--color-text-muted)'
-          }}
-        >
-          <p style={{ fontSize: '1.125rem', fontFamily: 'var(--font-body)' }}>
+        <div className="text-center py-16 px-8 text-text-muted">
+          <p className="text-lg font-body">
             {config.projects.length === 0
               ? 'No projects yet. Add your first project in the admin panel.'
               : 'No projects found matching your filters.'}
@@ -234,12 +176,11 @@ export default function ShowcasePage() {
       ) : viewMode === 'grid' ? (
         // Grid view
         <div
+          className="grid gap-grid-gap"
           style={{
-            display: 'grid',
             gridTemplateColumns: isTerminal
               ? 'repeat(auto-fill, minmax(290px, 1fr))'
-              : 'repeat(auto-fill, minmax(320px, 1fr))',
-            gap: 'var(--spacing-grid-gap)'
+              : 'repeat(auto-fill, minmax(320px, 1fr))'
           }}
         >
           {projectsHook.filtered.map((project: Project, index: number) => {
@@ -275,13 +216,7 @@ export default function ShowcasePage() {
         </div>
       ) : (
         // List view
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem'
-          }}
-        >
+        <div className="flex flex-col gap-4">
           {projectsHook.filtered.map((project: Project, index: number) => {
             const delay = getAnimationDelay(index, animationStyle)
 
@@ -310,22 +245,8 @@ export default function ShowcasePage() {
 
   // Render footer
   const footer = (
-    <footer
-      style={{
-        borderTop: '1px solid var(--color-border)',
-        padding: '2rem 1rem',
-        marginTop: '4rem',
-        textAlign: 'center'
-      }}
-    >
-      <p
-        style={{
-          margin: 0,
-          fontSize: '0.875rem',
-          fontFamily: 'var(--font-body)',
-          color: 'var(--color-text-muted)'
-        }}
-      >
+    <footer className="border-t border-border py-8 px-4 mt-16 text-center">
+      <p className="m-0 text-sm font-body text-text-muted">
         Built with deployd
       </p>
     </footer>
@@ -333,80 +254,6 @@ export default function ShowcasePage() {
 
   return (
     <>
-      {/* Inject animation keyframes */}
-      <style>
-        {`
-          @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-
-          @keyframes slideUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-          @keyframes popIn {
-            0% {
-              opacity: 0;
-              transform: scale(0.8);
-            }
-            50% {
-              transform: scale(1.05);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1);
-            }
-          }
-
-          @keyframes typeIn {
-            from {
-              opacity: 0;
-              transform: translateX(-10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-
-          @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-
-          @keyframes modalSlideUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px) translateZ(0);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0) translateZ(0);
-            }
-          }
-
-          @media (max-width: 768px) {
-            [style*="gridTemplateColumns"] {
-              grid-template-columns: 1fr !important;
-            }
-          }
-
-          @media (min-width: 769px) and (max-width: 1024px) {
-            [style*="gridTemplateColumns"] {
-              grid-template-columns: repeat(2, 1fr) !important;
-            }
-          }
-        `}
-      </style>
-
       {/* Main page layout */}
       <PageLayout hero={hero} toolbar={toolbar} tagFilter={tagFilter} grid={grid} footer={footer} />
 

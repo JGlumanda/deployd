@@ -42,7 +42,7 @@ export function useHealthCheck(url: string | undefined) {
       // Update cache
       cache.set(url, { result: data, timestamp: Date.now() })
       setResult(data)
-    } catch (err) {
+    } catch {
       // On error, consider offline
       const errorResult: HealthCheckResult = { online: false }
       cache.set(url, { result: errorResult, timestamp: Date.now() })
@@ -95,7 +95,7 @@ export function useHealthChecks(urls: string[]) {
           // Update cache
           cache.set(url, { result: data, timestamp: Date.now() })
           newResults.set(url, data)
-        } catch (err) {
+        } catch {
           // On error, consider offline
           const errorResult: HealthCheckResult = { online: false }
           cache.set(url, { result: errorResult, timestamp: Date.now() })

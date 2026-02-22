@@ -1,4 +1,5 @@
 import type { Project } from '@core/types'
+import { cn } from '@core/utils/cn'
 
 interface ToolbarProps {
   search: string
@@ -36,16 +37,7 @@ export function Toolbar({
   ]
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '1rem',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        padding: '2rem 0',
-        borderBottom: '1px solid var(--color-border)'
-      }}
-    >
+    <div className="flex gap-4 flex-wrap items-center py-8 border-b border-border">
       {/* Search */}
       <input
         type="text"
@@ -53,24 +45,7 @@ export function Toolbar({
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
         aria-label="Search projects"
-        style={{
-          flex: '1 1 300px',
-          padding: '0.75rem 1rem',
-          fontSize: '0.9375rem',
-          fontFamily: 'var(--font-body)',
-          color: 'var(--color-text)',
-          backgroundColor: 'var(--color-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-md)',
-          outline: 'none',
-          transition: 'all 0.2s ease'
-        }}
-        onFocus={(e) => {
-          e.currentTarget.style.borderColor = 'var(--color-accent)'
-        }}
-        onBlur={(e) => {
-          e.currentTarget.style.borderColor = 'var(--color-border)'
-        }}
+        className="flex-[1_1_300px] px-4 py-3 text-[0.9375rem] font-body text-text bg-card border border-border rounded-md outline-none transition-all duration-200 focus:border-accent"
       />
 
       {/* Status Filter */}
@@ -78,17 +53,7 @@ export function Toolbar({
         value={statusFilter}
         onChange={(e) => onStatusFilterChange(e.target.value as 'all' | Project['status'])}
         aria-label="Filter projects by status"
-        style={{
-          padding: '0.75rem 1rem',
-          fontSize: '0.9375rem',
-          fontFamily: 'var(--font-body)',
-          color: 'var(--color-text)',
-          backgroundColor: 'var(--color-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-md)',
-          cursor: 'pointer',
-          outline: 'none'
-        }}
+        className="px-4 py-3 text-[0.9375rem] font-body text-text bg-card border border-border rounded-md cursor-pointer outline-none"
       >
         {statusOptions.map((option) => (
           <option key={option.value} value={option.value}>
@@ -104,17 +69,7 @@ export function Toolbar({
           onSortKeyChange(e.target.value as 'featured' | 'date' | 'title' | 'status')
         }
         aria-label="Sort projects"
-        style={{
-          padding: '0.75rem 1rem',
-          fontSize: '0.9375rem',
-          fontFamily: 'var(--font-body)',
-          color: 'var(--color-text)',
-          backgroundColor: 'var(--color-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-md)',
-          cursor: 'pointer',
-          outline: 'none'
-        }}
+        className="px-4 py-3 text-[0.9375rem] font-body text-text bg-card border border-border rounded-md cursor-pointer outline-none"
       >
         {sortOptions.map((option) => (
           <option key={option.value} value={option.value}>
@@ -127,31 +82,18 @@ export function Toolbar({
       <div
         role="group"
         aria-label="View mode"
-        style={{
-          display: 'flex',
-          gap: '0.5rem',
-          padding: '0.25rem',
-          backgroundColor: 'var(--color-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-md)'
-        }}
+        className="flex gap-2 p-1 bg-card border border-border rounded-md"
       >
         <button
           onClick={() => onViewModeChange('grid')}
           aria-label="Grid view"
           aria-pressed={viewMode === 'grid'}
-          style={{
-            padding: '0.5rem 1rem',
-            fontSize: '0.875rem',
-            fontFamily: 'var(--font-body)',
-            fontWeight: 500,
-            color: viewMode === 'grid' ? '#fff' : 'var(--color-text)',
-            backgroundColor: viewMode === 'grid' ? 'var(--color-accent)' : 'transparent',
-            border: 'none',
-            borderRadius: 'var(--radius-sm)',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease'
-          }}
+          className={cn(
+            "px-4 py-2 text-sm font-body font-medium border-none rounded-sm cursor-pointer transition-all duration-200",
+            viewMode === 'grid'
+              ? "text-white bg-accent"
+              : "text-text bg-transparent"
+          )}
         >
           Grid
         </button>
@@ -159,18 +101,12 @@ export function Toolbar({
           onClick={() => onViewModeChange('list')}
           aria-label="List view"
           aria-pressed={viewMode === 'list'}
-          style={{
-            padding: '0.5rem 1rem',
-            fontSize: '0.875rem',
-            fontFamily: 'var(--font-body)',
-            fontWeight: 500,
-            color: viewMode === 'list' ? '#fff' : 'var(--color-text)',
-            backgroundColor: viewMode === 'list' ? 'var(--color-accent)' : 'transparent',
-            border: 'none',
-            borderRadius: 'var(--radius-sm)',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease'
-          }}
+          className={cn(
+            "px-4 py-2 text-sm font-body font-medium border-none rounded-sm cursor-pointer transition-all duration-200",
+            viewMode === 'list'
+              ? "text-white bg-accent"
+              : "text-text bg-transparent"
+          )}
         >
           List
         </button>

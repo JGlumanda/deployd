@@ -45,15 +45,10 @@ export function CardWrapper({
       onClick={() => onClick(project)}
       onMouseEnter={() => onHover(index)}
       onMouseLeave={() => onHover(null)}
+      className="flex flex-col h-full w-full cursor-pointer"
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        width: '100%',
         background: '#FFF',
         border: '3px solid #000',
-        padding: 0,
-        cursor: 'pointer',
         transition: 'all 0.15s',
         transform: hovered
           ? `rotate(0deg) translateY(-6px)`
@@ -63,40 +58,28 @@ export function CardWrapper({
     >
       {/* Color bar */}
       <div
+        className="h-2"
         style={{
-          height: 8,
           background: barColor,
           borderBottom: '3px solid #000',
         }}
       />
       <div
-        style={{
-          padding: '16px 18px 18px',
-          display: 'flex',
-          flexDirection: 'column',
-          flex: 1,
-        }}
+        className="flex flex-col flex-1"
+        style={{ padding: '16px 18px 18px' }}
       >
         {/* Top row */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 8,
-          }}
-        >
+        <div className="flex justify-between items-center mb-2">
           {project.featured ? <span style={{ fontSize: 18 }}>⭐</span> : <span />}
           <span
+            className="uppercase font-heading"
             style={{
               fontSize: 10,
               fontWeight: 900,
               padding: '2px 8px',
               background: status.bg,
               color: status.color,
-              fontFamily: 'var(--font-heading)',
               border: '2px solid #000',
-              textTransform: 'uppercase',
             }}
           >
             {status.label}

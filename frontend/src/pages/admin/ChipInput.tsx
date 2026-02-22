@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, type KeyboardEvent } from 'react'
+import { useState, useRef, type KeyboardEvent } from 'react'
+import { cn } from '@core/utils/cn'
 
 interface ChipInputProps {
   values: string[]
@@ -57,41 +58,22 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
     }
   }
 
-  useEffect(() => {
+  const handleInputChange = (value: string) => {
+    setInputValue(value)
+    setShowSuggestions(true)
     setSelectedSuggestionIndex(0)
-  }, [inputValue])
+  }
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div className="relative">
       <div
         onClick={() => inputRef.current?.focus()}
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 6,
-          padding: '8px 12px',
-          borderRadius: 8,
-          border: '1px solid var(--color-border)',
-          background: 'var(--color-card)',
-          minHeight: 42,
-          cursor: 'text',
-        }}
+        className="flex flex-wrap gap-1.5 px-3 py-2 rounded-lg border border-border bg-card min-h-[42px] cursor-text"
       >
         {values.map((value, index) => (
           <span
             key={index}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '4px 10px',
-              borderRadius: 6,
-              background: 'var(--color-accent-soft)',
-              border: '1px solid var(--color-accent-soft)',
-              color: 'var(--color-heading)',
-              fontSize: 13,
-              fontWeight: 500,
-            }}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-accent-soft border border-accent-soft text-heading text-[13px] font-medium"
           >
             {value}
             <button
@@ -99,20 +81,8 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
                 e.stopPropagation()
                 removeChip(index)
               }}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--color-text-muted)',
-                cursor: 'pointer',
-                fontSize: 14,
-                padding: 0,
-                width: 16,
-                height: 16,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >×</button>
+              className="bg-none border-none text-text-muted cursor-pointer text-sm p-0 w-4 h-4 flex items-center justify-center"
+            >{'\u00D7'}</button>
           </span>
         ))}
 
@@ -120,68 +90,33 @@ export default function ChipInput({ values, onChange, suggestions = [], placehol
           ref={inputRef}
           type="text"
           value={inputValue}
-          onChange={(e) => {
-            setInputValue(e.target.value)
-            setShowSuggestions(true)
-          }}
+          onChange={(e) => handleInputChange(e.target.value)}
           onFocus={() => setShowSuggestions(true)}
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
           onKeyDown={handleKeyDown}
           placeholder={values.length === 0 ? placeholder : ''}
-          style={{
-            flex: 1,
-            minWidth: 120,
-            border: 'none',
-            outline: 'none',
-            background: 'transparent',
-            fontSize: 14,
-            color: '#2C3E50',
-          }}
+          className="flex-1 min-w-[120px] border-none outline-none bg-transparent text-sm text-heading"
         />
       </div>
 
       {/* Suggestions dropdown */}
       {showSuggestions && filteredSuggestions.length > 0 && (
-        <div style={{
-          position: 'absolute',
-          top: '100%',
-          left: 0,
-          right: 0,
-          marginTop: 4,
-          maxHeight: 200,
-          overflowY: 'auto',
-          background: 'var(--color-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 8,
-          boxShadow: '0 4px 12px rgba(44,62,80,0.1)',
-          zIndex: 10,
-        }}>
+        <div className="absolute top-full left-0 right-0 mt-1 max-h-[200px] overflow-y-auto bg-card border border-border rounded-lg shadow-md z-10">
           {filteredSuggestions.map((suggestion, index) => (
             <button
               key={suggestion}
               onMouseDown={() => addChip(suggestion)}
               onMouseEnter={() => setSelectedSuggestionIndex(index)}
-              style={{
-                width: '100%',
-                padding: '8px 12px',
-                border: 'none',
-                background: index === selectedSuggestionIndex ? 'var(--color-bg-alt)' : 'transparent',
-                color: 'var(--color-heading)',
-                fontSize: 13,
-                textAlign: 'left',
-                cursor: 'pointer',
-                transition: 'background 0.15s',
-              }}
+              className={cn(
+                'w-full px-3 py-2 border-none text-heading text-[13px] text-left cursor-pointer transition-all duration-150',
+                index === selectedSuggestionIndex ? 'bg-bg-alt' : 'bg-transparent'
+              )}
             >{suggestion}</button>
           ))}
         </div>
       )}
 
-      <p style={{
-        fontSize: 10,
-        color: 'var(--color-text-muted)',
-        marginTop: 6,
-      }}>Enter or comma to add, Backspace to delete</p>
+      <p className="text-[10px] text-text-muted mt-1.5">Enter or comma to add, Backspace to delete</p>
     </div>
   )
 }

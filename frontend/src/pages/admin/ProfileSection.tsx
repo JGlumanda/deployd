@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { cn } from '@core/utils/cn'
 import type { Profile, Settings, GitHubUserData } from '@core/types'
 
 interface ProfileSectionProps {
@@ -189,42 +190,26 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
 
   return (
     <div>
-      <h1 style={{
-        fontSize: 24,
-        fontWeight: 700,
-        color: 'var(--color-heading)',
-        fontFamily: "'Libre Baskerville', serif",
-        marginBottom: 8,
-      }}>Profile</h1>
+      <h1 className="text-2xl font-bold text-heading font-heading mb-2">Profile</h1>
 
-      <p style={{
-        fontSize: 13,
-        color: 'var(--color-text-muted)',
-        marginBottom: 24,
-      }}>Your information and social links.</p>
+      <p className="text-[13px] text-text-muted mb-6">Your information and social links.</p>
 
       {/* GitHub Import */}
-      <div style={{
-        background: 'var(--color-card)',
-        border: '1px solid var(--color-border)',
-        borderRadius: 12,
-        padding: 20,
-        marginBottom: 28,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+      <div className="bg-card border border-border rounded-xl p-5 mb-7">
+        <div className="flex items-center gap-2 mb-1">
           <img src="https://cdn.simpleicons.org/github/2C3E50" width="16" height="16" alt="" />
-          <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-heading)' }}>
+          <span className="text-[13px] font-bold text-heading">
             Import from GitHub
           </span>
         </div>
-        <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 14 }}>
+        <p className="text-xs text-text-muted mb-3.5">
           Automatically import name, bio, avatar and links. If you have a repository with the same name as your username, the README.md will also be imported as bio (with Markdown formatting).
         </p>
 
         {!showGithubImport ? (
           <>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <div style={{ flex: 1, position: 'relative' }}>
+            <div className="flex gap-2">
+              <div className="flex-1 relative">
                 <img
                   src="https://cdn.simpleicons.org/github/A0ADB8"
                   width="14"
@@ -238,35 +223,16 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                   onChange={(e) => setGithubUsername(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && fetchGithubProfile()}
                   placeholder="GitHub Username"
-                  style={{
-                    width: '100%',
-                    padding: '10px 14px 10px 34px',
-                    borderRadius: 8,
-                    border: '1px solid var(--color-border)',
-                    background: 'var(--color-card)',
-                    color: 'var(--color-heading)',
-                    fontSize: 14,
-                    outline: 'none',
-                  }}
+                  className="w-full py-2.5 pr-3.5 pl-[34px] rounded-lg border border-border bg-card text-heading text-sm outline-none"
                 />
               </div>
               <button
                 onClick={fetchGithubProfile}
                 disabled={githubLoading}
-                style={{
-                  padding: '8px 20px',
-                  borderRadius: 8,
-                  background: '#24292f',
-                  color: '#ffffff',
-                  border: 'none',
-                  fontSize: 13,
-                  fontWeight: 600,
-                  cursor: githubLoading ? 'not-allowed' : 'pointer',
-                  opacity: githubLoading ? 0.7 : 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                }}
+                className={cn(
+                  'px-5 py-2 rounded-lg bg-[#24292f] text-white border-none text-[13px] font-semibold flex items-center gap-1.5',
+                  githubLoading ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
+                )}
               >
                 <img src="https://cdn.simpleicons.org/github/ffffff" width="14" height="14" alt="" />
                 {githubLoading ? 'Loading...' : 'Load'}
@@ -274,13 +240,13 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
             </div>
 
             {!githubUsername && settings.githubUsername && (
-              <p style={{ fontSize: 11, color: 'var(--color-text-muted)', marginTop: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
-                💡 Using saved username: <code style={{ background: 'var(--color-bg)', padding: '2px 6px', borderRadius: 4, fontFamily: 'var(--font-mono)' }}>{settings.githubUsername}</code>
+              <p className="text-[11px] text-text-muted mt-2 flex items-center gap-1">
+                💡 Using saved username: <code className="bg-bg px-1.5 py-0.5 rounded font-mono">{settings.githubUsername}</code>
               </p>
             )}
 
             {!githubUsername && !settings.githubUsername && (
-              <p style={{ fontSize: 11, color: '#D4A0A0', marginTop: 8 }}>
+              <p className="text-[11px] text-error mt-2">
                 💡 Tip: Set your GitHub username in Settings to quickly load your profile
               </p>
             )}
@@ -288,62 +254,39 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
         ) : null}
 
         {githubError && (
-          <p style={{ fontSize: 12, color: '#D4A0A0', marginTop: 12 }}>{githubError}</p>
+          <p className="text-xs text-error mt-3">{githubError}</p>
         )}
 
         {githubData && (
-          <div style={{ marginTop: 14 }}>
+          <div className="mt-3.5">
             {/* Preview */}
-            <div style={{
-              display: 'flex',
-              gap: 16,
-              padding: 16,
-              background: 'var(--color-bg-alt)',
-              borderRadius: 10,
-              marginBottom: 14,
-            }}>
+            <div className="flex gap-4 p-4 bg-bg-alt rounded-[10px] mb-3.5">
               {githubData.avatar_url && (
                 <img
                   src={githubData.avatar_url}
                   alt=""
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: '50%',
-                    border: '2px solid #E2DDD5',
-                  }}
+                  className="w-14 h-14 rounded-full"
+                  style={{ border: '2px solid #E2DDD5' }}
                 />
               )}
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--color-heading)' }}>
+              <div className="flex-1">
+                <div className="text-[15px] font-bold text-heading">
                   {githubData.name || githubData.login}
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>
+                <div className="text-xs text-text-muted">
                   @{githubData.login}
                   {githubData.location && ` · ${githubData.location}`}
                 </div>
                 {githubData.bio && (
-                  <div style={{
-                    fontSize: 12,
-                    color: '#6B7B8D',
-                    marginTop: 4,
-                    lineHeight: 1.4,
-                  }}>{githubData.bio}</div>
+                  <div className="text-xs text-text-muted mt-1 leading-snug">{githubData.bio}</div>
                 )}
               </div>
             </div>
 
             {/* Field selection */}
-            <div style={{
-              fontSize: 11,
-              fontWeight: 600,
-              color: 'var(--color-text-muted)',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              marginBottom: 8,
-            }}>Apply fields</div>
+            <div className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-2">Apply fields</div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <div className="flex flex-col gap-1">
               {[
                 { key: 'name', label: 'Name', value: githubData.name, current: profile.name },
                 ...(githubReadme ? [{ key: 'readme', label: 'Profile README', value: githubReadme, current: profile.bio, isMarkdown: true }] : []),
@@ -358,16 +301,10 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                 return (
                   <div
                     key={field.key}
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '18px 80px 1fr',
-                      gap: 8,
-                      alignItems: 'center',
-                      padding: '8px 10px',
-                      background: i % 2 === 0 ? 'var(--color-bg-alt)' : 'transparent',
-                      borderRadius: 6,
-                      fontSize: 12,
-                    }}
+                    className={cn(
+                      'grid grid-cols-[18px_80px_1fr] gap-2 items-center px-2.5 py-2 rounded-md text-xs',
+                      i % 2 === 0 ? 'bg-bg-alt' : 'bg-transparent'
+                    )}
                   >
                     <input
                       type="checkbox"
@@ -382,32 +319,21 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                         setSelectedFields(next)
                       }}
                       disabled={isMatch}
-                      style={{ width: 14, height: 14, accentColor: '#6B8FA3' }}
+                      className="w-3.5 h-3.5"
+                      style={{ accentColor: '#6B8FA3' }}
                     />
-                    <span style={{ fontWeight: 600, color: 'var(--color-heading)', fontSize: 11 }}>
+                    <span className="font-semibold text-heading text-[11px]">
                       {field.label}
                       {field.isMarkdown && (
-                        <span style={{
-                          marginLeft: 6,
-                          fontSize: 9,
-                          fontWeight: 600,
-                          color: '#6B8FA3',
-                          background: '#6B8FA314',
-                          padding: '2px 6px',
-                          borderRadius: 3,
-                        }}>
+                        <span className="ml-1.5 text-[9px] font-semibold text-accent bg-accent-soft px-1.5 py-0.5 rounded-sm">
                           Markdown
                         </span>
                       )}
                     </span>
-                    <span style={{
-                      color: isMatch ? '#7BAE7F' : '#6B7B8D',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: 10,
-                    }}>
+                    <span className={cn(
+                      'truncate font-mono text-[10px]',
+                      isMatch ? 'text-[#7BAE7F]' : 'text-text-muted'
+                    )}>
                       {isMatch ? '✓ identical' : (field.isMarkdown ? `${field.value.slice(0, 50)}...` : field.value)}
                     </span>
                   </div>
@@ -416,50 +342,43 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
             </div>
 
             {/* Overwrite mode checkbox */}
-            <label style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              marginTop: 14,
-              padding: 10,
-              background: overwriteMode ? 'var(--color-accent-soft)' : 'var(--color-bg-alt)',
-              border: overwriteMode ? '1px solid #FFD700' : '1px solid transparent',
-              borderRadius: 8,
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}>
+            <label
+              className={cn(
+                'flex items-center gap-2 mt-3.5 p-2.5 rounded-lg cursor-pointer transition-all duration-200',
+                overwriteMode ? 'bg-accent-soft' : 'bg-bg-alt'
+              )}
+              style={{
+                border: overwriteMode ? '1px solid #FFD700' : '1px solid transparent',
+              }}
+            >
               <input
                 type="checkbox"
                 checked={overwriteMode}
                 onChange={(e) => setOverwriteMode(e.target.checked)}
-                style={{ width: 14, height: 14, accentColor: '#FFD700' }}
+                className="w-3.5 h-3.5"
+                style={{ accentColor: '#FFD700' }}
               />
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-heading)' }}>
+              <div className="flex-1">
+                <div className="text-xs font-semibold text-heading">
                   Overwrite completely
                 </div>
-                <div style={{ fontSize: 11, color: '#7B8794', marginTop: 2, lineHeight: 1.3 }}>
+                <div className="text-[11px] text-text-muted mt-0.5 leading-snug">
                   Fields not present in GitHub will be cleared
                   {overwriteMode && ' (e.g. Bio, Avatar, Links)'}
                 </div>
               </div>
             </label>
 
-            <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
+            <div className="flex gap-2 mt-3.5">
               <button
                 onClick={applyGithubData}
                 disabled={selectedFields.size === 0}
-                style={{
-                  flex: 1,
-                  padding: '8px 20px',
-                  borderRadius: 8,
-                  background: selectedFields.size > 0 ? 'var(--color-accent)' : 'var(--color-border)',
-                  color: selectedFields.size > 0 ? '#FFF' : '#A0ADB8',
-                  border: 'none',
-                  fontSize: 13,
-                  fontWeight: 600,
-                  cursor: selectedFields.size > 0 ? 'pointer' : 'not-allowed',
-                }}
+                className={cn(
+                  'flex-1 px-5 py-2 rounded-lg border-none text-[13px] font-semibold',
+                  selectedFields.size > 0
+                    ? 'bg-accent text-card cursor-pointer'
+                    : 'bg-border text-text-muted cursor-not-allowed'
+                )}
               >Apply selected</button>
               <button
                 onClick={() => {
@@ -467,16 +386,8 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                   setGithubData(null)
                   setGithubReadme(null)
                 }}
-                style={{
-                  padding: '8px 20px',
-                  borderRadius: 8,
-                  background: 'transparent',
-                  color: '#6B8FA3',
-                  border: '1px solid #6B8FA344',
-                  fontSize: 13,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                }}
+                className="px-5 py-2 rounded-lg bg-transparent text-accent font-semibold text-[13px] cursor-pointer"
+                style={{ border: '1px solid #6B8FA344' }}
               >Cancel</button>
             </div>
           </div>
@@ -484,80 +395,31 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
       </div>
 
       {/* Manual fields */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div className="flex flex-col gap-5">
         <div>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}>Name</label>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Name</label>
           <input
             type="text"
             value={profile.name}
             onChange={(e) => updateProfileField('name', e.target.value)}
-            style={{
-              width: '100%',
-              padding: '10px 14px',
-              borderRadius: 8,
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-heading)',
-              fontSize: 14,
-              outline: 'none',
-            }}
+            className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
           />
         </div>
 
         <div>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}>Tagline</label>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Tagline</label>
           <input
             type="text"
             value={profile.tagline}
             onChange={(e) => updateProfileField('tagline', e.target.value)}
-            style={{
-              width: '100%',
-              padding: '10px 14px',
-              borderRadius: 8,
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-heading)',
-              fontSize: 14,
-              outline: 'none',
-            }}
+            className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
           />
         </div>
 
         <div>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">
             Bio
-            <span style={{
-              marginLeft: 8,
-              fontSize: 10,
-              fontWeight: 500,
-              color: '#6B8FA3',
-              letterSpacing: 'normal',
-              textTransform: 'none',
-            }}>
+            <span className="ml-2 text-[10px] font-medium text-accent tracking-normal normal-case">
               (Markdown supported)
             </span>
           </label>
@@ -566,150 +428,65 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
             onChange={(e) => updateProfileField('bio', e.target.value)}
             rows={5}
             placeholder="You can use Markdown: **bold**, *italic*, [Link](url), etc."
-            style={{
-              width: '100%',
-              padding: '10px 14px',
-              borderRadius: 8,
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-heading)',
-              fontSize: 14,
-              outline: 'none',
-              resize: 'vertical',
-              fontFamily: "'IBM Plex Mono', monospace",
-            }}
+            className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none resize-y font-mono"
           />
         </div>
 
         <div>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}>Avatar URL</label>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Avatar URL</label>
           <input
             type="text"
             value={profile.avatar || ''}
             onChange={(e) => updateProfileField('avatar', e.target.value || null)}
             placeholder="https://..."
-            style={{
-              width: '100%',
-              padding: '10px 14px',
-              borderRadius: 8,
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-heading)',
-              fontSize: 14,
-              outline: 'none',
-            }}
+            className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
           />
         </div>
 
         {/* Social Links */}
-        <div style={{ borderTop: '1px solid #E2DDD5', paddingTop: 24 }}>
-          <p style={{
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            marginBottom: 4,
-          }}>Social Links</p>
-          <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginBottom: 16 }}>
+        <div className="border-t border-border pt-6">
+          <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1">Social Links</p>
+          <p className="text-xs text-text-muted mb-4">
             Standard platforms and custom links.
           </p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+          <div className="flex flex-col gap-2.5 mb-5">
             {STANDARD_SOCIALS.map(social => (
-              <div key={social.key} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 8,
-                  background: 'var(--color-bg-alt)',
-                  border: '1px solid var(--color-border)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}>
+              <div key={social.key} className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-bg-alt border border-border flex items-center justify-center shrink-0">
                   {social.icon ? (
                     <img src={social.icon} width="16" height="16" alt={social.label} />
                   ) : (
-                    <span style={{ fontSize: 14, color: 'var(--color-text-muted)' }}>
+                    <span className="text-sm text-text-muted">
                       {social.key === 'email' ? '✉' : '🌐'}
                     </span>
                   )}
                 </div>
-                <span style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: 'var(--color-heading)',
-                  width: 80,
-                  flexShrink: 0,
-                }}>{social.label}</span>
+                <span className="text-xs font-semibold text-heading w-20 shrink-0">{social.label}</span>
                 <input
                   type="text"
                   value={profile.links[social.key] || ''}
                   onChange={(e) => updateLink(social.key, e.target.value)}
                   placeholder={social.placeholder}
-                  style={{
-                    flex: 1,
-                    padding: '8px 12px',
-                    borderRadius: 8,
-                    border: '1px solid var(--color-border)',
-                    background: 'var(--color-card)',
-                    color: 'var(--color-heading)',
-                    fontSize: 13,
-                    outline: 'none',
-                  }}
+                  className="flex-1 px-3 py-2 rounded-lg border border-border bg-card text-heading text-[13px] outline-none"
                 />
               </div>
             ))}
           </div>
 
           {/* Custom links */}
-          <div style={{
-            background: 'var(--color-bg-alt)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 10,
-            padding: 18,
-          }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: 14,
-            }}>
-              <p style={{
-                fontSize: 11,
-                fontWeight: 700,
-                color: '#6B8FA3',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                fontFamily: "'IBM Plex Mono', monospace",
-              }}>Custom Links</p>
+          <div className="bg-bg-alt border border-border rounded-[10px] p-[18px]">
+            <div className="flex justify-between items-center mb-3.5">
+              <p className="text-[11px] font-bold text-accent tracking-wider uppercase font-mono">Custom Links</p>
               <button
                 onClick={addCustomLink}
-                style={{
-                  padding: '4px 12px',
-                  borderRadius: 8,
-                  background: 'transparent',
-                  color: '#6B8FA3',
-                  border: '1px solid #6B8FA344',
-                  fontSize: 11,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                }}
+                className="px-3 py-1 rounded-lg bg-transparent text-accent text-[11px] font-semibold cursor-pointer"
+                style={{ border: '1px solid #6B8FA344' }}
               >+ Add</button>
             </div>
 
             {customLinks.length === 0 && (
-              <p style={{ fontSize: 12, color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+              <p className="text-xs text-text-muted italic">
                 No custom links added yet.
               </p>
             )}
@@ -717,13 +494,7 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
             {customLinks.map(link => (
               <div
                 key={link.id}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr auto',
-                  gap: 8,
-                  alignItems: 'center',
-                  marginBottom: 8,
-                }}
+                className="grid grid-cols-[1fr_1fr_auto] gap-2 items-center mb-2"
               >
                 <input
                   type="text"
@@ -737,41 +508,18 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                     onUpdateProfile({ ...profile, links: newLinks })
                   }}
                   placeholder="Label (e.g., Dribbble)"
-                  style={{
-                    padding: '6px 10px',
-                    borderRadius: 8,
-                    border: '1px solid var(--color-border)',
-                    background: 'var(--color-card)',
-                    color: 'var(--color-heading)',
-                    fontSize: 12,
-                    outline: 'none',
-                  }}
+                  className="px-2.5 py-1.5 rounded-lg border border-border bg-card text-heading text-xs outline-none"
                 />
                 <input
                   type="text"
                   value={link.url}
                   onChange={(e) => updateLink(link.id, e.target.value)}
                   placeholder="URL"
-                  style={{
-                    padding: '6px 10px',
-                    borderRadius: 8,
-                    border: '1px solid var(--color-border)',
-                    background: 'var(--color-card)',
-                    color: 'var(--color-heading)',
-                    fontSize: 12,
-                    outline: 'none',
-                  }}
+                  className="px-2.5 py-1.5 rounded-lg border border-border bg-card text-heading text-xs outline-none"
                 />
                 <button
                   onClick={() => removeCustomLink(link.id)}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: '#D4A0A0',
-                    cursor: 'pointer',
-                    fontSize: 16,
-                    padding: 4,
-                  }}
+                  className="bg-none border-none text-error cursor-pointer text-base p-1"
                 >×</button>
               </div>
             ))}

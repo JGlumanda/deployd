@@ -10,79 +10,30 @@ export function DefaultHeroLayout({ profile }: HeroLayoutProps) {
     .slice(0, 2)
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '1.5rem',
-        padding: '3rem 1rem',
-        textAlign: 'center'
-      }}
-    >
+    <div className="flex flex-col items-center gap-6 py-12 px-4 text-center">
       {/* Avatar or Initials */}
-      <div
-        style={{
-          width: '120px',
-          height: '120px',
-          borderRadius: '50%',
-          overflow: 'hidden',
-          border: '3px solid var(--color-accent)',
-          backgroundColor: 'var(--color-accent-soft)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
+      <div className="w-[120px] h-[120px] rounded-full overflow-hidden border-[3px] border-accent bg-accent-soft flex items-center justify-center">
         {profile.avatar ? (
           <img
             src={profile.avatar}
             alt={profile.name}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover'
-            }}
+            className="w-full h-full object-cover"
           />
         ) : (
-          <span
-            style={{
-              fontSize: '2.5rem',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 700,
-              color: 'var(--color-accent)'
-            }}
-          >
+          <span className="text-[2.5rem] font-heading font-bold text-accent">
             {initials}
           </span>
         )}
       </div>
 
       {/* Name */}
-      <h1
-        style={{
-          margin: 0,
-          fontSize: '2.5rem',
-          fontFamily: 'var(--font-heading)',
-          fontWeight: 700,
-          color: 'var(--color-heading)',
-          lineHeight: 1.2
-        }}
-      >
+      <h1 className="m-0 text-[2.5rem] font-heading font-bold text-heading leading-[1.2]">
         {profile.name}
       </h1>
 
       {/* Tagline */}
       {profile.tagline && (
-        <p
-          style={{
-            margin: 0,
-            fontSize: '1.25rem',
-            fontFamily: 'var(--font-body)',
-            color: 'var(--color-text-muted)',
-            maxWidth: '600px'
-          }}
-        >
+        <p className="m-0 text-xl font-body text-text-muted max-w-[600px]">
           {profile.tagline}
         </p>
       )}
@@ -102,15 +53,7 @@ export function DefaultHeroLayout({ profile }: HeroLayoutProps) {
 
       {/* Social Links */}
       {Object.keys(profile.links).length > 0 && (
-        <div
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            marginTop: '0.5rem'
-          }}
-        >
+        <div className="flex gap-4 flex-wrap justify-center mt-2">
           {Object.entries(profile.links).map(([key, url]) => {
             if (!url || typeof url !== 'string') return null
 
@@ -132,28 +75,7 @@ export function DefaultHeroLayout({ profile }: HeroLayoutProps) {
                 href={href}
                 target={key === 'email' ? undefined : '_blank'}
                 rel={key === 'email' ? undefined : 'noopener noreferrer'}
-                style={{
-                  padding: '0.5rem 1rem',
-                  fontSize: '0.875rem',
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 500,
-                  color: 'var(--color-text)',
-                  backgroundColor: 'var(--color-card)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius-md)',
-                  textDecoration: 'none',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-accent)'
-                  e.currentTarget.style.borderColor = 'var(--color-accent)'
-                  e.currentTarget.style.color = '#fff'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-card)'
-                  e.currentTarget.style.borderColor = 'var(--color-border)'
-                  e.currentTarget.style.color = 'var(--color-text)'
-                }}
+                className="px-4 py-2 text-sm font-body font-medium text-text bg-card border border-border rounded-md no-underline transition-all duration-200 hover:bg-accent hover:border-accent hover:text-white"
               >
                 {label}
               </a>

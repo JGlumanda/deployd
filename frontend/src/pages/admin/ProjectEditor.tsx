@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import type { Project, Settings, ProjectStatus, Tag } from '@core/types'
 import { PROJECT_STATUSES } from '@core/types'
+import { cn } from '@core/utils/cn'
 import ChipInput from './ChipInput'
 
 interface ProjectEditorProps {
@@ -12,8 +13,8 @@ interface ProjectEditorProps {
 
 export default function ProjectEditor({ project, settings, onSave, onCancel }: ProjectEditorProps) {
   const [formData, setFormData] = useState<Project>(
-    project || {
-      id: Date.now(),
+    () => project || {
+      id: Math.floor(Math.random() * 1e15),
       title: '',
       description: '',
       tags: [],
@@ -25,12 +26,6 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
     }
   )
   const [errors, setErrors] = useState<Record<string, string>>({})
-
-  useEffect(() => {
-    if (project) {
-      setFormData(project)
-    }
-  }, [project])
 
   const allTags = [
     ...settings.tags.predefined.map((t: Tag) => t.name),
@@ -87,105 +82,53 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
     <div>
       <button
         onClick={onCancel}
-        style={{
-          background: 'none',
-          border: 'none',
-          color: '#6B8FA3',
-          cursor: 'pointer',
-          fontSize: 13,
-          fontWeight: 600,
-          marginBottom: 16,
-          padding: 0,
-        }}
+        className="bg-none border-none text-accent cursor-pointer text-[13px] font-semibold mb-4 p-0"
       >← Back</button>
 
-      <h1 style={{
-        fontSize: 24,
-        fontWeight: 700,
-        color: '#2C3E50',
-        fontFamily: "'Libre Baskerville', serif",
-        marginBottom: 28,
-      }}>
+      <h1 className="text-2xl font-bold text-heading font-heading mb-7">
         {project ? 'Edit Project' : 'New Project'}
       </h1>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div className="flex flex-col gap-5">
         {/* Title */}
         <div>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}>Title *</label>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Title *</label>
           <input
             type="text"
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             onBlur={() => validate()}
-            style={{
-              width: '100%',
-              padding: '10px 14px',
-              borderRadius: 8,
-              border: errors.title ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-heading)',
-              fontSize: 14,
-              outline: 'none',
-            }}
+            className={cn(
+              'w-full px-3.5 py-2.5 rounded-lg bg-card text-heading text-sm outline-none border',
+              errors.title ? 'border-error' : 'border-border'
+            )}
           />
           {errors.title && (
-            <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.title}</p>
+            <p className="text-[11px] text-error mt-1">{errors.title}</p>
           )}
         </div>
 
         {/* Description */}
         <div>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}>Description *</label>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Description *</label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             onBlur={() => validate()}
             rows={4}
-            style={{
-              width: '100%',
-              padding: '10px 14px',
-              borderRadius: 8,
-              border: errors.description ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-heading)',
-              fontSize: 14,
-              outline: 'none',
-              resize: 'vertical',
-            }}
+            className={cn(
+              'w-full px-3.5 py-2.5 rounded-lg bg-card text-heading text-sm outline-none resize-y border',
+              errors.description ? 'border-error' : 'border-border'
+            )}
           />
           {errors.description && (
-            <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.description}</p>
+            <p className="text-[11px] text-error mt-1">{errors.description}</p>
           )}
         </div>
 
         {/* Tags */}
         <div>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}>Tags</label>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Tags</label>
           <ChipInput
             values={formData.tags}
             onChange={(tags) => setFormData({ ...formData, tags })}
@@ -195,30 +138,13 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
         </div>
 
         {/* Status and Date */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <label style={{
-              display: 'block',
-              fontSize: 11,
-              fontWeight: 600,
-              color: 'var(--color-text-muted)',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              marginBottom: 6,
-            }}>Status</label>
+            <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Status</label>
             <select
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value as ProjectStatus })}
-              style={{
-                width: '100%',
-                padding: '10px 14px',
-                borderRadius: 8,
-                border: '1px solid var(--color-border)',
-                background: 'var(--color-card)',
-                color: 'var(--color-heading)',
-                fontSize: 14,
-                outline: 'none',
-              }}
+              className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
             >
               {PROJECT_STATUSES.map((status: ProjectStatus) => (
                 <option key={status} value={status}>
@@ -229,74 +155,46 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
           </div>
 
           <div>
-            <label style={{
-              display: 'block',
-              fontSize: 11,
-              fontWeight: 600,
-              color: 'var(--color-text-muted)',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              marginBottom: 6,
-            }}>Date</label>
+            <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Date</label>
             <input
               type="text"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
               onBlur={() => validate()}
               placeholder="YYYY-MM"
-              style={{
-                width: '100%',
-                padding: '10px 14px',
-                borderRadius: 8,
-                border: errors.date ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
-                background: 'var(--color-card)',
-                color: 'var(--color-heading)',
-                fontSize: 14,
-                outline: 'none',
-              }}
+              className={cn(
+                'w-full px-3.5 py-2.5 rounded-lg bg-card text-heading text-sm outline-none border',
+                errors.date ? 'border-error' : 'border-border'
+              )}
             />
             {errors.date && (
-              <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.date}</p>
+              <p className="text-[11px] text-error mt-1">{errors.date}</p>
             )}
           </div>
         </div>
 
         {/* Featured toggle */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div className="flex items-center gap-2.5">
           <input
             type="checkbox"
             checked={formData.featured}
             onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
             id="featured"
-            style={{ width: 16, height: 16, accentColor: 'var(--color-accent)' }}
+            className="w-4 h-4"
+            style={{ accentColor: 'var(--color-accent)' }}
           />
-          <label htmlFor="featured" style={{ fontSize: 13, color: 'var(--color-heading)', fontWeight: 500 }}>
+          <label htmlFor="featured" className="text-[13px] text-heading font-medium">
             Featured Project
           </label>
         </div>
 
         {/* Links */}
-        <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: 20 }}>
-          <p style={{
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            marginBottom: 12,
-          }}>Links</p>
+        <div className="border-t border-border pt-5">
+          <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-3">Links</p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div className="flex flex-col gap-2.5">
             <div>
-              <label style={{
-                display: 'block',
-                fontSize: 10,
-                fontWeight: 600,
-                color: 'var(--color-text-muted)',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                marginBottom: 4,
-              }}>Live Demo URL</label>
+              <label className="block text-[10px] font-semibold text-text-muted tracking-wider uppercase mb-1">Live Demo URL</label>
               <input
                 type="text"
                 value={formData.links.live || ''}
@@ -306,32 +204,18 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                 })}
                 onBlur={() => validate()}
                 placeholder="https://..."
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  borderRadius: 8,
-                  border: errors.live ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
-                  background: 'var(--color-card)',
-                  color: 'var(--color-heading)',
-                  fontSize: 13,
-                  outline: 'none',
-                }}
+                className={cn(
+                  'w-full px-3 py-2 rounded-lg bg-card text-heading text-[13px] outline-none border',
+                  errors.live ? 'border-error' : 'border-border'
+                )}
               />
               {errors.live && (
-                <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.live}</p>
+                <p className="text-[11px] text-error mt-1">{errors.live}</p>
               )}
             </div>
 
             <div>
-              <label style={{
-                display: 'block',
-                fontSize: 10,
-                fontWeight: 600,
-                color: 'var(--color-text-muted)',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                marginBottom: 4,
-              }}>GitHub URL</label>
+              <label className="block text-[10px] font-semibold text-text-muted tracking-wider uppercase mb-1">GitHub URL</label>
               <input
                 type="text"
                 value={formData.links.github || ''}
@@ -341,32 +225,18 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                 })}
                 onBlur={() => validate()}
                 placeholder="https://github.com/..."
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  borderRadius: 8,
-                  border: errors.github ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
-                  background: 'var(--color-card)',
-                  color: 'var(--color-heading)',
-                  fontSize: 13,
-                  outline: 'none',
-                }}
+                className={cn(
+                  'w-full px-3 py-2 rounded-lg bg-card text-heading text-[13px] outline-none border',
+                  errors.github ? 'border-error' : 'border-border'
+                )}
               />
               {errors.github && (
-                <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.github}</p>
+                <p className="text-[11px] text-error mt-1">{errors.github}</p>
               )}
             </div>
 
             <div>
-              <label style={{
-                display: 'block',
-                fontSize: 10,
-                fontWeight: 600,
-                color: 'var(--color-text-muted)',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                marginBottom: 4,
-              }}>Docs URL</label>
+              <label className="block text-[10px] font-semibold text-text-muted tracking-wider uppercase mb-1">Docs URL</label>
               <input
                 type="text"
                 value={formData.links.docs || ''}
@@ -376,19 +246,13 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
                 })}
                 onBlur={() => validate()}
                 placeholder="https://..."
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  borderRadius: 8,
-                  border: errors.docs ? '1px solid var(--color-error)' : '1px solid var(--color-border)',
-                  background: 'var(--color-card)',
-                  color: 'var(--color-heading)',
-                  fontSize: 13,
-                  outline: 'none',
-                }}
+                className={cn(
+                  'w-full px-3 py-2 rounded-lg bg-card text-heading text-[13px] outline-none border',
+                  errors.docs ? 'border-error' : 'border-border'
+                )}
               />
               {errors.docs && (
-                <p style={{ fontSize: 11, color: 'var(--color-error)', marginTop: 4 }}>{errors.docs}</p>
+                <p className="text-[11px] text-error mt-1">{errors.docs}</p>
               )}
             </div>
           </div>
@@ -396,64 +260,28 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
 
         {/* Image URL */}
         <div>
-          <label style={{
-            display: 'block',
-            fontSize: 11,
-            fontWeight: 600,
-            color: 'var(--color-text-muted)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}>Image URL (optional)</label>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Image URL (optional)</label>
           <input
             type="text"
             value={formData.image || ''}
             onChange={(e) => setFormData({ ...formData, image: e.target.value || null })}
             placeholder="https://..."
-            style={{
-              width: '100%',
-              padding: '10px 14px',
-              borderRadius: 8,
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-card)',
-              color: 'var(--color-heading)',
-              fontSize: 14,
-              outline: 'none',
-            }}
+            className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
           />
-          <p style={{ fontSize: 11, color: '#A0ADB8', marginTop: 4 }}>
+          <p className="text-[11px] text-text-muted mt-1">
             If empty, a generated gradient will be used.
           </p>
         </div>
 
         {/* Action buttons */}
-        <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+        <div className="flex gap-2 mt-3">
           <button
             onClick={handleSubmit}
-            style={{
-              flex: 1,
-              padding: '10px 20px',
-              borderRadius: 8,
-              background: '#6B8FA3',
-              color: '#FFF',
-              border: 'none',
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: 'pointer',
-            }}
+            className="flex-1 px-5 py-2.5 rounded-lg bg-accent text-card border-none text-[13px] font-semibold cursor-pointer"
           >Save</button>
           <button
             onClick={onCancel}
-            style={{
-              padding: '10px 20px',
-              borderRadius: 8,
-              background: 'transparent',
-              color: '#6B8FA3',
-              border: '1px solid #6B8FA344',
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: 'pointer',
-            }}
+            className="px-5 py-2.5 rounded-lg bg-transparent text-accent border border-accent/25 text-[13px] font-semibold cursor-pointer"
           >Cancel</button>
         </div>
       </div>
