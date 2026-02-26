@@ -169,6 +169,7 @@ export default function AdminPage() {
               profile={draftConfig.profile}
               settings={draftConfig.settings}
               onUpdateProfile={(profile) => updateDraft(d => { d.profile = profile })}
+              onNavigateToSettings={() => setActiveSection('settings')}
             />
           )}
 

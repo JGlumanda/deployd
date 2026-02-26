@@ -101,39 +101,75 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
         <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-2">GitHub Integration</p>
 
         <div className="bg-card border border-border rounded-xl p-5">
-          <div className="flex items-center gap-2 mb-1">
-            <img src="https://cdn.simpleicons.org/github/2C3E50" width="16" height="16" alt="" />
-            <span className="text-[13px] font-bold text-heading">
-              Default GitHub Username
-            </span>
-          </div>
-          <p className="text-xs text-text-muted mb-3.5">
-            Set your GitHub username once to quickly import repos and profile data throughout the admin panel.
-          </p>
+          <div className="flex justify-between items-center mb-3.5">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <img src="https://cdn.simpleicons.org/github/2C3E50" width="16" height="16" alt="" />
+                <span className="text-[13px] font-bold text-heading">
+                  GitHub Integration
+                </span>
+              </div>
+              <p className="text-xs text-text-muted">
+                Import repos and profile data from GitHub throughout the admin panel.
+              </p>
+            </div>
 
-          <div className="flex items-center gap-2">
-            <div className="flex-1 relative">
-              <img
-                src="https://cdn.simpleicons.org/github/A0ADB8"
-                width="14"
-                height="14"
-                alt=""
-                className="absolute pointer-events-none"
+            {/* Toggle */}
+            <button
+              onClick={() => updateSetting('githubEnabled', settings.githubEnabled !== false ? false : undefined)}
+              className="relative cursor-pointer border-none shrink-0"
+              style={{
+                width: 44,
+                height: 24,
+                borderRadius: 12,
+                background: settings.githubEnabled !== false ? 'var(--color-accent)' : 'var(--color-border)',
+                transition: 'background 0.3s',
+              }}
+            >
+              <span
+                className="absolute rounded-full bg-card"
                 style={{
-                  left: 12,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
+                  top: 3,
+                  left: settings.githubEnabled !== false ? 23 : 3,
+                  width: 18,
+                  height: 18,
+                  transition: 'left 0.3s',
                 }}
               />
-              <input
-                type="text"
-                value={settings.githubUsername || ''}
-                onChange={(e) => updateSetting('githubUsername', e.target.value || undefined)}
-                placeholder="your-github-username"
-                className="w-full py-2.5 pr-3.5 pl-[36px] rounded-lg border border-border bg-card text-heading text-sm outline-none font-mono"
-              />
-            </div>
+            </button>
           </div>
+
+          {settings.githubEnabled !== false && (
+            <>
+              <p className="text-xs text-text-muted mb-3.5">
+                Set your GitHub username once to quickly import repos and profile data throughout the admin panel.
+              </p>
+
+              <div className="flex items-center gap-2">
+                <div className="flex-1 relative">
+                  <img
+                    src="https://cdn.simpleicons.org/github/A0ADB8"
+                    width="14"
+                    height="14"
+                    alt=""
+                    className="absolute pointer-events-none"
+                    style={{
+                      left: 12,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                    }}
+                  />
+                  <input
+                    type="text"
+                    value={settings.githubUsername || ''}
+                    onChange={(e) => updateSetting('githubUsername', e.target.value || undefined)}
+                    placeholder="your-github-username"
+                    className="w-full py-2.5 pr-3.5 pl-[36px] rounded-lg border border-border bg-card text-heading text-sm outline-none font-mono"
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -389,23 +425,25 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
       </div>
 
       {/* GitHub Token */}
-      <div>
-        <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-3">GitHub</p>
+      {settings.githubEnabled !== false && (
+        <div>
+          <p className="text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-3">GitHub</p>
 
-        <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">API Token (optional)</label>
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">API Token (optional)</label>
 
-        <input
-          type="password"
-          value={githubToken}
-          onChange={(e) => setGithubToken(e.target.value)}
-          placeholder="ghp_..."
-          className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
-        />
+          <input
+            type="password"
+            value={githubToken}
+            onChange={(e) => setGithubToken(e.target.value)}
+            placeholder="ghp_..."
+            className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
+          />
 
-        <p className="text-[11px] text-text-muted mt-1.5">
-          Increases the rate limit from 60 to 5,000 requests/hour. Token must be set as <code className="bg-bg-alt px-1.5 py-0.5 rounded font-mono">GITHUB_TOKEN</code> environment variable.
-        </p>
-      </div>
+          <p className="text-[11px] text-text-muted mt-1.5">
+            Increases the rate limit from 60 to 5,000 requests/hour. Token must be set as <code className="bg-bg-alt px-1.5 py-0.5 rounded font-mono">GITHUB_TOKEN</code> environment variable.
+          </p>
+        </div>
+      )}
 
       {/* Danger Zone - Reset Config */}
       <div

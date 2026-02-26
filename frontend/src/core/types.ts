@@ -52,6 +52,7 @@ export interface Settings {
   cardDescriptionMaxChars: number;
   cardTitleMaxLines: number;
   githubUsername?: string; // Saved GitHub username for quick import
+  githubEnabled?: boolean; // Enable/disable GitHub integration (undefined = true)
   healthCheck: {
     enabled: boolean;
     intervalMinutes: number;
