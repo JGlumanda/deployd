@@ -8,8 +8,9 @@ import ProjectsSection from './admin/ProjectsSection'
 import ProfileSection from './admin/ProfileSection'
 import ThemeSection from './admin/ThemeSection'
 import SettingsSection from './admin/SettingsSection'
+import MediaSection from './admin/MediaSection'
 
-type Section = 'projects' | 'profile' | 'themes' | 'settings'
+type Section = 'projects' | 'profile' | 'themes' | 'media' | 'settings'
 
 export default function AdminPage() {
   const { config, loading, error, save, reload } = useConfig()
@@ -179,6 +180,13 @@ export default function AdminPage() {
             <ThemeSection
               activeTheme={draftConfig.theme.active}
               onSelectTheme={(themeName) => updateDraft(d => { d.theme.active = themeName })}
+            />
+          )}
+
+          {activeSection === 'media' && (
+            <MediaSection
+              password={password ?? undefined}
+              draftConfig={draftConfig}
             />
           )}
 

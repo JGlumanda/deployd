@@ -1,6 +1,6 @@
 import { cn } from '@core/utils/cn'
 
-type Section = 'projects' | 'profile' | 'themes' | 'settings'
+type Section = 'projects' | 'profile' | 'themes' | 'media' | 'settings'
 
 interface AdminSidebarProps {
   activeSection: Section
@@ -16,6 +16,7 @@ const sections = [
   { id: 'projects' as const, label: 'Projects', icon: '\u25EB' },
   { id: 'profile' as const, label: 'Profile', icon: '\u25C9' },
   { id: 'themes' as const, label: 'Theme', icon: '\u25C6' },
+  { id: 'media' as const, label: 'Media', icon: '\u25A3' },
   { id: 'settings' as const, label: 'Settings', icon: '\u2699' },
 ]
 

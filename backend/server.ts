@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile, readdir, stat, unlink } from 'fs/promises';
 import { existsSync, mkdirSync } from 'fs';
 import { join, dirname, extname } from 'path';
 import { fileURLToPath } from 'url';
@@ -427,6 +427,69 @@ app.post('/api/upload', authLimiter, requireAuth, (req: Request, res: Response) 
     }
     res.json({ url: `/uploads/${req.file.filename}` });
   });
+});
+
+// GET /api/uploads - List all uploaded files with metadata (auth-protected)
+app.get('/api/uploads', authLimiter, requireAuth, async (req: Request, res: Response) => {
+  try {
+    const files = await readdir(UPLOADS_DIR);
+    const configData = await readFile(CONFIG_PATH, 'utf-8').catch(() => '{}');
+
+    const fileInfos = await Promise.all(
+      files.map(async (filename) => {
+        const filePath = join(UPLOADS_DIR, filename);
+        const fileStat = await stat(filePath);
+        if (!fileStat.isFile()) return null;
+
+        const url = `/uploads/${filename}`;
+        const inUse = configData.includes(url);
+
+        return {
+          filename,
+          url,
+          size: fileStat.size,
+          modified: fileStat.mtimeMs,
+          inUse,
+        };
+      })
+    );
+
+    const result = fileInfos
+      .filter((f): f is NonNullable<typeof f> => f !== null)
+      .sort((a, b) => b.modified - a.modified);
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to list uploads' });
+  }
+});
+
+// DELETE /api/uploads/:filename - Delete an uploaded file (auth-protected)
+app.delete('/api/uploads/:filename', authLimiter, requireAuth, async (req: Request, res: Response) => {
+  const filename = req.params.filename as string;
+
+  // Reject path traversal attempts
+  if (filename.includes('/') || filename.includes('\\') || filename.includes('..')) {
+    return res.status(400).json({ error: 'Invalid filename' });
+  }
+
+  const filePath = join(UPLOADS_DIR, filename);
+
+  // Defense in depth: verify resolved path stays within UPLOADS_DIR
+  if (!filePath.startsWith(UPLOADS_DIR)) {
+    return res.status(400).json({ error: 'Invalid filename' });
+  }
+
+  if (!existsSync(filePath)) {
+    return res.status(404).json({ error: 'File not found' });
+  }
+
+  try {
+    await unlink(filePath);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete file' });
+  }
 });
 
 // Serve uploaded files
