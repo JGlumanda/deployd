@@ -6,6 +6,7 @@ interface ProfileSectionProps {
   profile: Profile
   settings: Settings
   onUpdateProfile: (profile: Profile) => void
+  onNavigateToSettings?: () => void
 }
 
 interface CustomLink {
@@ -24,15 +25,14 @@ const STANDARD_SOCIALS = [
   { key: 'website', label: 'Website', icon: null, placeholder: 'https://yoursite.com' },
 ]
 
-export default function ProfileSection({ profile, settings, onUpdateProfile }: ProfileSectionProps) {
+export default function ProfileSection({ profile, settings, onUpdateProfile, onNavigateToSettings }: ProfileSectionProps) {
   const [showGithubImport, setShowGithubImport] = useState(false)
-  const [githubUsername, setGithubUsername] = useState(settings.githubUsername || '')
+  const githubUsername = settings.githubUsername || ''
   const [githubLoading, setGithubLoading] = useState(false)
   const [githubError, setGithubError] = useState<string | null>(null)
   const [githubData, setGithubData] = useState<GitHubUserData | null>(null)
   const [githubReadme, setGithubReadme] = useState<string | null>(null)
   const [selectedFields, setSelectedFields] = useState<Set<string>>(new Set())
-  const [overwriteMode, setOverwriteMode] = useState(false)
 
   // Extract custom links from profile (any links not in standard socials)
   const standardKeys = new Set(STANDARD_SOCIALS.map(s => s.key))
@@ -125,58 +125,39 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
     const updates: Partial<Profile> = {}
     const linkUpdates: Record<string, string | undefined> = {}
 
-    // In overwrite mode, we clear fields that aren't in GitHub data
-    if (overwriteMode) {
-      // Set all fields - either to GitHub value or empty
-      updates.name = selectedFields.has('name') && githubData.name ? githubData.name : ''
-      updates.bio = selectedFields.has('readme') && githubReadme ? githubReadme : selectedFields.has('bio') && githubData.bio ? githubData.bio : ''
-      updates.avatar = selectedFields.has('avatar') && githubData.avatar_url ? githubData.avatar_url : null
-      updates.tagline = githubData.login || profile.tagline // Use GitHub username as tagline
-      updates.githubUsername = githubData.login // Save GitHub username
-
-      // Clear all links, then add selected ones
-      linkUpdates.github = selectedFields.has('github') && githubData.html_url ? githubData.html_url : undefined
-      linkUpdates.website = selectedFields.has('website') && githubData.blog ? githubData.blog : undefined
-      linkUpdates.x = selectedFields.has('x') && githubData.twitter_username ? `https://x.com/${githubData.twitter_username}` : undefined
-      linkUpdates.email = selectedFields.has('email') && githubData.email ? `mailto:${githubData.email}` : undefined
-      linkUpdates.linkedin = undefined
-      linkUpdates.mastodon = undefined
-    } else {
-      // Normal mode: only update selected fields if they have values
-      if (selectedFields.has('name') && githubData.name) {
-        updates.name = githubData.name
-      }
-      if (selectedFields.has('readme') && githubReadme) {
-        updates.bio = githubReadme
-      } else if (selectedFields.has('bio') && githubData.bio) {
-        updates.bio = githubData.bio
-      }
-      if (selectedFields.has('avatar') && githubData.avatar_url) {
-        updates.avatar = githubData.avatar_url
-      }
-      // Always update tagline to GitHub username and save it
-      if (githubData.login) {
-        updates.tagline = githubData.login
-        updates.githubUsername = githubData.login
-      }
-      if (selectedFields.has('website') && githubData.blog) {
-        linkUpdates.website = githubData.blog
-      }
-      if (selectedFields.has('x') && githubData.twitter_username) {
-        linkUpdates.x = `https://x.com/${githubData.twitter_username}`
-      }
-      if (selectedFields.has('email') && githubData.email) {
-        linkUpdates.email = `mailto:${githubData.email}`
-      }
-      if (selectedFields.has('github') && githubData.html_url) {
-        linkUpdates.github = githubData.html_url
-      }
+    if (selectedFields.has('name') && githubData.name) {
+      updates.name = githubData.name
+    }
+    if (selectedFields.has('readme') && githubReadme) {
+      updates.bio = githubReadme
+    } else if (selectedFields.has('bio') && githubData.bio) {
+      updates.bio = githubData.bio
+    }
+    if (selectedFields.has('avatar') && githubData.avatar_url) {
+      updates.avatar = githubData.avatar_url
+    }
+    // Always update tagline to GitHub username and save it
+    if (githubData.login) {
+      updates.tagline = githubData.login
+      updates.githubUsername = githubData.login
+    }
+    if (selectedFields.has('website') && githubData.blog) {
+      linkUpdates.website = githubData.blog
+    }
+    if (selectedFields.has('x') && githubData.twitter_username) {
+      linkUpdates.x = `https://x.com/${githubData.twitter_username}`
+    }
+    if (selectedFields.has('email') && githubData.email) {
+      linkUpdates.email = `mailto:${githubData.email}`
+    }
+    if (selectedFields.has('github') && githubData.html_url) {
+      linkUpdates.github = githubData.html_url
     }
 
     onUpdateProfile({
       ...profile,
       ...updates,
-      links: overwriteMode ? linkUpdates : {
+      links: {
         ...profile.links,
         ...linkUpdates,
       },
@@ -190,11 +171,28 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-heading font-heading mb-2">Profile</h1>
+      <div className="flex justify-between items-center mb-2">
+        <h1 className="text-2xl font-bold text-heading font-heading">Profile</h1>
+        <button
+          onClick={() => {
+            if (!confirm('Clear all profile data? This will reset name, tagline, bio, avatar, and all links.')) return
+            onUpdateProfile({
+              ...profile,
+              name: '',
+              tagline: '',
+              bio: '',
+              avatar: null,
+              links: {},
+            })
+          }}
+          className="px-3 py-1.5 rounded-lg bg-transparent text-error border border-error/30 text-[11px] font-semibold cursor-pointer transition-all duration-200 hover:bg-error/10"
+        >Clear Profile</button>
+      </div>
 
       <p className="text-[13px] text-text-muted mb-6">Your information and social links.</p>
 
       {/* GitHub Import */}
+      {settings.githubEnabled !== false && (
       <div className="bg-card border border-border rounded-xl p-5 mb-7">
         <div className="flex items-center gap-2 mb-1">
           <img src="https://cdn.simpleicons.org/github/2C3E50" width="16" height="16" alt="" />
@@ -208,24 +206,7 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
 
         {!showGithubImport ? (
           <>
-            <div className="flex gap-2">
-              <div className="flex-1 relative">
-                <img
-                  src="https://cdn.simpleicons.org/github/A0ADB8"
-                  width="14"
-                  height="14"
-                  alt=""
-                  style={{ position: 'absolute', left: 12, top: 11 }}
-                />
-                <input
-                  type="text"
-                  value={githubUsername}
-                  onChange={(e) => setGithubUsername(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && fetchGithubProfile()}
-                  placeholder="GitHub Username"
-                  className="w-full py-2.5 pr-3.5 pl-[34px] rounded-lg border border-border bg-card text-heading text-sm outline-none"
-                />
-              </div>
+            {githubUsername ? (
               <button
                 onClick={fetchGithubProfile}
                 disabled={githubLoading}
@@ -235,19 +216,19 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                 )}
               >
                 <img src="https://cdn.simpleicons.org/github/ffffff" width="14" height="14" alt="" />
-                {githubLoading ? 'Loading...' : 'Load'}
+                {githubLoading ? 'Loading...' : 'Load from GitHub'}
               </button>
-            </div>
-
-            {!githubUsername && settings.githubUsername && (
-              <p className="text-[11px] text-text-muted mt-2 flex items-center gap-1">
-                💡 Using saved username: <code className="bg-bg px-1.5 py-0.5 rounded font-mono">{settings.githubUsername}</code>
-              </p>
-            )}
-
-            {!githubUsername && !settings.githubUsername && (
-              <p className="text-[11px] text-error mt-2">
-                💡 Tip: Set your GitHub username in Settings to quickly load your profile
+            ) : (
+              <p className="text-xs text-text-muted">
+                No GitHub username configured.{' '}
+                {onNavigateToSettings ? (
+                  <button
+                    onClick={onNavigateToSettings}
+                    className="bg-none border-none text-accent cursor-pointer text-xs font-semibold p-0 underline"
+                  >Set it in Settings</button>
+                ) : (
+                  <span>Set it in Settings.</span>
+                )}
               </p>
             )}
           </>
@@ -318,7 +299,6 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                         }
                         setSelectedFields(next)
                       }}
-                      disabled={isMatch}
                       className="w-3.5 h-3.5"
                       style={{ accentColor: '#6B8FA3' }}
                     />
@@ -340,34 +320,6 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
                 )
               })}
             </div>
-
-            {/* Overwrite mode checkbox */}
-            <label
-              className={cn(
-                'flex items-center gap-2 mt-3.5 p-2.5 rounded-lg cursor-pointer transition-all duration-200',
-                overwriteMode ? 'bg-accent-soft' : 'bg-bg-alt'
-              )}
-              style={{
-                border: overwriteMode ? '1px solid #FFD700' : '1px solid transparent',
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={overwriteMode}
-                onChange={(e) => setOverwriteMode(e.target.checked)}
-                className="w-3.5 h-3.5"
-                style={{ accentColor: '#FFD700' }}
-              />
-              <div className="flex-1">
-                <div className="text-xs font-semibold text-heading">
-                  Overwrite completely
-                </div>
-                <div className="text-[11px] text-text-muted mt-0.5 leading-snug">
-                  Fields not present in GitHub will be cleared
-                  {overwriteMode && ' (e.g. Bio, Avatar, Links)'}
-                </div>
-              </div>
-            </label>
 
             <div className="flex gap-2 mt-3.5">
               <button
@@ -393,6 +345,7 @@ export default function ProfileSection({ profile, settings, onUpdateProfile }: P
           </div>
         )}
       </div>
+      )}
 
       {/* Manual fields */}
       <div className="flex flex-col gap-5">

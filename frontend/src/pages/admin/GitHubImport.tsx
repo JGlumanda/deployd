@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { cn } from '@core/utils/cn'
 import type { Project, Settings } from '@core/types'
 
@@ -23,11 +23,20 @@ interface GitHubImportProps {
 }
 
 export default function GitHubImport({ existingProjects, settings, onImport, onCancel }: GitHubImportProps) {
-  const [username, setUsername] = useState(settings.githubUsername || '')
+  const username = settings.githubUsername || ''
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [repos, setRepos] = useState<GitHubRepo[]>([])
   const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [fetched, setFetched] = useState(false)
+
+  // Auto-fetch repos on mount if username is configured
+  useEffect(() => {
+    if (username && !fetched) {
+      setFetched(true)
+      fetchRepos()
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchRepos = async () => {
     if (!username.trim()) {
@@ -71,16 +80,7 @@ export default function GitHubImport({ existingProjects, settings, onImport, onC
       }
 
       setRepos(data)
-
-      // Auto-select non-fork repos that aren't already imported
-      const existingUrls = new Set(existingProjects.map(p => p.links.github).filter(Boolean))
-      const autoSelected = new Set<string>()
-      data.forEach((repo: GitHubRepo) => {
-        if (!repo.fork && !existingUrls.has(repo.html_url)) {
-          autoSelected.add(repo.name)
-        }
-      })
-      setSelected(autoSelected)
+      setSelected(new Set())
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error loading repos')
     } finally {
@@ -134,62 +134,15 @@ export default function GitHubImport({ existingProjects, settings, onImport, onC
 
       <h1 className="text-2xl font-bold text-heading font-heading mb-2">Import from GitHub</h1>
 
-      <p className="text-[13px] text-text-muted mb-6">Load your public repos and import them as projects.</p>
+      <p className="text-[13px] text-text-muted mb-6">
+        {loading ? 'Loading repos...' : 'Select repos to import as projects.'}
+      </p>
 
-      {/* Username input */}
-      <div className="mb-6">
-        <div className="flex gap-2 mb-2">
-          <div className="flex-1 relative">
-            <img
-              src="https://cdn.simpleicons.org/github/A0ADB8"
-              width="14"
-              height="14"
-              alt=""
-              className="absolute left-3 top-[11px]"
-            />
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && fetchRepos()}
-              placeholder="GitHub Username"
-              className="w-full py-2.5 pr-3.5 pl-[34px] rounded-lg border border-border bg-card text-heading text-sm outline-none"
-            />
-          </div>
-          <button
-            onClick={fetchRepos}
-            disabled={loading}
-            className={cn(
-              'px-5 py-2 rounded-lg bg-[#24292f] text-white border-none text-[13px] font-semibold inline-flex items-center gap-1.5',
-              loading ? 'cursor-not-allowed opacity-70' : 'cursor-pointer opacity-100'
-            )}
-          >
-            {loading ? (
-              <>
-                <span className="w-3 h-3 border-2 border-[#FFF4] border-t-white rounded-full animate-spin-slow inline-block" />
-                Loading...
-              </>
-            ) : (
-              <>
-                <img src="https://cdn.simpleicons.org/github/ffffff" width="14" height="14" alt="" />
-                Load repos
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Hints */}
-        {username && username === settings.githubUsername && (
-          <p className="text-xs text-text-muted mt-1">
-            Using saved GitHub username from Settings
-          </p>
-        )}
-        {!username && !settings.githubUsername && (
-          <p className="text-xs text-text-muted mt-1">
-            Tip: Set your GitHub username in Settings to pre-fill this field
-          </p>
-        )}
-      </div>
+      {!username && (
+        <p className="text-xs text-text-muted mb-6">
+          No GitHub username configured. Set it in Settings to load repos.
+        </p>
+      )}
 
       {error && (
         <div className="px-4 py-3 rounded-lg bg-[var(--color-error-bg)] border border-error text-error text-[13px] mb-6">{error}</div>
@@ -216,16 +169,14 @@ export default function GitHubImport({ existingProjects, settings, onImport, onC
             {repos.map(repo => {
               const isSelected = selected.has(repo.name)
               const isAlreadyImported = existingUrls.has(repo.html_url)
-              const isDisabled = isAlreadyImported
 
               return (
                 <div
                   key={repo.name}
-                  onClick={() => !isDisabled && toggleRepo(repo.name)}
+                  onClick={() => toggleRepo(repo.name)}
                   className={cn(
-                    'flex items-center gap-3.5 px-[18px] py-3.5 rounded-[10px] transition-all duration-200',
+                    'flex items-center gap-3.5 px-[18px] py-3.5 rounded-[10px] transition-all duration-200 cursor-pointer',
                     isSelected ? 'bg-accent-soft border border-accent' : 'bg-card border border-border',
-                    isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer opacity-100'
                   )}
                 >
                   {/* Checkbox */}
