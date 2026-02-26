@@ -4,6 +4,7 @@ import type { Project } from '@core/types'
 interface ProjectLinksProps {
   links: Project['links']
   size?: 'sm' | 'md'
+  healthStatus?: 'online' | 'offline' | 'checking' | null
 }
 
 const linkLabels = {
@@ -18,7 +19,7 @@ const linkIcons = {
   docs: '\uD83D\uDCD6'
 }
 
-export function ProjectLinks({ links, size = 'md' }: ProjectLinksProps) {
+export function ProjectLinks({ links, size = 'md', healthStatus }: ProjectLinksProps) {
   const availableLinks = Object.entries(links).filter(([, url]) => url) as Array<[keyof typeof linkLabels, string]>
 
   if (availableLinks.length === 0) return null
@@ -39,6 +40,22 @@ export function ProjectLinks({ links, size = 'md' }: ProjectLinksProps) {
         >
           <span>{linkIcons[key]}</span>
           <span>{linkLabels[key]}</span>
+          {key === 'live' && healthStatus && (
+            <span
+              role="img"
+              aria-label={healthStatus === 'online' ? 'Online' : healthStatus === 'offline' ? 'Offline' : 'Checking status'}
+              className={cn('rounded-full shrink-0 ml-0.5', size === 'sm' ? 'w-1.5 h-1.5' : 'w-2 h-2')}
+              style={{
+                backgroundColor:
+                  healthStatus === 'online'
+                    ? '#10b981'
+                    : healthStatus === 'offline'
+                    ? '#ef4444'
+                    : '#94a3b8'
+              }}
+              title={healthStatus === 'online' ? 'Online' : healthStatus === 'offline' ? 'Offline' : 'Checking...'}
+            />
+          )}
         </a>
       ))}
     </div>

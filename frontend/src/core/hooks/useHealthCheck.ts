@@ -62,7 +62,7 @@ export function useHealthCheck(url: string | undefined) {
 /**
  * Batch health check hook for multiple URLs
  */
-export function useHealthChecks(urls: string[]) {
+export function useHealthChecks(urls: string[], intervalMs?: number) {
   const [results, setResults] = useState<Map<string, HealthCheckResult>>(new Map())
   const [loading, setLoading] = useState(false)
 
@@ -110,7 +110,12 @@ export function useHealthChecks(urls: string[]) {
 
   useEffect(() => {
     checkAll()
-  }, [checkAll])
+
+    if (intervalMs && intervalMs > 0) {
+      const id = setInterval(checkAll, intervalMs)
+      return () => clearInterval(id)
+    }
+  }, [checkAll, intervalMs])
 
   return { results, loading, refresh: checkAll }
 }

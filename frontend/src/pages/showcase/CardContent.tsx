@@ -11,6 +11,7 @@ interface CardContentProps {
   descriptionMaxChars: number
   theme?: Theme | null
   settings?: Settings
+  healthStatus?: 'online' | 'offline' | 'checking' | null
 }
 
 export function CardContent({
@@ -19,7 +20,8 @@ export function CardContent({
   titleMaxLines,
   descriptionMaxChars,
   theme = null,
-  settings
+  settings,
+  healthStatus
 }: CardContentProps) {
   const imageStyle = getProjectImageStyle(theme, project.title)
 
@@ -98,7 +100,7 @@ export function CardContent({
         )}
 
         {/* Links */}
-        <ProjectLinks links={project.links} size="sm" />
+        <ProjectLinks links={project.links} size="sm" healthStatus={healthStatus} />
       </div>
     </>
   )
