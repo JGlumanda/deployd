@@ -9,9 +9,10 @@ interface ModalContentProps {
   project: Project
   theme?: Theme | null
   settings?: Settings
+  healthStatus?: 'online' | 'offline' | 'checking' | null
 }
 
-export function ModalContent({ project, theme = null, settings }: ModalContentProps) {
+export function ModalContent({ project, theme = null, settings, healthStatus }: ModalContentProps) {
   const imageStyle = getProjectImageStyle(theme, project.title)
 
   return (
@@ -112,7 +113,7 @@ export function ModalContent({ project, theme = null, settings }: ModalContentPr
 
         {/* Links */}
         <div>
-          <ProjectLinks links={project.links} size="md" />
+          <ProjectLinks links={project.links} size="md" healthStatus={healthStatus} />
         </div>
       </div>
     </div>

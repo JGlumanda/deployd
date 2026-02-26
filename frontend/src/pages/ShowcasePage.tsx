@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useConfig } from '@core/hooks/useConfig'
 import { useTheme } from '@core/hooks/useTheme'
 import { useProjects } from '@core/hooks/useProjects'
-import type { Project } from '@core/types'
+import { useHealthChecks } from '@core/hooks/useHealthCheck'
+import type { Project, HealthCheckResult } from '@core/types'
 
 // Default components
 import { DefaultHeroLayout } from './showcase/DefaultHeroLayout'
@@ -28,6 +29,21 @@ export default function ShowcasePage() {
 
   // Initialize projects hook
   const projectsHook = useProjects({ projects: config?.projects || [] })
+
+  // Health checks: collect live URLs when enabled
+  const healthCheckEnabled = config?.settings.healthCheck.enabled ?? false
+  const intervalMinutes = config?.settings.healthCheck.intervalMinutes ?? 5
+  const healthUrls = useMemo(() => {
+    if (!healthCheckEnabled || !config) return []
+    return config.projects
+      .map((p) => p.links.live)
+      .filter((url): url is string => !!url)
+  }, [healthCheckEnabled, config])
+
+  const { results: healthResults, loading: healthLoading } = useHealthChecks(
+    healthUrls,
+    healthCheckEnabled ? intervalMinutes * 60000 : undefined
+  )
 
   // Update document title based on profile name
   useEffect(() => {
@@ -208,6 +224,7 @@ export default function ShowcasePage() {
                     descriptionMaxChars={config.settings.cardDescriptionMaxChars}
                     theme={theme}
                     settings={config.settings}
+                    healthStatus={getHealthStatus(project, healthResults, healthLoading, healthCheckEnabled)}
                   />
                 </CardWrapper>
               </div>
@@ -260,7 +277,12 @@ export default function ShowcasePage() {
       {/* Modal */}
       {selectedProject && (
         <ModalWrapper project={selectedProject} onClose={() => setSelectedProject(null)}>
-          <ModalContent project={selectedProject} theme={theme} settings={config.settings} />
+          <ModalContent
+            project={selectedProject}
+            theme={theme}
+            settings={config.settings}
+            healthStatus={getHealthStatus(selectedProject, healthResults, healthLoading, healthCheckEnabled)}
+          />
         </ModalWrapper>
       )}
 
@@ -268,6 +290,24 @@ export default function ShowcasePage() {
       {theme?.effects?.scanlines && <ScanlineOverlay />}
     </>
   )
+}
+
+/**
+ * Derive health status string for a project
+ */
+function getHealthStatus(
+  project: Project,
+  results: Map<string, HealthCheckResult>,
+  loading: boolean,
+  enabled: boolean
+): 'online' | 'offline' | 'checking' | null {
+  if (!enabled) return null
+  const url = project.links.live
+  if (!url) return null
+  const result = results.get(url)
+  if (loading && !result) return 'checking'
+  if (!result) return null
+  return result.online ? 'online' : 'offline'
 }
 
 /**
