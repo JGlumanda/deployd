@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { cn } from '@core/utils/cn'
 import type { Settings, Project, Tag } from '@core/types'
+import ImageUpload from './ImageUpload'
 
 interface SettingsSectionProps {
   settings: Settings
   projects: Project[]
   onUpdateSettings: (settings: Settings) => void
   onReset: () => void
+  password?: string
 }
 
-export default function SettingsSection({ settings, projects, onUpdateSettings, onReset }: SettingsSectionProps) {
+export default function SettingsSection({ settings, projects, onUpdateSettings, onReset, password }: SettingsSectionProps) {
   const [githubToken, setGithubToken] = useState('')
   const [descriptionMaxChars, setDescriptionMaxChars] = useState(settings.cardDescriptionMaxChars)
   const [tagSearch, setTagSearch] = useState('')
@@ -320,11 +322,10 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
 
         <div className="bg-card border border-border rounded-[10px] overflow-hidden">
           {/* Header */}
-          <div className="grid grid-cols-[20px_40px_1fr_150px_100px_30px] gap-2 px-3.5 py-2 border-b border-border bg-bg-alt">
+          <div className="grid grid-cols-[20px_1fr_minmax(180px,1fr)_100px_30px] gap-2 px-3.5 py-2 border-b border-border bg-bg-alt">
             <span className="text-[9px] text-text-muted font-semibold"></span>
-            <span className="text-[9px] text-text-muted font-semibold tracking-wider uppercase">Icon</span>
             <span className="text-[9px] text-text-muted font-semibold tracking-wider uppercase">Name</span>
-            <span className="text-[9px] text-text-muted font-semibold tracking-wider uppercase">Icon URL</span>
+            <span className="text-[9px] text-text-muted font-semibold tracking-wider uppercase">Icon</span>
             <span className="text-[9px] text-text-muted font-semibold tracking-wider uppercase">Farbe</span>
             <span></span>
           </div>
@@ -339,7 +340,7 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
               <div
                 key={`${tag.isPredefined ? 'pred' : 'custom'}-${tag.index}`}
                 className={cn(
-                  'grid grid-cols-[20px_40px_1fr_150px_100px_30px] gap-2 px-3.5 py-2.5 items-center',
+                  'grid grid-cols-[20px_1fr_minmax(180px,1fr)_100px_30px] gap-2 px-3.5 py-2.5 items-center',
                   i % 2 === 0 ? 'bg-card' : 'bg-bg-alt'
                 )}
                 style={{
@@ -351,22 +352,6 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                   className="w-3 h-3 rounded-sm border border-border"
                   style={{ background: tag.color || 'var(--color-border)' }}
                 />
-
-                {/* Icon preview */}
-                <div className="w-8 h-8 rounded border border-border flex items-center justify-center overflow-hidden bg-bg-alt">
-                  {tag.icon ? (
-                    <img
-                      src={tag.icon}
-                      alt={tag.name}
-                      className="w-full h-full object-contain"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none'
-                      }}
-                    />
-                  ) : (
-                    <span className="text-[8px] text-text-muted">-</span>
-                  )}
-                </div>
 
                 {/* Name + info */}
                 <div className="flex items-center gap-2">
@@ -384,13 +369,13 @@ export default function SettingsSection({ settings, projects, onUpdateSettings, 
                   </span>
                 </div>
 
-                {/* Icon URL input */}
-                <input
-                  type="text"
-                  value={tag.icon || ''}
-                  onChange={(e) => updateTag(tag.isPredefined, tag.index, { icon: e.target.value || undefined })}
+                {/* Icon upload */}
+                <ImageUpload
+                  compact
+                  value={tag.icon || null}
+                  onChange={(val) => updateTag(tag.isPredefined, tag.index, { icon: val || undefined })}
+                  password={password}
                   placeholder="Icon URL"
-                  className="border border-border bg-transparent text-[11px] text-heading outline-none px-2 py-1 rounded font-mono"
                 />
 
                 {/* Color picker */}

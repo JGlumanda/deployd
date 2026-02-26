@@ -68,6 +68,7 @@ export function DefaultHeroLayout({ profile }: HeroLayoutProps) {
 
             const label = labels[key] || key.charAt(0).toUpperCase() + key.slice(1)
             const href = key === 'email' && !url.startsWith('mailto:') ? `mailto:${url}` : url
+            const iconUrl = profile.customLinkIcons?.[key]
 
             return (
               <a
@@ -75,8 +76,11 @@ export function DefaultHeroLayout({ profile }: HeroLayoutProps) {
                 href={href}
                 target={key === 'email' ? undefined : '_blank'}
                 rel={key === 'email' ? undefined : 'noopener noreferrer'}
-                className="px-4 py-2 text-sm font-body font-medium text-text bg-card border border-border rounded-md no-underline transition-all duration-200 hover:bg-accent hover:border-accent hover:text-white"
+                className="px-4 py-2 text-sm font-body font-medium text-text bg-card border border-border rounded-md no-underline transition-all duration-200 hover:bg-accent hover:border-accent hover:text-white flex items-center gap-2"
               >
+                {iconUrl && (
+                  <img src={iconUrl} alt="" className="w-4 h-4 object-contain" />
+                )}
                 {label}
               </a>
             )

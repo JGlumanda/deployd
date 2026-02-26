@@ -5,13 +5,14 @@ interface ImageUploadProps {
   value: string | null | undefined
   onChange: (value: string | null) => void
   password?: string
-  label: string
+  label?: string
   placeholder?: string
+  compact?: boolean
 }
 
 type Mode = 'upload' | 'url'
 
-export default function ImageUpload({ value, onChange, password, label, placeholder }: ImageUploadProps) {
+export default function ImageUpload({ value, onChange, password, label, placeholder, compact }: ImageUploadProps) {
   const [mode, setMode] = useState<Mode>('upload')
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -70,37 +71,97 @@ export default function ImageUpload({ value, onChange, password, label, placehol
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) uploadFile(file)
-    // Reset input so the same file can be selected again
     e.target.value = ''
   }, [uploadFile])
 
+  // Compact mode — small inline version for table rows
+  if (compact) {
+    return (
+      <div className="flex items-center gap-1.5">
+        {/* Preview / drop target */}
+        <div
+          onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={handleDrop}
+          onClick={() => inputRef.current?.click()}
+          className={cn(
+            'relative w-8 h-8 rounded border flex items-center justify-center overflow-hidden cursor-pointer shrink-0 transition-colors',
+            dragOver ? 'border-accent bg-accent/10' : 'border-border bg-bg-alt hover:border-accent/50'
+          )}
+          title="Click to upload or drag image here"
+        >
+          {uploading ? (
+            <span className="text-[8px] text-text-muted">...</span>
+          ) : value ? (
+            <img src={value} alt="" className="w-full h-full object-contain" />
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+            </svg>
+          )}
+          {value && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onChange(null) }}
+              className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-error text-white border-none text-[8px] cursor-pointer flex items-center justify-center leading-none"
+            >×</button>
+          )}
+        </div>
+
+        {/* URL input */}
+        <input
+          type="text"
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value || null)}
+          placeholder={placeholder || 'Icon URL'}
+          className="flex-1 min-w-0 border border-border bg-transparent text-[11px] text-heading outline-none px-2 py-1 rounded font-mono"
+        />
+
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileSelect}
+          className="hidden"
+        />
+
+        {error && (
+          <span className="text-[9px] text-error shrink-0" title={error}>!</span>
+        )}
+      </div>
+    )
+  }
+
+  // Full mode — default layout with drop zone
   return (
     <div>
-      <div className="flex items-center justify-between mb-1.5">
-        <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase">{label}</label>
-        <div className="flex gap-1">
-          <button
-            type="button"
-            onClick={() => setMode('upload')}
-            className={cn(
-              'px-2 py-0.5 text-[10px] font-semibold rounded border-none cursor-pointer',
-              mode === 'upload'
-                ? 'bg-accent text-card'
-                : 'bg-transparent text-text-muted hover:text-heading'
-            )}
-          >Upload</button>
-          <button
-            type="button"
-            onClick={() => setMode('url')}
-            className={cn(
-              'px-2 py-0.5 text-[10px] font-semibold rounded border-none cursor-pointer',
-              mode === 'url'
-                ? 'bg-accent text-card'
-                : 'bg-transparent text-text-muted hover:text-heading'
-            )}
-          >URL</button>
+      {label && (
+        <div className="flex items-center justify-between mb-1.5">
+          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase">{label}</label>
+          <div className="flex gap-1">
+            <button
+              type="button"
+              onClick={() => setMode('upload')}
+              className={cn(
+                'px-2 py-0.5 text-[10px] font-semibold rounded border-none cursor-pointer',
+                mode === 'upload'
+                  ? 'bg-accent text-card'
+                  : 'bg-transparent text-text-muted hover:text-heading'
+              )}
+            >Upload</button>
+            <button
+              type="button"
+              onClick={() => setMode('url')}
+              className={cn(
+                'px-2 py-0.5 text-[10px] font-semibold rounded border-none cursor-pointer',
+                mode === 'url'
+                  ? 'bg-accent text-card'
+                  : 'bg-transparent text-text-muted hover:text-heading'
+              )}
+            >URL</button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Preview */}
       {value && (

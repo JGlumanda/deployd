@@ -188,6 +188,7 @@ export default function AdminPage() {
               projects={draftConfig.projects}
               onUpdateSettings={(settings) => updateDraft(d => { d.settings = settings })}
               onReset={handleReset}
+              password={password ?? undefined}
             />
           )}
         </main>

@@ -20,6 +20,7 @@ export interface Profile {
     website?: string;
     [key: string]: string | undefined;
   };
+  customLinkIcons?: Record<string, string>;
 }
 
 export interface Tag {

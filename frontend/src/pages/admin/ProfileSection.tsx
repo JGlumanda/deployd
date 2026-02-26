@@ -45,6 +45,7 @@ export default function ProfileSection({ profile, settings, onUpdateProfile, onN
       // Empty label for new links (starting with __new_), otherwise capitalize the key
       label: key.startsWith('__new_') ? '' : key.charAt(0).toUpperCase() + key.slice(1),
       url: (url as string) || '',
+      iconUrl: profile.customLinkIcons?.[key],
     }))
 
   const updateProfileField = <K extends keyof Profile>(field: K, value: Profile[K]) => {
@@ -67,10 +68,22 @@ export default function ProfileSection({ profile, settings, onUpdateProfile, onN
     updateLink(newKey, '')
   }
 
+  const updateCustomLinkIcon = (key: string, iconUrl: string | null) => {
+    const icons = { ...profile.customLinkIcons }
+    if (iconUrl) {
+      icons[key] = iconUrl
+    } else {
+      delete icons[key]
+    }
+    onUpdateProfile({ ...profile, customLinkIcons: icons })
+  }
+
   const removeCustomLink = (key: string) => {
     const newLinks = { ...profile.links }
     delete newLinks[key]
-    onUpdateProfile({ ...profile, links: newLinks })
+    const icons = { ...profile.customLinkIcons }
+    delete icons[key]
+    onUpdateProfile({ ...profile, links: newLinks, customLinkIcons: icons })
   }
 
   const fetchGithubProfile = async () => {
@@ -446,8 +459,16 @@ export default function ProfileSection({ profile, settings, onUpdateProfile, onN
             {customLinks.map(link => (
               <div
                 key={link.id}
-                className="grid grid-cols-[1fr_1fr_auto] gap-2 items-center mb-2"
+                className="grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center mb-2"
               >
+                {/* Icon upload */}
+                <ImageUpload
+                  compact
+                  value={link.iconUrl || null}
+                  onChange={(val) => updateCustomLinkIcon(link.id, val)}
+                  password={password}
+                  placeholder="Icon"
+                />
                 <input
                   type="text"
                   value={link.label}
@@ -457,7 +478,13 @@ export default function ProfileSection({ profile, settings, onUpdateProfile, onN
                     const newLinks = { ...profile.links }
                     delete newLinks[link.id]
                     newLinks[newKey] = link.url
-                    onUpdateProfile({ ...profile, links: newLinks })
+                    // Migrate icon to new key
+                    const icons = { ...profile.customLinkIcons }
+                    if (icons[link.id]) {
+                      icons[newKey] = icons[link.id]
+                      delete icons[link.id]
+                    }
+                    onUpdateProfile({ ...profile, links: newLinks, customLinkIcons: icons })
                   }}
                   placeholder="Label (e.g., Dribbble)"
                   className="px-2.5 py-1.5 rounded-lg border border-border bg-card text-heading text-xs outline-none"
