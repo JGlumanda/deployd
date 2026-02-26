@@ -49,7 +49,10 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
   }
 
   const handleImportProjects = (importedProjects: Project[]) => {
-    onUpdateProjects([...projects, ...importedProjects])
+    const importedUrls = new Set(importedProjects.map(p => p.links.github).filter(Boolean))
+    // Remove existing projects that match by GitHub URL, then add the fresh imports
+    const kept = projects.filter(p => !p.links.github || !importedUrls.has(p.links.github))
+    onUpdateProjects([...kept, ...importedProjects])
     setView('list')
   }
 
@@ -85,13 +88,15 @@ export default function ProjectsSection({ projects, settings, onUpdateProjects }
         <h1 className="text-2xl font-bold text-heading font-heading">Projects</h1>
 
         <div className="flex gap-2 flex-wrap">
-          <button
-            onClick={() => setView('import')}
-            className="px-4 py-2 rounded-lg bg-transparent text-accent border border-accent/25 text-[13px] font-semibold cursor-pointer flex items-center gap-1.5"
-          >
-            <img src="https://cdn.simpleicons.org/github/6B8FA3" width="14" height="14" alt="" />
-            Import from GitHub
-          </button>
+          {settings.githubEnabled !== false && (
+            <button
+              onClick={() => setView('import')}
+              className="px-4 py-2 rounded-lg bg-transparent text-accent border border-accent/25 text-[13px] font-semibold cursor-pointer flex items-center gap-1.5"
+            >
+              <img src="https://cdn.simpleicons.org/github/6B8FA3" width="14" height="14" alt="" />
+              Import from GitHub
+            </button>
+          )}
 
           <button
             onClick={handleAddProject}
