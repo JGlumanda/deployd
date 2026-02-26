@@ -3,15 +3,17 @@ import type { Project, Settings, ProjectStatus, Tag } from '@core/types'
 import { PROJECT_STATUSES } from '@core/types'
 import { cn } from '@core/utils/cn'
 import ChipInput from './ChipInput'
+import ImageUpload from './ImageUpload'
 
 interface ProjectEditorProps {
   project: Project | null
   settings: Settings
   onSave: (project: Project) => void
   onCancel: () => void
+  password?: string
 }
 
-export default function ProjectEditor({ project, settings, onSave, onCancel }: ProjectEditorProps) {
+export default function ProjectEditor({ project, settings, onSave, onCancel, password }: ProjectEditorProps) {
   const [formData, setFormData] = useState<Project>(
     () => project || {
       id: Math.floor(Math.random() * 1e15),
@@ -258,20 +260,14 @@ export default function ProjectEditor({ project, settings, onSave, onCancel }: P
           </div>
         </div>
 
-        {/* Image URL */}
-        <div>
-          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Image URL (optional)</label>
-          <input
-            type="text"
-            value={formData.image || ''}
-            onChange={(e) => setFormData({ ...formData, image: e.target.value || null })}
-            placeholder="https://..."
-            className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
-          />
-          <p className="text-[11px] text-text-muted mt-1">
-            If empty, a generated gradient will be used.
-          </p>
-        </div>
+        {/* Image */}
+        <ImageUpload
+          value={formData.image}
+          onChange={(image) => setFormData({ ...formData, image })}
+          password={password}
+          label="Image (optional)"
+          placeholder="https://..."
+        />
 
         {/* Action buttons */}
         <div className="flex gap-2 mt-3">

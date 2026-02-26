@@ -2,10 +2,13 @@ import { config } from 'dotenv';
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import { readFile, writeFile } from 'fs/promises';
-import { join, dirname } from 'path';
+import { existsSync, mkdirSync } from 'fs';
+import { join, dirname, extname } from 'path';
 import { fileURLToPath } from 'url';
+import { randomBytes } from 'crypto';
 import rateLimit from 'express-rate-limit';
 import bcrypt from 'bcrypt';
+import multer from 'multer';
 import type { AppConfig, HealthCheckResult } from './types.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,6 +36,34 @@ if (ADMIN_PASSWORD) {
   ADMIN_PASSWORD_HASH = await bcrypt.hash(ADMIN_PASSWORD, 10);
   console.log('Admin password hashed successfully');
 }
+
+// Ensure uploads directory exists
+const UPLOADS_DIR = join(__dirname, '..', 'data', 'uploads');
+if (!existsSync(UPLOADS_DIR)) {
+  mkdirSync(UPLOADS_DIR, { recursive: true });
+  console.log('Created uploads directory');
+}
+
+// Multer config for image uploads
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+  filename: (_req, file, cb) => {
+    const unique = `${Date.now()}-${randomBytes(4).toString('hex')}`;
+    cb(null, `${unique}${extname(file.originalname)}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'));
+    }
+  },
+});
 
 // Middleware
 app.use(express.json());
@@ -378,6 +409,28 @@ app.get('/api/github/readme/:username', async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to fetch GitHub README' });
   }
 });
+
+// POST /api/upload - Upload an image (auth-protected)
+app.post('/api/upload', authLimiter, requireAuth, (req: Request, res: Response) => {
+  upload.single('file')(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).json({ error: 'File too large (max 5 MB)' });
+      }
+      return res.status(400).json({ error: err.message });
+    }
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    res.json({ url: `/uploads/${req.file.filename}` });
+  });
+});
+
+// Serve uploaded files
+app.use('/uploads', express.static(UPLOADS_DIR));
 
 // Static file serving for production (frontend/dist/)
 const DIST_PATH = join(__dirname, '..', 'frontend', 'dist');

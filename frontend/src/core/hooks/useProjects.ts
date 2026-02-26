@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import type { Project, ProjectStatus } from '@core/types'
 
-type SortKey = 'featured' | 'date' | 'title' | 'status'
+export type SortKey = 'featured' | 'date' | 'title' | 'status' | 'manual'
 
 interface UseProjectsParams {
   projects: Project[]
@@ -69,6 +69,8 @@ export function useProjects({ projects }: UseProjectsParams) {
           const statusOrder = { active: 0, wip: 1, archived: 2 }
           return statusOrder[a.status] - statusOrder[b.status]
         })
+        break
+      case 'manual':
         break
     }
 

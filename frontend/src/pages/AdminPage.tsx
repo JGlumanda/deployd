@@ -161,6 +161,7 @@ export default function AdminPage() {
               projects={draftConfig.projects}
               settings={draftConfig.settings}
               onUpdateProjects={(projects) => updateDraft(d => { d.projects = projects })}
+              password={password ?? undefined}
             />
           )}
 
@@ -170,6 +171,7 @@ export default function AdminPage() {
               settings={draftConfig.settings}
               onUpdateProfile={(profile) => updateDraft(d => { d.profile = profile })}
               onNavigateToSettings={() => setActiveSection('settings')}
+              password={password ?? undefined}
             />
           )}
 

@@ -34,7 +34,7 @@ COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 COPY config/ ./config/
 
 # Create data directory (will be mounted in production)
-RUN mkdir -p data
+RUN mkdir -p data/uploads
 
 # Expose port
 EXPOSE 3000

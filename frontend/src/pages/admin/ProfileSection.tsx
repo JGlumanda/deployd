@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { cn } from '@core/utils/cn'
 import type { Profile, Settings, GitHubUserData } from '@core/types'
+import ImageUpload from './ImageUpload'
 
 interface ProfileSectionProps {
   profile: Profile
   settings: Settings
   onUpdateProfile: (profile: Profile) => void
   onNavigateToSettings?: () => void
+  password?: string
 }
 
 interface CustomLink {
@@ -25,7 +27,7 @@ const STANDARD_SOCIALS = [
   { key: 'website', label: 'Website', icon: null, placeholder: 'https://yoursite.com' },
 ]
 
-export default function ProfileSection({ profile, settings, onUpdateProfile, onNavigateToSettings }: ProfileSectionProps) {
+export default function ProfileSection({ profile, settings, onUpdateProfile, onNavigateToSettings, password }: ProfileSectionProps) {
   const [showGithubImport, setShowGithubImport] = useState(false)
   const githubUsername = settings.githubUsername || ''
   const [githubLoading, setGithubLoading] = useState(false)
@@ -385,16 +387,13 @@ export default function ProfileSection({ profile, settings, onUpdateProfile, onN
           />
         </div>
 
-        <div>
-          <label className="block text-[11px] font-semibold text-text-muted tracking-wider uppercase mb-1.5">Avatar URL</label>
-          <input
-            type="text"
-            value={profile.avatar || ''}
-            onChange={(e) => updateProfileField('avatar', e.target.value || null)}
-            placeholder="https://..."
-            className="w-full px-3.5 py-2.5 rounded-lg border border-border bg-card text-heading text-sm outline-none"
-          />
-        </div>
+        <ImageUpload
+          value={profile.avatar}
+          onChange={(avatar) => updateProfileField('avatar', avatar)}
+          password={password}
+          label="Avatar"
+          placeholder="https://..."
+        />
 
         {/* Social Links */}
         <div className="border-t border-border pt-6">

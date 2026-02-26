@@ -1,4 +1,5 @@
 import type { Project } from '@core/types'
+import type { SortKey } from '@core/hooks/useProjects'
 import { cn } from '@core/utils/cn'
 
 interface ToolbarProps {
@@ -8,8 +9,8 @@ interface ToolbarProps {
   onStatusFilterChange: (status: 'all' | Project['status']) => void
   viewMode: 'grid' | 'list'
   onViewModeChange: (mode: 'grid' | 'list') => void
-  sortKey: 'featured' | 'date' | 'title' | 'status'
-  onSortKeyChange: (key: 'featured' | 'date' | 'title' | 'status') => void
+  sortKey: SortKey
+  onSortKeyChange: (key: SortKey) => void
 }
 
 export function Toolbar({
@@ -29,11 +30,12 @@ export function Toolbar({
     { value: 'archived', label: 'Archived' }
   ]
 
-  const sortOptions: Array<{ value: typeof sortKey; label: string }> = [
+  const sortOptions: Array<{ value: SortKey; label: string }> = [
     { value: 'featured', label: 'Featured First' },
     { value: 'date', label: 'Date' },
     { value: 'title', label: 'Title' },
-    { value: 'status', label: 'Status' }
+    { value: 'status', label: 'Status' },
+    { value: 'manual', label: 'Custom Order' }
   ]
 
   return (
@@ -66,7 +68,7 @@ export function Toolbar({
       <select
         value={sortKey}
         onChange={(e) =>
-          onSortKeyChange(e.target.value as 'featured' | 'date' | 'title' | 'status')
+          onSortKeyChange(e.target.value as SortKey)
         }
         aria-label="Sort projects"
         className="px-4 py-3 text-[0.9375rem] font-body text-text bg-card border border-border rounded-md cursor-pointer outline-none"
