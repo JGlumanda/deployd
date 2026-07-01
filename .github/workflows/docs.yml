@@ -1,4 +1,8 @@
 name: docs
+
+# Standalone copy of the org's reusable TechDocs workflow (Caprimos/.github):
+# public repos cannot call reusable workflows hosted in a private repo, and this
+# repo is public. Keep in sync with the shared one if it changes.
 on:
   push:
     branches: [main]
@@ -6,8 +10,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  docs:
-    uses: Caprimos/.github/.github/workflows/techdocs-publish.yml@main
-    with:
-      entity: default/component/caprimos-site
-    secrets: inherit
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install MkDocs toolchain
+        run: pip install mkdocs-techdocs-core mkdocs-awesome-pages-plugin
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate
+        run: npx --yes @techdocs/cli generate --source-dir . --output-dir site --no-docker --verbose
+
+      - name: Publish to MinIO
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_KEY }}
+          AWS_REGION: us-east-1
+        run: >-
+          npx --yes @techdocs/cli publish
+          --publisher-type awsS3
+          --storage-name techdocs
+          --entity default/component/caprimos-site
+          --awsEndpoint https://s3.caprimos.de
+          --awsS3ForcePathStyle
+          --directory site
