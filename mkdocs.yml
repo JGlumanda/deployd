@@ -1,0 +1,16 @@
+site_name: Caprimos Website (deployd)
+site_description: The public caprimos.de site, built on deployd.
+
+docs_dir: docs
+
+plugins:
+  - techdocs-core
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - toc:
+      permalink: true
