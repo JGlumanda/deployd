@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: caprimos-site
+  title: Caprimos Website
+  description: The public caprimos.de / jglumanda.de site (delivered by the "deployd" app).
+  annotations:
+    argocd/app-name: deployd
+    backstage.io/kubernetes-namespace: deployd
+    github.com/project-slug: Caprimos/deployd
+    backstage.io/techdocs-ref: dir:.
+  links:
+    - url: https://caprimos.de
+      title: caprimos.de
+      icon: dashboard
+spec:
+  type: website
+  lifecycle: production
+  owner: platform-admins
+  system: apps
