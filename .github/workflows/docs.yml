@@ -28,16 +28,17 @@ jobs:
       - name: Generate
         run: npx --yes @techdocs/cli generate --source-dir . --output-dir site --no-docker --verbose
 
-      - name: Publish to MinIO
+      - name: Publish to Garage
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_KEY }}
-          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.TECHDOCS_S3_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.TECHDOCS_S3_SECRET_KEY }}
+          # Garage validates the SigV4 region — must match garage.toml s3_region.
+          AWS_REGION: garage
         run: >-
           npx --yes @techdocs/cli publish
           --publisher-type awsS3
           --storage-name techdocs
           --entity default/component/caprimos-site
-          --awsEndpoint https://s3.caprimos.de
+          --awsEndpoint https://s3-garage.caprimos.de
           --awsS3ForcePathStyle
           --directory site
